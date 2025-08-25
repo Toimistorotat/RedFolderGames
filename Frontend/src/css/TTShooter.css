@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0d0d0d; /* Light background color */
+}
+
+p {
+    color: #b70e0e;
+}
+b {
+    color:#b70e0e
+}
+i {
+    color:#b70e0e
+}
