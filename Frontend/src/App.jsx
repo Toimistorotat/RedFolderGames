@@ -1,5 +1,6 @@
 import './css/App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FrontPage from './pages/FrontPage';
 import TacTicalShooterPage from './pages/TacTicalShooterPage';
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<TacTicalShooterPage />}></Route>
+        <Route path="/" element={<FrontPage />}></Route>
+        <Route path="/TTS" element={<TacTicalShooterPage />}></Route>
       </Routes>
     </BrowserRouter>
     </>
