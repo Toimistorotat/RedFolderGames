@@ -1,0 +1,15 @@
+.headertts {
+z-index: 1000; /* Ensure it stays above other content */
+}
+.ttsnav {
+    margin-bottom: 5px;
+}
+.widht-740 {
+    margin-left: 910px;
+}
+@media screen and (max-width: 800px) {
+    .widht-740 {
+        max-width: 100%;
+        margin-left: 200px;
+    }
+}

@@ -11,8 +11,7 @@ body {
   justify-content: start;
   gap: 2rem;
   padding: 2rem 1rem;
-  max-width: 1800px;
-  width: 100%;
+  max-width: 100%;
   margin: 5pX;
 }
 
@@ -41,4 +40,16 @@ h1, h2, h3 {
 
 p, li, b, i {
   color: #b70e0e;
+}
+
+.headertss {
+    position: fixed; /* Fix the menu position */
+    top: 30%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position to truly center */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    width: 100%; /* Full width */
+
 }
