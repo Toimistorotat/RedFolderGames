@@ -1,4 +1,3 @@
-import './css/App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FrontPage from './pages/FrontPage';
 import TacTicalShooterPage from './pages/TacTicalShooterPage';

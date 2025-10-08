@@ -12,7 +12,7 @@ export default function TacTicalshooter() {
                 
             <div className="bigbody">
                 <div className="cube right">
-                    <section id="hero" class="hero section">
+                    <section id="hero" className="hero section">
                         <h1>TacTical Shooter</h1>
                         <p>blablblbalbla</p>
                         <b>Ahh Yes</b>
@@ -57,7 +57,7 @@ export default function TacTicalshooter() {
                     </section>
                 </div>
                 <div className="cube left">
-                    <section id="notes" class="notes section">
+                    <section id="notes" className="notes section">
                         <h3>Notes</h3>
                         <p>This is a personal concept project. Built to imagine what a successful game studio might feel like.</p>
                     </section>

@@ -1,0 +1,20 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 2rem;
+  text-rendering: optimizeSpeed;
+}
+
+.MainText {
+  text-align: center;
+  color: #ff0000;
+  font-size: 20px;
+  max-width: 800px;
+  margin: 100px auto; /* Centers horizontally and adds vertical space */
+  line-height: 1.6; /* Improves readability */
+}
