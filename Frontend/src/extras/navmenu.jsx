@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './css/NavMenu.css';
+import '../css/NavMenu.css';
 
 const NavMenu = () => {
   const [activeSection, setActiveSection] = useState('');

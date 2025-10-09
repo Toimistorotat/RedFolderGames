@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button'
 import './css/HeaderTTS.css'
 import { useNavigate } from "react-router-dom"
-import NavMenu from './navmenu'
+import NavMenu from './extras/navmenu.jsx'
 import { useState } from 'react'
 
 export default function Header() {
