@@ -1,0 +1,94 @@
+/* Layout */
+.intro-wrap {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+/* Title */
+.intro-title {
+  color: #ff2a2a;           /* neon-ish red */
+  font-size: 38px;
+  letter-spacing: 1px;
+  margin: 0 0 18px 0;
+  text-transform: uppercase;
+}
+
+/* Container that reserves height via the ghost paragraph */
+.intro-typer {
+  position: relative;
+  max-width: 1110px;
+  margin: 0 auto;
+}
+
+/* Your existing text style */
+.intro-text {
+  color: #ff0000;
+  font-size: 20px;
+  line-height: 1.65;
+  white-space: pre-wrap; /* preserve your line breaks */
+  text-align: center;
+}
+
+/* Ghost: takes space but stays invisible */
+.intro-text.ghost {
+  visibility: hidden;       /* still occupies layout space */
+}
+
+/* Put the animated text on top of the ghost */
+.intro-typer > .intro-text:not(.ghost) {
+  position: absolute;
+  inset: 0;                 /* top:0 right:0 bottom:0 left:0 */
+}
+
+/* Caret rules still apply as before */
+.caret {
+  display: inline-block;
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+/* When finished typing, keep caret solid for a beat then fade it */
+.intro-text.done .caret {
+  animation: blink 1s step-end 3, fadeout 0.4s forwards 3s;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes fadeout {
+  to { opacity: 0; }
+}
+
+/* Optional CTA button */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #111;
+  background: #ff2a2a;
+  font-weight: 700;
+}
+.btn:hover { filter: brightness(1.1); }
+
+/* Replay button style */
+.replay {
+  margin-left: 10px;
+  background: none;
+  border: 2px solid #ff2a2a;
+  color: #ff2a2a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.replay:hover {
+  background: #ff2a2a;
+  color: #111;
+}
