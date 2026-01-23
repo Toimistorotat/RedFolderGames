@@ -96,7 +96,7 @@ But you should always enjoy what you are playing. Or if you are not enjoying the
         <div className="intro-typer">
 
           {/* Ghost: reserves space, not visible */}
-          <p className="intro-text ghost" aria-hidden="true">{fullText}</p>
+          <p className="intro-text ghost theme" aria-hidden="true">{fullText}</p>
 
           {/* Animated layer on top */}
           {showInstant ? (
