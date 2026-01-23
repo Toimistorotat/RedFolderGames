@@ -7,8 +7,8 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<FrontPage />}></Route>
-        <Route path="/TTS" element={<TacTicalShooterPage />}></Route>
+        <Route path="/RedFolderGames/" element={<FrontPage />}></Route>
+        <Route path="/RedFolderGames/TTS" element={<TacTicalShooterPage />}></Route>
       </Routes>
     </BrowserRouter>
     </>
