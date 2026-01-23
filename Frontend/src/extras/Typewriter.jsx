@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Typewriter.css";
+import "../css/Typewriter.css";
 
 function Typer({ text, speed = 40, respectReducedMotion = false, onDone }) {
   const [out, setOut] = React.useState("");
@@ -75,25 +75,44 @@ But you should always enjoy what you are playing. Or if you are not enjoying the
   return (
     <section className="intro-wrap">
       <h1 className="intro-title">RedFolderGames</h1>
+      <div className='console-window'>
+        <div className='header'>
+          <div className='status-dot flex justify-center'>
+            <div className='green status-dot'>
+              <span className='icon text'>O</span>
+            </div>
+          </div>
+          <div className='status-dot flex justify-center'>
+            <div className='yellow status-dot'>
+              <span className='icon text'>-</span>
+            </div>
+          </div>
+          <div className='status-dot flex justify-center'>
+            <div className='red status-dot'>
+              <span className='icon text'>X</span>
+            </div>
+          </div>
+        </div>
+        <div className="intro-typer">
 
-      <div className="intro-typer">
-        {/* Ghost: reserves space, not visible */}
-        <p className="intro-text ghost" aria-hidden="true">{fullText}</p>
+          {/* Ghost: reserves space, not visible */}
+          <p className="intro-text ghost" aria-hidden="true">{fullText}</p>
 
-        {/* Animated layer on top */}
-        {showInstant ? (
-          <p className="intro-text">
-            <span>{fullText}</span>
-          </p>
-        ) : (
-          <Typer
-            key={replayKey}
-            text={fullText}
-            speed={40}
-            respectReducedMotion={false}
-            onDone={() => setFinished(true)}
-          />
-        )}
+          {/* Animated layer on top */}
+          {showInstant ? (
+            <p className="intro-text">
+              <span className="WordBreak theme">{fullText}</span>
+            </p>
+          ) : (
+            <Typer
+              key={replayKey}
+              text={fullText}
+              speed={40}
+              respectReducedMotion={false}
+              onDone={() => setFinished(true)}
+            />
+          )}
+        </div>
       </div>
 
       <div className="intro-cta">

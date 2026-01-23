@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   padding: 24px;
-  text-align: center;
 }
 
 /* Title */
@@ -23,6 +22,7 @@
   position: relative;
   max-width: 1110px;
   margin: 0 auto;
+  padding: 2px;
 }
 
 /* Your existing text style */
@@ -31,7 +31,12 @@
   font-size: 20px;
   line-height: 1.65;
   white-space: pre-wrap; /* preserve your line breaks */
-  text-align: center;
+  text-align: left;
+  margin: 10px;
+}
+
+.WordBreak {
+  word-break: break-word;
 }
 
 /* Ghost: takes space but stays invisible */
@@ -91,4 +96,76 @@
 .replay:hover {
   background: #ff2a2a;
   color: #111;
+}
+
+
+
+/* styles.css */
+.console-window {
+  padding-top: 0.25rem; /* pt-1 */
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.25); /* shadow-[5px_5px_25px_rgba(255,255,255,0.25)] */
+  background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+  width: 100%; /* w-full */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* border-1 border-white/10 */
+  min-height: 400px; /* min-h-[400px] */
+  margin-top: 1.25rem; /* mt-5 */
+}
+
+.header {
+  display: flex; /* flex */
+  gap: 0.5rem; /* gap-2 */
+  justify-content: flex-end; /* justify-end */
+  padding: 0.5rem; /* p-2 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* border-b-1 border-white/25 */
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.status-dot {
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+  border-radius: 9999px; /* rounded-full */
+  display: flex; /* flex */
+  justify-content: center; /* justify-center */
+}
+
+.status-dot .icon {
+  position: relative;
+  left: 0.6px; /* left-[0.6px] */
+}
+
+.status-dot .green {
+  background-color: #34d399; /* bg-green-500 */
+}
+
+.status-dot .yellow {
+  background-color: #fbbf24; /* bg-yellow-500 */
+}
+
+.status-dot .red {
+  background-color: #f87171; /* bg-red-500 */
+}
+
+.status-dot .text {
+  font-weight: bold; /* font-bold */
+  opacity: 0.75; /* text-[color]/75 */
+}
+
+.status-dot .text.green {
+  color: #1f2937; /* text-green-900 */
+}
+
+.status-dot .text.yellow {
+  color: #4a5568; /* text-yellow-900 */
+  font-size: 1.5rem; /* text-2xl */
+}
+
+.status-dot .text.red {
+  color: #7f1d1d; /* text-red-900 */
+}
+
+.theme {
+  font-family: "Courier New", Courier, monospace; /* font-mono */
+  font-size: 1.5rem; /* text-2xl */
+  white-space: pre-line; /* whitespace-pre-line */
 }
