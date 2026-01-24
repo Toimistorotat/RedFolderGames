@@ -593,6 +593,14 @@ export default function TacTicalshooter() {
   </p>
 </section>
 
+            </div>
+            <Footer />
+        </>
+    );
+}
+
+
+/*
 <section id="about-redfolder">
   <h3>About RedFolderGames</h3>
   <p>
@@ -624,9 +632,4 @@ export default function TacTicalshooter() {
     – RedFolderGames
   </p>
 </section>
-
-            </div>
-            <Footer />
-        </>
-    );
-}
+*/
