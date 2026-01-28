@@ -107,7 +107,7 @@
   max-width: 100%;
   width: 1110px;
   border: 1px solid rgba(255, 255, 255, 0.1); /* border-1 border-white/10 */
-  min-height: 425px;
+  min-height: 455px;
   margin-top: 1.25rem; /* mt-5 */
 }
 
@@ -164,7 +164,7 @@
 }
 
 .theme {
-  font-family: "Courier New", Courier, monospace; /* font-mono */
+  font-family: "Courier New", Courier, monospace !important; /* font-mono */ 
   font-size: 1.5rem; /* text-2xl */
   white-space: pre-line; /* whitespace-pre-line */
 }
