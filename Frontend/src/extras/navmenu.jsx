@@ -3,6 +3,13 @@ import '../css/NavMenu.css';
 
 const NavMenu = () => {
   const [activeSection, setActiveSection] = useState('');
+  const [sectionIds, setSectionIds] = useState([]);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section');
+    const ids = Array.from(sections).map(section => section.getAttribute('id'));
+    setSectionIds(ids);
+  }, []);
 
   const handleScroll = () => {
     const sections = document.querySelectorAll('section');
@@ -27,28 +34,35 @@ const NavMenu = () => {
     };
   }, []);
 
+  // Helper function to split section IDs into columns
+  const createColumns = (arr, itemsPerColumn) => {
+    let columns = [];
+    for (let i = 0; i < arr.length; i += itemsPerColumn) {
+      columns.push(arr.slice(i, i + itemsPerColumn));
+    }
+    return columns;
+  };
+
+  // Creating columns with 10 items each
+  const columns = createColumns(sectionIds, 10);
+
   return (
     <nav className="navmenu">
-      <ul>
-        <li>
-          <a href="#hero" id="margin-top" className={activeSection === 'hero' ? 'active' : ''}>Home</a>
-        </li>
-        <li>
-          <a href="#about" className={activeSection === 'about' ? 'active' : ''}>About</a>
-        </li>
-        <li>
-          <a href="#features" className={activeSection === 'features' ? 'active' : ''}>Features</a>
-        </li>
-        <li>
-          <a href="#npc" className={activeSection === 'npc' ? 'active' : ''}>NPC's</a>
-        </li>
-        <li>
-          <a href="#world" className={activeSection === 'world' ? 'active' : ''}>World</a>
-        </li>
-        <li>
-          <a href="#notes" className={activeSection === 'notes' ? 'active' : ''}>Notes</a>
-        </li>
-      </ul>
+      <div className="columns">
+        {columns.map((column, index) => (
+          <ul key={index}>
+            {column.map(id => (
+              <li key={id}>
+                <a 
+                  href={`#${id}`} 
+                  className={activeSection === id ? 'active' : ''}>
+                  {id}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
     </nav>
   );
 };

@@ -1,55 +1,78 @@
+/* NavMenu.css */
+
+/* Container for the nav menu */
 .nav-menu {
-    transform: translateX(-50%); /* Adjust position to truly center */
+    transform: translateX(-50%); /* Adjust position to center */
     background-color: white; /* Optional: Set background color */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
     display: none; /* Initially hidden */
+    white-space: nowrap; /* Prevent line breaks */
 }
 
-.navmenu ul {
+/* Styling for columns to stack */
+.columns {
+    display: flex; /* Use flexbox for layout */
+    gap: 20px; /* Space between columns */
+}
+
+/* Individual column styling */
+.columns ul {
     list-style: none; /* Remove default list styling */
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margin */
     display: flex; /* Use flexbox for layout */
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
-    gap: 20px; /* Space between items */
 }
 
+/* Styling for each navigation item */
 .navmenu li {
     display: flex; /* Align items in a row */
     justify-content: center; /* Center content */
     align-items: center; /* Center items vertically */
 }
 
+/* Links styling */
 .navmenu a {
     display: flex; /* Use flexbox for icon and text */
     flex-direction: column; /* Stack icon above text */
     align-items: center; /* Center items */
     text-decoration: none; /* Remove underline from links */
     color: #333; /* Set text color */
-    padding: 15px; /* Add padding for better click area */
-    border-radius: 50%; /* Make it circular */
+    padding: 20px; /* Add padding for better click area */
     background-color: #f0f0f0; /* Default background color */
     transition: background-color 0.3s, color 0.3s; /* Smooth transition */
-    width: 65px; /* Set width */
-    height: 65px; /* Set height */
+    width: 67px; /* Set width */
+    height: 67px; /* Set height */
+    margin-top: 5px; /* Add top margin */
+    font-size: 0.8em; /* Adjust font size */
 }
 
+/* Active and hover states */
 .navmenu a:hover,
 .navmenu a.active {
     background-color: #d30707; /* Change background on hover or active */
     color: white; /* Change text color on hover or active */
 }
 
+/* Icon styling */
 .navicon {
     font-size: 1.5em; /* Adjust icon size */
     margin-bottom: 5px; /* Space between icon and text */
 }
 
+/* Smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
 
+/* Margin for specific link */
 #margin-top {
     margin-top: 5px;
+}
+
+/* Optional: You may want to manage column widths, set a max-width */
+.columns {
+    max-width: 100%; /* Ensure it does not overflow */
+    overflow: hidden; /* Hide any overflow */
 }

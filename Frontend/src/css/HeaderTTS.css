@@ -1,7 +1,13 @@
 .ttsnav {
     margin-bottom: 5px;
 }
-.widht-740 {
+.width-840 {
+    margin-left: 840px;
+}
+.width-900 {
+    margin-left: 900px;
+}
+.width {
     margin-left: 910px;
 }
 @media screen and (max-width: 800px) {
