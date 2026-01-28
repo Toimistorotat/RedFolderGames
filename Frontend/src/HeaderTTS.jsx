@@ -16,7 +16,7 @@ export default function Header() {
         <nav className="navbar mainnavbar headertts flex-wrap">
             <ul className="navbar-nav d-flex flex-row w-100 headertts">
                 <li className='nav-item headertts'>
-                    <Button className='custom-nav2 headertts' onClick={() => navigate("/RedFolderGames")}>
+                    <Button className='custom-nav2 headertts' onClick={() => navigate("/RedFolderGames/")}>
                         <b className='custom-nav headertts'>home</b>
                     </Button>
                 </li>

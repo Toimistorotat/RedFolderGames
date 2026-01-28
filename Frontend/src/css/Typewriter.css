@@ -98,17 +98,16 @@
   color: #111;
 }
 
-
-
 /* styles.css */
 .console-window {
   padding-top: 0.25rem; /* pt-1 */
   border-radius: 0.75rem; /* rounded-xl */
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.25); /* shadow-[5px_5px_25px_rgba(255,255,255,0.25)] */
   background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
-  width: 100%; /* w-full */
+  max-width: 100%;
+  width: 1110px;
   border: 1px solid rgba(255, 255, 255, 0.1); /* border-1 border-white/10 */
-  min-height: 400px; /* min-h-[400px] */
+  min-height: 425px;
   margin-top: 1.25rem; /* mt-5 */
 }
 

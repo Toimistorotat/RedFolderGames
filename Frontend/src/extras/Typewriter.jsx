@@ -1,44 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/Typewriter.css";
 
-function Typer({ text, speed = 40, respectReducedMotion = false, onDone }) {
-  const [out, setOut] = React.useState("");
-  const [done, setDone] = React.useState(false);
+function Typer({ texts, speeds, onDone }) {
+  const [out, setOut] = useState("");
+  const [index, setIndex] = useState(0);
+  const [done, setDone] = useState(false);
 
-  React.useEffect(() => {
-    const prefersReduced =
-      respectReducedMotion &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced) {
-      setOut(text);
+  useEffect(() => {
+    if (index >= texts.length) {
       setDone(true);
       onDone?.();
       return;
     }
 
+    const text = texts[index];
+    const speed = speeds[index];
     let i = 0;
     let timerId;
 
     const tick = () => {
+      setOut((prev) => prev + text[i]);
       i += 1;
-      setOut(text.slice(0, i));
+
       if (i >= text.length) {
-        setDone(true);
-        onDone?.();
-        return; // stop scheduling
+        setIndex((prev) => prev + 1);
+        setOut(""); // Clear output for the next text
+        clearTimeout(timerId);
+        return; // Stop scheduling
       }
-      const ch = text[i - 1];
+
+      const ch = text[i];
       let delay = speed;
-      if (".!?".includes(ch)) delay = speed * 10; // longer pause after punctuation
-      else if (",;:".includes(ch)) delay = speed * 5; // longer pause after punctuation
+      if (".!?".includes(ch)) delay *= 10; // Longer pause for punctuation
+      else if (",;:".includes(ch)) delay *= 5; // Shorter pause
 
       timerId = setTimeout(tick, delay);
     };
 
-    timerId = setTimeout(tick, speed);
+    tick(); // Start typing
     return () => clearTimeout(timerId);
-  }, [text, speed, respectReducedMotion]); // ✅ no onDone here
+  }, [texts, speeds, index]);
 
   return (
     <p className={`intro-text ${done ? "done" : ""}`}>
@@ -48,76 +49,59 @@ function Typer({ text, speed = 40, respectReducedMotion = false, onDone }) {
   );
 }
 
-
 export default function TypewriterIntro() {
-  const fullText = `Hello, I am RedKing. I'm a game fanatic and I love playing video games.
-I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.
-You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.
-Of course video games are not everything, but who's to say that video games are bad for you?
-You should never believe those people, if they are not doctors of course.
-But you should always enjoy what you are playing. Or if you are not enjoying then go play something else. But video games, they are special.`;
+  const texts = [
+    "cd /RedFolderGames run cmd Showcase\n",
+    "[[status] loading 10%... \n[status] 20%...\n[status] 30%... \n[status] 40%.. \n[status] 50%.. \n[status] 60%..\n[status] 70%... \n[status] 80%... \n[status] 90%...\n[status] 100%.... \n",
+    "HHello, I am RedKing. I'm a game fanatic and I love playing video games.\n I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.\n You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.\n Of course, video games are not everything, but who's to say that video games are bad for you? You should never believe those people if they are not doctors of course.\n But you should always enjoy what you are playing. Or if you are not enjoying, then go play something else. But video games, they are special."
+  ];
+  const idletext = [
+    "Hello, I am RedKing. I'm a game fanatic and I love playing video games.\n I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.\n You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.\n Of course, video games are not everything, but who's to say that video games are bad for you? You should never believe those people if they are not doctors of course.\n But you should always enjoy what you are playing. Or if you are not enjoying, then go play something else. But video games, they are special."
+  ]
 
-  const [replayKey, setReplayKey] = useState(0);   // forces remount
+  const speeds = [200, 10, 90]; // Different speeds for each corresponding text
+  const [replayKey, setReplayKey] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [showInstant, setShowInstant] = useState(false);
-
+  
   const replay = () => {
     setFinished(false);
-    setShowInstant(false);
-    setReplayKey(k => k + 1); // remount Typer => start from scratch
-  };
-
-  const skip = () => {
-    setShowInstant(true);     // show full text without animation
-    setFinished(true);
+    setReplayKey((k) => k + 1);
   };
 
   return (
     <section className="intro-wrap">
       <h1 className="intro-title">RedFolderGames</h1>
-      <div className='console-window'>
-        <div className='header'>
-          <div className='status-dot flex justify-center'>
-            <div className='green status-dot'>
-              <span className='icon text'>O</span>
+      <div className="console-window">
+        <div className="header">
+          <div className="status-dot flex justify-center">
+            <div className="green status-dot">
+              <span className="icon text">O</span>
             </div>
           </div>
-          <div className='status-dot flex justify-center'>
-            <div className='yellow status-dot'>
-              <span className='icon text'>-</span>
+          <div className="status-dot flex justify-center">
+            <div className="yellow status-dot">
+              <span className="icon text">-</span>
             </div>
           </div>
-          <div className='status-dot flex justify-center'>
-            <div className='red status-dot'>
-              <span className='icon text'>X</span>
+          <div className="status-dot flex justify-center">
+            <div className="red status-dot">
+              <span className="icon text">X</span>
             </div>
           </div>
         </div>
-        <div className="intro-typer">
-
-          {/* Ghost: reserves space, not visible */}
-          <p className="intro-text ghost theme" aria-hidden="true">{fullText}</p>
-
-          {/* Animated layer on top */}
-          {showInstant ? (
-            <p className="intro-text">
-              <span className="WordBreak theme">{fullText}</span>
-            </p>
-          ) : (
-            <Typer
-              key={replayKey}
-              text={fullText}
-              speed={40}
-              respectReducedMotion={false}
-              onDone={() => setFinished(true)}
-            />
-          )}
+        <div className="intro-typer theme">
+          <Typer
+            key={replayKey}
+            texts={texts}
+            speeds={speeds}
+            onDone={() => setFinished(true)}
+          />
+          {finished? <p className="intro-text">{idletext}</p> : <></> }
         </div>
       </div>
 
       <div className="intro-cta">
         {finished && <button className="btn replay" onClick={replay}>Replay</button>}
-        {!finished && <button className="btn skip" onClick={skip}>Skip</button>}
       </div>
     </section>
   );
