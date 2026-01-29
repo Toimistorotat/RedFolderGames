@@ -52,10 +52,10 @@ const NavMenu = () => {
         {columns.map((column, index) => (
           <ul key={index}>
             {column.map(id => (
-              <li key={id}>
-                <a 
+              <li key={id} className="mt-2">
+                <a
                   href={`#${id}`} 
-                  className={activeSection === id ? 'active' : ''}>
+                  className={activeSection === id ? 'active' : ''} >
                   {id}
                 </a>
               </li>
