@@ -36,7 +36,7 @@ function Mark() {
                         open={openDialogIndex === idx}
                         className={game.classy + " z-index"}
                     >
-                        <button onClick={closeModal} autoFocus>Close</button><button onClick={closeModal} style={{ marginLeft: '59%' }}>Transfer</button>
+                        <button onClick={closeModal} autoFocus>Close</button><button onClick={() => navigate(game.link)}>Transfer</button>
                         <p>Take a look at {game.Name}</p>
                         <p>{game.info}</p>
                         

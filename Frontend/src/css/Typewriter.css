@@ -110,6 +110,12 @@
   min-height: 455px;
   margin-top: 1.25rem; /* mt-5 */
 }
+@media screen and (max-width: 800px) {
+  .console-window {
+    width: 80%;
+    height: 1570px;
+  }
+}
 
 .header {
   display: flex; /* flex */
