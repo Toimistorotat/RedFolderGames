@@ -8,18 +8,8 @@ export default function Header() {
             <a className="navbar-brand" href="#">RedFolderGames</a>
                 <div className="collapse navbar-collapse" id="navbarNav">
                   <ul className="navbar-nav">
-                    <li className="nav-item active">
-                      <Button className='custom-nav2' onClick={()=>navigate("/RedFolderGames")}><b className='custom-nav'>Home</b></Button>
-                    </li>
-                    <li className="nav-item">
-                      <Button className='custom-nav2' onClick={()=>navigate("/RedFolderGames/TTS")}><b className='custom-nav'>TacticalSHooter</b></Button>
-                    </li>
-                    <li className="nav-item">
-                      <Button className='custom-nav2' onClick={()=>navigate("/RedFolderGames/empty")}><b className='custom-nav'>disabled</b></Button>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link disabled" href="#">Disabled</a>
-                    </li>
+
+                    
                   </ul>
                 </div>
             </nav>

@@ -51,7 +51,7 @@ function Typer({ texts, speeds, onDone }) {
 
 export default function TypewriterIntro() {
   const texts = [
-    "cdd /RedFolderGames run cmd Showcase\n",
+    "cd /RedFolderGames run cmd Showcase\n",
     "[[status] loading 10%... \n[status] 20%...\n[status] 30%... \n[status] 40%.. \n[status] 50%.. \n[status] 60%..\n[status] 70%... \n[status] 80%... \n[status] 90%...\n[status] 100%.... \n",
     "HHello, I am RedKing. I'm a game fanatic and I love playing video games.\n I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.\n You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.\n Of course, video games are not everything, but who's to say that video games are bad for you? You should never believe those people if they are not doctors of course.\n But you should always enjoy what you are playing. Or if you are not enjoying, then go play something else. But video games, they are special."
   ];

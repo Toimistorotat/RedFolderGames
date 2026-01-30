@@ -6,7 +6,7 @@ const Games = [
     {
         Name: "TacTical Shooter",
         classy: "TTS-Dialog",
-        link: "/RedFolderGames/TTS",
+        link: "/RedFolderGames/TTS#hero",
         info: "TacTical Shooter is a top-down shooter game where players navigate through various levels, battling enemies and completing missions. With its strategic gameplay and engaging mechanics, TTS offers an exciting experience for fans of the shooter genre."
     },
     {

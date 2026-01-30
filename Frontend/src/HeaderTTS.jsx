@@ -13,11 +13,11 @@ export default function Header() {
     };
 
     return (
-        <nav className="navbar mainnavbar headertts flex-wrap">
+        <nav className="navbar mainnavbar headertts flex-wrap background glowborder">
             <ul className="navbar-nav d-flex flex-row w-100 headertts">
                 <li className='nav-item headertts'>
                     <Button className='custom-nav2 headertts' onClick={() => navigate("/RedFolderGames/")}>
-                        <b className='custom-nav headertts'>home</b>
+                        <b className='custom-nav headertts'>RedFolderGAmes</b>
                     </Button>
                 </li>
                 <div className="position-fixed width-900">
