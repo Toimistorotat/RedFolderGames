@@ -1,5 +1,5 @@
 import "../css/Loading.scss";
-function Loading() {
+export function Loading() {
     return (
         <>
             <div className="background-1 loadingScreen"></div>
@@ -17,4 +17,14 @@ function Loading() {
         </>
     );
 }
-export default Loading;
+
+export function Logo() {
+    return (
+        <>
+            <div class="logo-container">
+              <h1 id="page-logo">RedFolderGames</h1>
+            </div>
+        </>
+    )
+}
+

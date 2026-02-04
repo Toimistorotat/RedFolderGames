@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Logo} from './Loading.jsx'
 import "../css/Typewriter.css";
 
 function Typer({ texts, speeds, onDone }) {
@@ -70,7 +71,7 @@ export default function TypewriterIntro() {
 
   return (
     <section className="intro-wrap">
-      <h1 className="intro-title">RedFolderGames</h1>
+      <h1 className="intro-title"><Logo /></h1>
       <div className="console-window">
         <div className="header">
           <div className="status-dot flex justify-center">
@@ -100,7 +101,7 @@ export default function TypewriterIntro() {
         </div>
       </div>
 
-      <div className="intro-cta">
+      <div className="intro-cta" style={{alignSelf: "flex-end"}}>
         {finished && <button className="btn replay" onClick={replay}>Replay</button>}
       </div>
     </section>

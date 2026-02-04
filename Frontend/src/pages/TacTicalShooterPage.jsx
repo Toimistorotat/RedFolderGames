@@ -1,7 +1,7 @@
 import '../css/TTShooter.css';
 import Header from '../HeaderTTS';
 import Footer from '../Footer';
-import Loading from '../extras/Loading.jsx';
+import {Loading} from '../extras/Loading.jsx';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 
