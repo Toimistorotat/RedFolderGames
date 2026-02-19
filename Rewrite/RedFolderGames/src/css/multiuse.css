@@ -1,0 +1,23 @@
+.background {
+    background-color: rgb(18, 18, 18);
+}
+.glowborder {
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.25); /* shadow-[5px_5px_25px_rgba(255,255,255,0.25)] */
+    background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* border-1 border-white/10 */
+}
+.Center {
+    text-align: center;
+}
+.Container-Center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.z-index- {
+    z-index: 1;
+}
+.z-index {
+    z-index: 2;
+}
