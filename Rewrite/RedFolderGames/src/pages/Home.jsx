@@ -1,7 +1,7 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import Typewriter from '../components/Typewriter'
-import Mark from '../components/Bookmarks.jsx'
+import Fold from '../components/Folders.jsx'
 import { Space } from '../components/Space.jsx'
 import { Logo } from '../components/Loading.jsx'
 
@@ -18,7 +18,7 @@ export default function FrontPage() {
                             <Typewriter />
                         </div>
                         <div className="">
-                            <Mark />
+                            <Fold />
                         </div>
                         <Space />
                     </div>

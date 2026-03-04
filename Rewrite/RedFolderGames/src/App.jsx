@@ -11,8 +11,8 @@ function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/TTS" element={<TTS />} />
+          <Route path="/RedFolderGames/" element={<Home />} />
+          <Route path="/RedFolderGames/TTS" element={<TTS />} />
         </Routes>
     </Router>
   )
