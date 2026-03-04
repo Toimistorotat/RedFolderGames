@@ -50,13 +50,39 @@ function Typer({ texts, speeds, onDone }) {
 
 export default function TypewriterIntro() {
   const texts = [
-    "cd /RedFolderGames run cmd Showcase\n",
-    "[[status] loading 10%... \n[status] 20%...\n[status] 30%... \n[status] 40%.. \n[status] 50%.. \n[status] 60%..\n[status] 70%... \n[status] 80%... \n[status] 90%...\n[status] 100%.... \n",
-    "HHello, I am RedKing. I'm a game fanatic and I love playing video games.\n I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.\n You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.\n Of course, video games are not everything, but who's to say that video games are bad for you? You should never believe those people if they are not doctors of course.\n But you should always enjoy what you are playing. Or if you are not enjoying, then go play something else. But video games, they are special."
+    "cd /RedFolderGames\n>> run cmd showcase\n\n",
+    "[status] loading 10%...\n[status] 20%...\n[status] 30%...\n[status] 40%...\n[status] 50%...\n[status] 60%...\n[status] 70%...\n[status] 80%...\n[status] 90%...\n[status] 100%...\n\n",
+    ">> Hello, I am RedKing.\n\
+> I'm a game fanatic and I love playing video games.\n\n\
+> I love how games can bring another world,\n\
+> another challenge,\n\
+> another perspective on the world — and yourself.\n\n\
+> You can play with friends.\n\
+> You can play alone.\n\
+> You can meet new people.\n\n\
+> Of course, games are not everything.\n\
+> But who decides games are bad for you?\n\
+> Probably someone who never played them.\n\n\
+> If you enjoy a game, keep playing.\n\
+> If you don't, find another one.\n\n\
+> But video games… they are special.\n"
   ];
   const idletext = [
-    "Hello, I am RedKing. I'm a game fanatic and I love playing video games.\n I love how they can bring another world, another challenges, another perspectives on the worlds and on yourself.\n You can have fun with your friends. You can have fun alone. You can meet new people and you can make yourself feel proud.\n Of course, video games are not everything, but who's to say that video games are bad for you? You should never believe those people if they are not doctors of course.\n But you should always enjoy what you are playing. Or if you are not enjoying, then go play something else. But video games, they are special."
-  ]
+    "> Hello, I am RedKing.\n\
+> I'm a game fanatic and I love playing video games.\n\n\
+> I love how games can bring another world,\n\
+> another challenge,\n\
+> another perspective on the world — and yourself.\n\n\
+> You can play with friends.\n\
+> You can play alone.\n\
+> You can meet new people.\n\n\
+> Of course, games are not everything.\n\
+> But who decides games are bad for you?\n\
+> Probably someone who never played them.\n\n\
+> If you enjoy a game, keep playing.\n\
+> If you don't, find another one.\n\n\
+> But video games… they are special.\n"
+  ];
 
   const speeds = [200, 10, 90]; // Different speeds for each corresponding text
   const [replayKey, setReplayKey] = useState(0);
@@ -68,22 +94,29 @@ export default function TypewriterIntro() {
   };
 
   return (
-    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border-1 border-white/10 min-h-[400px] mt-5 h-[500px]'>
+    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border-1 border-white/10 min-h-[400px] mt-5 h-[730px]'>
       <div className='flex gap-2 justify-end p-2 border-b-1 border-white/25 mb-2'>
         <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span></div>
         <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span></div>
         <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
       </div>
       <div className='p-2'>
-          <div>
+        <div>
+          {!finished && (
             <Typer
               key={replayKey}
               texts={texts}
               speeds={speeds}
               onDone={() => setFinished(true)}
             />
-            {finished ? <p className="font-mono text-2xl whitespace-pre-line text-green-500">{idletext}</p> : <></>}
-          </div>
+          )}
+
+          {finished && (
+            <p className="!font-mono !text-2xl !whitespace-pre-line !text-green-500">
+              {idletext[0]}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-end">

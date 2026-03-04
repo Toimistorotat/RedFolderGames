@@ -39,25 +39,25 @@ function Mark() {
                             type="button"
                             onClick={() => setSelected(game)}
                             className={`
-                relative px-4 py-2 text-sm font-semibold
-                rounded-t-lg border
-                transition
-                ${active
+                                relative px-4 py-2 text-sm font-semibold
+                                rounded-t-lg border
+                                transition
+                                ${active
                                     ? "bg-zinc-900 text-red-400 border-zinc-700 border-b-black"
                                     : "bg-zinc-950 text-zinc-300 border-zinc-800 hover:text-red-400 hover:border-zinc-700"
                                 }
-                focus:outline-none focus:ring-2 focus:ring-red-500/40
-              `}
-                        >
+                                focus:outline-none focus:ring-2 focus:ring-red-500/40
+                                `}
+                            >
                             {/* folder tab */}
                             <span
                                 className={`
-                  absolute -top-2 left-3 w-10 h-3 rounded-t-md border
-                  ${active
+                                    absolute -top-2 left-3 w-10 h-3 rounded-t-md border
+                                    ${active
                                         ? "bg-zinc-900 border-zinc-700"
                                         : "bg-zinc-950 border-zinc-800"
                                     }
-                `}
+                                `}
                             />
                             {game.name}
                         </button>
