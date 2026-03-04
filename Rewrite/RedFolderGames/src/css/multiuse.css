@@ -21,3 +21,22 @@
 .z-index {
     z-index: 2;
 }
+
+.cube {
+  max-width: 600px;
+  background-color: #1a1a1a;
+  color: #b70e0e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(183, 14, 14, 0.2);
+}
+
+.cube.left {
+  margin-left: 2rem;
+  align-self: flex-start;
+}
+
+.cube.right {
+  margin-right: 2rem;
+  align-self: flex-end;
+}

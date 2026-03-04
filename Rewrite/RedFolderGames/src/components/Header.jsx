@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Header() {
     const navigate = useNavigate();
-    return <nav className="glowborder m-5">
+    return <nav className="glowborder m-5 p-3">
             <a className="text-2xl text-red-500" href="/">RedFolderGames</a>
                 <div className="">
                 </div>

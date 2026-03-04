@@ -8,16 +8,23 @@ import { Logo } from '../components/Loading.jsx'
 export default function FrontPage() {
     return (
         <>
-            <Header />
-            <div className="max-w-[100%] w-[850px]">
-                <Logo />
-                <Typewriter />
+        Sup
+            <div className="flex justify-center ">
+                <div>
+                    <Logo />
+                    <div className="gap-10">
+                        <Header />
+                        <div className="max-w-[100%] w-[850px]">
+                            <Typewriter />
+                        </div>
+                        <div className="">
+                            <Mark />
+                        </div>
+                        <Space />
+                    </div>
+                    <Footer />
+                </div>
             </div>
-            <div className="flex justify-center flex-col">
-                <Mark />
-            </div>
-            <Space />
-            <Footer />
         </>
     )
 }

@@ -1,4 +1,5 @@
 import "../css/Loading.scss";
+import "../css/tailwind.css"
 export function Loading() {
     return (
         <>
@@ -12,16 +13,19 @@ export function Loading() {
                     <span className="char">i</span>
                     <span className="char">n</span>
                     <span className="char">g</span>
+                    <span className="char">.</span>
+                    <span className="char">.</span>
+                    <span className="char">.</span>
                 </h2>
             </section>
         </>
     );
 }
-
+//fix 3 dots in loading
 export function Logo() {
     return (
         <>
-            <div className="logo-container flex justify-center">
+            <div className="logo-container flex justify-center mt-10">
               <h1 id="page-logo">RedFolderGames</h1>
             </div>
         </>
