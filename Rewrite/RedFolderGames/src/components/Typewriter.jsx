@@ -50,8 +50,8 @@ function Typer({ texts, speeds, onDone }) {
 
 export default function TypewriterIntro() {
   const texts = [
-    "cd /RedFolderGames\n>> run cmd showcase\n\n",
-    "[status] loading 10%...\n[status] 20%...\n[status] 30%...\n[status] 40%...\n[status] 50%...\n[status] 60%...\n[status] 70%...\n[status] 80%...\n[status] 90%...\n[status] 100%...\n\n",
+    "> cd /RedFolderGames\n> run cmd showcase\n\n",
+    "[[status] loading 10%...\n[status] 20%...\n[status] 30%...\n[status] 40%...\n[status] 50%...\n[status] 60%...\n[status] 70%...\n[status] 80%...\n[status] 90%...\n[status] 100%...\n\n",
     ">> Hello, I am RedKing.\n\
 > I'm a game fanatic and I love playing video games.\n\n\
 > I love how games can bring another world,\n\
