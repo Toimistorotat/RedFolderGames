@@ -8,7 +8,7 @@ import { Logo } from '../components/Loading.jsx'
 export default function FrontPage() {
     return (
         <>
-        Sup
+            Sup
             <div className="flex justify-center ">
                 <div>
                     <Logo />

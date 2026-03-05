@@ -97,7 +97,7 @@ function Fold() {
                                 <span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span>
                             </div>
                             <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'>
-                                <span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span>
+                                <span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold cursor-pointer' onClick={closeModal}>X</span>
                             </div>
                         </div>
                     </div>
@@ -120,14 +120,14 @@ function Fold() {
                                 Open
                             </button>
 
-                            <button
+                            {/*<button
                                 type="button"
                                 onClick={closeModal}
                                 autoFocus
                                 className="bg-zinc-800 hover:bg-zinc-700 px-4 py-1 rounded text-sm text-zinc-200"
                             >
                                 Close
-                            </button>
+                            </button>*/}
                         </div>
                     </div>
                 </dialog>

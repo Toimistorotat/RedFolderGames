@@ -57,8 +57,8 @@ export default function TypewriterIntro() {
 > I love how games can bring another world,\n\
 > another challenge,\n\
 > another perspective on the world — and yourself.\n\n\
-> You can play with friends.\n\
 > You can play alone.\n\
+> You can play with friends.\n\
 > You can meet new people.\n\n\
 > Of course, games are not everything.\n\
 > But who decides games are bad for you?\n\
@@ -73,8 +73,8 @@ export default function TypewriterIntro() {
 > I love how games can bring another world,\n\
 > another challenge,\n\
 > another perspective on the world — and yourself.\n\n\
-> You can play with friends.\n\
 > You can play alone.\n\
+> You can play with friends.\n\
 > You can meet new people.\n\n\
 > Of course, games are not everything.\n\
 > But who decides games are bad for you?\n\
@@ -98,7 +98,12 @@ export default function TypewriterIntro() {
       <div className='flex gap-2 justify-end p-2 border-b-1 border-white/25 mb-2'>
         <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span></div>
         <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span></div>
-        <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
+        {!finished && (
+          <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
+        )}
+        {finished && (
+          <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold cursor-pointer' onClick={() => setFinished(false)}>X</span></div>
+        )}
       </div>
       <div className='p-2'>
         <div>
