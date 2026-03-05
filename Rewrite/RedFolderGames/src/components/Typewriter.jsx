@@ -43,7 +43,7 @@ function Typer({ texts, speeds, onDone }) {
 
   return (
     <p className={`${done ? "done" : ""}`}>
-      <span className='font-mono text-[20px] whitespace-pre-line text-green-500'>{out}</span>
+      <span className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">{out}</span>
     </p>
   );
 }
@@ -112,7 +112,7 @@ export default function TypewriterIntro() {
           )}
 
           {finished && (
-            <p className="!font-mono !text-2xl !whitespace-pre-line !text-green-500">
+            <p className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">
               {idletext[0]}
             </p>
           )}

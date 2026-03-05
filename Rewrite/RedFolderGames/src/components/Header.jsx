@@ -9,7 +9,7 @@ export default function Header() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
-    const isTTS = pathname.startsWith("/TTS");
+    const isTTS = pathname.startsWith("/RedFolderGames/TTS");
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
@@ -21,7 +21,7 @@ export default function Header() {
         >
             <a
                 className="text-2xl text-red-500 cursor-pointer"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/RedFolderGames/")}
             >
                 RedFolderGames
             </a>

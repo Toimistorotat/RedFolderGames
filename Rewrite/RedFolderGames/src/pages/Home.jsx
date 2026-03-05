@@ -28,3 +28,8 @@ export default function FrontPage() {
         </>
     )
 }
+{/*
+            1 toggle folders
+            2 siirrä folderin sulkemis näppäimet oikeille
+            3 replay näppäin siirrä ala kulmaan
+*/}
