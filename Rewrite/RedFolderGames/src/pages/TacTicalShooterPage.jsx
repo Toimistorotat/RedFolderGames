@@ -25,7 +25,7 @@ export default function TacTicalshooter() {
         <div>
           <Header />
           <div className="flex flex-col justify-start gap-8 py-8 px-4 max-w-full m-[5px]">
-            <div className="cube right">
+            <div className="cube right mt-10">
               <section id="hero" className="hero section">
                 <h1>{Name}</h1>
                 <p><strong>Squad-based tactical realism in a permanent world.</strong></p>
