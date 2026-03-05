@@ -8,7 +8,7 @@ import { Logo } from '../components/Loading.jsx'
 export default function FrontPage() {
     return (
         <>
-        Sup
+            Sup
             <div className="flex justify-center ">
                 <div>
                     <Logo />
@@ -28,3 +28,6 @@ export default function FrontPage() {
         </>
     )
 }
+{/*
+            3 replay näppäin siirrä ala kulmaan
+*/}

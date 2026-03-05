@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Games = [
     {
         name: "TacTical Shooter",
-        link: "/TTS",
+        link: "/RedFolderGames/TTS",
         info: "TacTical Shooter is a top-down shooter game where players navigate through various levels, battling enemies and completing missions. With its strategic gameplay and engaging mechanics, TTS offers an exciting experience for fans of the shooter genre."
     },
     {
@@ -14,7 +14,7 @@ const Games = [
     }
 ];
 
-function Mark() {
+function Fold() {
     const navigate = useNavigate();
     const [selected, setSelected] = useState(null); // store the whole game object
 
@@ -37,7 +37,13 @@ function Mark() {
                         <button
                             key={game.name}
                             type="button"
-                            onClick={() => setSelected(game)}
+                            onClick={() => {
+                                if (selected?.name === game.name) {
+                                    setSelected(null);
+                                } else {
+                                    setSelected(game);
+                                }
+                            }}
                             className={`
                                 relative px-4 py-2 text-sm font-semibold
                                 rounded-t-lg border
@@ -48,7 +54,7 @@ function Mark() {
                                 }
                                 focus:outline-none focus:ring-2 focus:ring-red-500/40
                                 `}
-                            >
+                        >
                             {/* folder tab */}
                             <span
                                 className={`
@@ -64,40 +70,44 @@ function Mark() {
                     );
                 })}
             </div>
-
             {/* Preview panel */}
             {selected && (
                 <dialog
-                    open
-                    className="
-                      absolute top-216 left-1/2
-                      -translate-x-1/2 -translate-y-1/2
-                      w-[900px] max-w-[95vw]
-                      bg-black text-red-400
-                      border border-zinc-700
-                      rounded-xl shadow-lg
-                      overflow-hidden
-                      mt-18
-                    "
-                >
+                      open
+                      className="
+                        absolute top-259 left-1/2
+                        -translate-x-1/2
+                        w-[900px] max-w-[95vw]
+                        bg-black text-red-400
+                        border border-zinc-700
+                        rounded-xl shadow-lg
+                        overflow-hidden
+                      "
+                    >
                     {/* top bar */}
                     <div className="flex items-center justify-between px-4 py-2 bg-zinc-950 border-b border-zinc-800">
-                        <div className="flex gap-2">
-                            <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span></div>
-                            <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span></div>
-                            <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
-                        </div>
                         <div className="text-xs text-zinc-400">
                             Preview / {selected.name.replaceAll(" ", "_")}.txt
+                        </div>
+                        <div className="flex gap-2">
+                            <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'>
+                                <span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span>
+                            </div>
+                            <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'>
+                                <span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span>
+                            </div>
+                            <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'>
+                                <span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold cursor-pointer' onClick={closeModal}>X</span>
+                            </div>
                         </div>
                     </div>
 
                     <div className="p-4">
-                        <p className="text-zinc-200 text-sm mb-2">
+                        <p className="text-zinc-200 text-sm mb-2 !text-xl">
                             Take a look at <span className="text-red-400 font-semibold">{selected.name}</span>
                         </p>
 
-                        <p className="text-red-400 text-sm leading-relaxed">
+                        <p className="text-red-400 text-sm leading-relaxed !text-xl">
                             {selected.info}
                         </p>
 
@@ -110,14 +120,14 @@ function Mark() {
                                 Open
                             </button>
 
-                            <button
+                            {/*<button
                                 type="button"
                                 onClick={closeModal}
                                 autoFocus
                                 className="bg-zinc-800 hover:bg-zinc-700 px-4 py-1 rounded text-sm text-zinc-200"
                             >
                                 Close
-                            </button>
+                            </button>*/}
                         </div>
                     </div>
                 </dialog>
@@ -126,4 +136,4 @@ function Mark() {
     );
 }
 
-export default Mark;
+export default Fold;

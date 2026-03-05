@@ -43,7 +43,7 @@ function Typer({ texts, speeds, onDone }) {
 
   return (
     <p className={`${done ? "done" : ""}`}>
-      <span className='font-mono text-[20px] whitespace-pre-line text-green-500'>{out}</span>
+      <span className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">{out}</span>
     </p>
   );
 }
@@ -57,8 +57,8 @@ export default function TypewriterIntro() {
 > I love how games can bring another world,\n\
 > another challenge,\n\
 > another perspective on the world — and yourself.\n\n\
-> You can play with friends.\n\
 > You can play alone.\n\
+> You can play with friends.\n\
 > You can meet new people.\n\n\
 > Of course, games are not everything.\n\
 > But who decides games are bad for you?\n\
@@ -73,8 +73,8 @@ export default function TypewriterIntro() {
 > I love how games can bring another world,\n\
 > another challenge,\n\
 > another perspective on the world — and yourself.\n\n\
-> You can play with friends.\n\
 > You can play alone.\n\
+> You can play with friends.\n\
 > You can meet new people.\n\n\
 > Of course, games are not everything.\n\
 > But who decides games are bad for you?\n\
@@ -94,11 +94,16 @@ export default function TypewriterIntro() {
   };
 
   return (
-    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border-1 border-white/10 min-h-[400px] mt-5 h-[730px]'>
+    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border-1 border-white/10 min-h-[400px] mt-5 h-[690px]'>
       <div className='flex gap-2 justify-end p-2 border-b-1 border-white/25 mb-2'>
         <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span></div>
         <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span></div>
-        <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
+        {!finished && (
+          <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold'>X</span></div>
+        )}
+        {finished && (
+          <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'><span className='relative left-[0.6px] bottom-[2.2px] text-red-900/75 font-bold cursor-pointer' onClick={() => setFinished(false)}>X</span></div>
+        )}
       </div>
       <div className='p-2'>
         <div>
@@ -112,15 +117,15 @@ export default function TypewriterIntro() {
           )}
 
           {finished && (
-            <p className="!font-mono !text-2xl !whitespace-pre-line !text-green-500">
+            <p className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">
               {idletext[0]}
             </p>
           )}
         </div>
       </div>
 
-      <div className="flex flex-end">
-        {finished && <button className="bg-red-500 hover:bg-red-300 text-white px-4 py-2 rounded-md ml-2" onClick={replay}>Replay</button>}
+      <div className="align-self-end mt-auto">
+        {finished && <button className="bg-red-500 hover:bg-red-300 text-white px-4 py-2 rounded-md ml-3" onClick={replay}>Replay</button>}
       </div>
     </div>
   );
