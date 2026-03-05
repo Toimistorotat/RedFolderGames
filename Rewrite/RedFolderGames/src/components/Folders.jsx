@@ -14,7 +14,7 @@ const Games = [
     }
 ];
 
-function Mark() {
+function Fold() {
     const navigate = useNavigate();
     const [selected, setSelected] = useState(null); // store the whole game object
 
@@ -37,7 +37,13 @@ function Mark() {
                         <button
                             key={game.name}
                             type="button"
-                            onClick={() => setSelected(game)}
+                            onClick={() => {
+                                if (selected?.name === game.name) {
+                                    setSelected(null);
+                                } else {
+                                    setSelected(game);
+                                }
+                            }}
                             className={`
                                 relative px-4 py-2 text-sm font-semibold
                                 rounded-t-lg border
@@ -67,18 +73,17 @@ function Mark() {
             {/* Preview panel */}
             {selected && (
                 <dialog
-                    open
-                    className="
-                      absolute top-278 left-1/2
-                      -translate-x-1/2 -translate-y-1/2
-                      w-[900px] max-w-[95vw]
-                      bg-black text-red-400
-                      border border-zinc-700
-                      rounded-xl shadow-lg
-                      overflow-hidden
-                      mt-18
-                    "
-                >
+                      open
+                      className="
+                        absolute top-259 left-1/2
+                        -translate-x-1/2
+                        w-[900px] max-w-[95vw]
+                        bg-black text-red-400
+                        border border-zinc-700
+                        rounded-xl shadow-lg
+                        overflow-hidden
+                      "
+                    >
                     {/* top bar */}
                     <div className="flex items-center justify-between px-4 py-2 bg-zinc-950 border-b border-zinc-800">
                         <div className="text-xs text-zinc-400">
@@ -131,4 +136,4 @@ function Mark() {
     );
 }
 
-export default Mark;
+export default Fold;
