@@ -4,6 +4,11 @@
 //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 //$dotenv->load();
 
+header("Access-Control-Allow-Origin: https://basementgames-fi.github.io");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
 session_start();
 
 require_once "./helpers/helpers.php";
