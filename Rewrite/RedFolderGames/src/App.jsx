@@ -20,20 +20,21 @@ function App() {
     })
   }
 
-  const addFeedback = (e, name, messageText) => {
-    e.preventDefault()
+  const addFeedback = (e, name, message) => {
+    e.preventDefault();
 
-    const feedback = {
-      name: name,
-      message: messageText,
-      date: new Date().toISOString()
+    if (message.length < 10) {
+      alert("Message must be at least 10 characters long.");
+      return; // stop submission
     }
 
-    feedbackService.add(feedback).then(response => {
-      setMessage("Palaute lisätty")
-      setFeedbacks(prev => prev.concat(response))
-    })
-  }
+    feedbackService.add({ name, message })
+      .then(() => {
+        setName("");
+        setMessage("");
+        alert("Feedback sent!");
+      });
+  };
 
   useEffect(() => {
     feedbackService.getAll().then(response => {
@@ -49,8 +50,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
-        <Route path="/TTS" element={<TTS />} />
+        <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
+        <Route path="/RedFolderGames/TTS" element={<TTS />} />
       </Routes>
     </Router>
   )

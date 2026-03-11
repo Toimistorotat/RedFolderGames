@@ -3,7 +3,7 @@ require_once "connection.php";
 
 function addFeedback(string $name, string $message, string $date): int
 {
-    $pdo = Connection::connect();
+    $pdo = connectDB();
 
     $stmt = $pdo->prepare(
         'INSERT INTO feedback (name, message, `date`) VALUES (?, ?, ?)'
@@ -16,7 +16,7 @@ function addFeedback(string $name, string $message, string $date): int
 
 function getFeedback(): array
 {
-    $pdo = Connection::connect();
+    $pdo = connectDB();
 
     $stmt = $pdo->prepare('SELECT * FROM feedback ORDER BY `date` DESC');
     $stmt->execute();
@@ -26,7 +26,7 @@ function getFeedback(): array
 
 function deleteFeedback(int $id): void
 {
-    $pdo = Connection::connect();
+    $pdo = connectDB();
 
     $stmt = $pdo->prepare('DELETE FROM feedback WHERE id = ?');
     $stmt->execute([$id]);
