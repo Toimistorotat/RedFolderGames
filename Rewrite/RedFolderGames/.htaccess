@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Älä koske API-pyyntöihin
+RewriteRule ^api(/.*)?$ - [L]
+
+# React SPA routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

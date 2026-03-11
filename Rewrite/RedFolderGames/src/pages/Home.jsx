@@ -4,8 +4,10 @@ import Typewriter from '../components/Typewriter'
 import Fold from '../components/Folders.jsx'
 import { Space } from '../components/Space.jsx'
 import { Logo } from '../components/Loading.jsx'
+import { Feedback, FeedbackList } from '../components/FeedBack.jsx'
+import axios from 'axios'
 
-export default function FrontPage() {
+export default function FrontPage({ feedbacks, addFeedback, message }) {
     return (
         <>
             Sup
@@ -20,6 +22,11 @@ export default function FrontPage() {
                         <div className="">
                             <Fold />
                         </div>
+                        <div>
+                            {message && <p>{message}</p>}
+                            <FeedbackList feedbacks={feedbacks} />
+                            <Feedback addFeedback={addFeedback} />
+                        </div>
                         <Space />
                     </div>
                     <Footer />
@@ -29,5 +36,6 @@ export default function FrontPage() {
     )
 }
 {/*
-            3 replay näppäin siirrä ala kulmaan
+            what todo
+
 */}
