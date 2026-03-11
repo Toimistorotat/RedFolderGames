@@ -30,8 +30,7 @@ function App() {
 
     feedbackService.add({ name, message })
       .then(() => {
-        setName("");
-        setMessage("");
+        startHook();
         alert("Feedback sent!");
       });
   };
