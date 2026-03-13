@@ -1,5 +1,5 @@
 import '../css/tailwind.css'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from "react"
 import { Button } from '@mui/material'
 
 export function Feedback({ addFeedback }) {
@@ -7,24 +7,71 @@ export function Feedback({ addFeedback }) {
     const [message, setMessage] = useState('')
     const [accepted, setAccepted] = useState(false)
 
+    const text = "> Welcome to the feedback terminal\n> Please leave thoughtful feedback.\n> No slurs, spam, or disrespectful content.\n> Violations may be removed."
+
+    const [display, setDisplay] = useState("")
+    const [i, setI] = useState(0)
+    const containerRef = useRef(null)
+    const [visible, setVisible] = useState(false)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setVisible(true)
+                    observer.disconnect()
+                }
+            },
+            { threshold: 1.0 }
+        )
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current)
+        }
+
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
+        if (!visible) return
+
+        if (i < text.length) {
+            const timeout = setTimeout(() => {
+                setDisplay(prev => prev + text[i])
+                setI(i + 1)
+            }, 15 + Math.random() * 100)
+
+            return () => clearTimeout(timeout)
+        }
+    }, [i, visible])
+
     if (!accepted) {
         return (
-            <div className='font-mono p-6 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border border-green-500/30 mt-5 pb-5'>
-                <div className="text-xs text-zinc-400">
-                        Admin / Thank_you_in_advance.txt
-                    </div>
-                <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800"></div>
-                <p className="mb-2 !text-green-500">{'>'} Welcome to the feedback terminal</p>
-                <p className="!text-green-500">{'>'} Please leave thoughtful feedback.</p>
-                <p className="!text-green-500">{'>'} No slurs, spam, or disrespectful content.</p>
-                <p className="mb-6 !text-green-500">{'>'} Violations may be removed.</p>
+            <div
+                ref={containerRef}
+                className='font-mono p-6 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border border-green-500/30 mt-5 pb-5'
+            >
 
-                <button
-                    onClick={() => setAccepted(true)}
-                    className="border border-green-500 !text-green-500 px-4 py-2 hover:bg-green-500 hover:text-black transition bg-white/3"
-                >
-                    {'>>'} Accept
-                </button>
+                <div className="text-xs text-zinc-400">
+                    Admin / Thank_you_in_advance.txt
+                </div>
+
+                <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800"></div>
+
+                <p className="!text-green-500 !whitespace-pre-line">
+                    {display}
+                    {i < text.length && <span className="animate-pulse">_</span>}
+                </p>
+
+                {i >= text.length && (
+                    <button
+                        onClick={() => setAccepted(true)}
+                        className="mt-6 border border-green-500 text-green-500 px-4 py-2 hover:bg-green-500 hover:text-black transition bg-white/3 animate-pulse"
+                    >
+                        {'>>'} Accept
+                    </button>
+                )}
+
             </div>
         )
     }

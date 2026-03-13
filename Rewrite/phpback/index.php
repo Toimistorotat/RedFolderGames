@@ -5,6 +5,9 @@
 //$dotenv->load();
 require_once "./helpers/helpers.php";
 require_once './controllers/feedbackManagement.php';
+require_once './controllers/calculationManagement.php';
+
+session_start();
 
 set_exception_handler(function ($e) {
     respond(500, [
@@ -13,7 +16,7 @@ set_exception_handler(function ($e) {
 });
 
 // GET, POST, DELETE, OPTIONS, PUT
-$method = $_SERVER['REQUEST_METHOD']; 
+$method = $_SERVER['REQUEST_METHOD'];
 $uri = explode("?", $_SERVER["REQUEST_URI"])[0];
 
 $route = getRoute($uri); // /api/feedback
@@ -37,10 +40,34 @@ switch ($route) {
                 addFeedbackController();
                 break;
 
-            /*case 'DELETE':
-                if ($id) deleteFeedbackController($id);
-                break;*/
+            case 'DELETE':
+                if ($id) {
+                    deleteFeedbackController($id);
+                } else {
+                    respond(400, ["error" => "ID required for DELETE"]);
+                }
+                break;
 
+            default:
+                respond(405, ["error" => "Method not allowed"]);
+                break;
+        }
+        break;
+
+    case "/api/calculation":
+        switch ($method) {
+
+            case 'GET':
+                getCalculationController();
+                break;
+
+            case 'POST':
+                addCalculationController();
+                break;
+
+            default:
+                respond(405, ["error" => "Method not allowed"]);
+                break;
         }
         break;
 

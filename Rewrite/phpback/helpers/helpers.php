@@ -24,7 +24,7 @@ function respond($statusCode, $data = null)
     $allowedOrigins = [
         "http://localhost:5173",
         "https://phpbackend.samlam24.treok.io/",
-        "https://basementgames-fi.github.io/RedFolderGames/"
+        "https://basementgames-fi.github.io"
     ];
 
     if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
