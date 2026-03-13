@@ -32,9 +32,9 @@ function connect() {
     //$port = getenv('DB_PORT', true) ?: 3306; 
     $dbname = getenv('DB_NAME', true) ?: "samlam24_RedFolderGames"; 
     $user = getenv('DB_USERNAME', true) ?: "samlam24_Maintainer"; 
-    $password = getenv('DB_PASSWORD', true) ?: "!ik6AysEf7g7Jfo8"; 
+    $password = getenv('DB_PASSWORD', true) ?: "g6zr#@cecSEKNojrjRY?!orynE9Yk3JhGpcR@3!e"; 
    
-    $connectionString = "mysql:host=$host;dbname=$dbname;port=$port;charset=utf8";
+    $connectionString = "mysql:host=$host;dbname=$dbname;charset=utf8";
 
     try {       
             $pdo = new PDO($connectionString, $user, $password);
