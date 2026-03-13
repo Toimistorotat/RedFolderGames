@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-//const baseUrl = 'http://localhost:8888/api/calculations'
-const baseUrl = "https://phpbackend.samlam24.treok.io/api/calculations"
+//const baseUrl = 'http://localhost:8888/api/calculation'
+const baseUrl = "https://phpbackend.samlam24.treok.io/api/calculation"
 
 const makeHeader = () => {
     //let header =  {headers: {Authorization: `bearer ${token}`}}

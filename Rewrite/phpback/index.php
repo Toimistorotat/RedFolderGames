@@ -40,13 +40,13 @@ switch ($route) {
                 addFeedbackController();
                 break;
 
-            case 'DELETE':
+            /*case 'DELETE':
                 if ($id) {
                     deleteFeedbackController($id);
                 } else {
                     respond(400, ["error" => "ID required for DELETE"]);
                 }
-                break;
+                break;*/
 
             default:
                 respond(405, ["error" => "Method not allowed"]);

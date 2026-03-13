@@ -40,13 +40,12 @@ function getFeedbackController()
 {
     try {
         $feedback = getFeedback();
-        respond(401, ['test' => $feedback]);
-        /*
+
         if ($feedback === null) {
             respond(500, ['message' => 'Internal server error']);
         } else {
             respond(200, ['feedback' => $feedback, "message" => "Feedback retrieved successfully."]);
-        }*/
+        }
 
     } catch (Exception $e) {
         respond(500, ['message' => $e->getMessage()]);

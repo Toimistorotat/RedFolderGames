@@ -1,7 +1,7 @@
 <?php
 require_once "./models/calculations.php";
 
-function addCalculationsController()
+function addCalculationController()
 {
     $calculations = json_decode(file_get_contents('php://input'));
 
@@ -36,7 +36,7 @@ function addCalculationsController()
     }
 }
 
-function getCalculationsController()
+function getCalculationController()
 {
     try {
         $calculations = getCalculations();
