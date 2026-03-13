@@ -34,7 +34,7 @@ function connect() {
     $user = getenv('DB_USERNAME', true) ?: "samlam24_Maintainer"; 
     $password = getenv('DB_PASSWORD', true) ?: "!ik6AysEf7g7Jfo8"; 
    
-    $connectionString = "mysql:host=$host;dbname=$dbname;port=$port;charset=utf8";
+    $connectionString = "mysql:host=$host;dbname=$dbname;";
 
     try {       
             $pdo = new PDO($connectionString, $user, $password);

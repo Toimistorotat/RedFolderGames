@@ -1,14 +1,14 @@
 <?php
-require_once "./models/feedback.php";
+require_once "./models/calculations.php";
 
-function addFeedbackController()
+function addCalculationsController()
 {
-    $feedback = json_decode(file_get_contents('php://input'));
+    $calculations = json_decode(file_get_contents('php://input'));
 
-    if (isset($feedback->message)) {
-
-        $name = isset($feedback->name) ? trim($feedback->name) : "";
-        $message = trim($feedback->message);
+    if (isset($calculations->expression)) {
+        
+        $name = isset($calculations->name) ? trim($calculations->name) : "";
+        $expression = trim($calculations->expression);
         $date = date("Y-m-d");
 
         if ($name === "") {
@@ -16,12 +16,12 @@ function addFeedbackController()
         }
 
         try {
-            $id = addFeedback($name, $message, $date);
+            $id = addCalculations($name, $expression, $date);
 
             $data = [
                 "id" => $id,
                 "name" => $name,
-                "message" => $message,
+                "expression" => $expression,
                 "date" => $date
             ];
 
@@ -36,17 +36,16 @@ function addFeedbackController()
     }
 }
 
-function getFeedbackController()
+function getCalculationsController()
 {
     try {
-        $feedback = getFeedback();
-        respond(401, ['test' => $feedback]);
-        /*
-        if ($feedback === null) {
+        $calculations = getCalculations();
+
+        if ($calculations === null) {
             respond(500, ['message' => 'Internal server error']);
         } else {
-            respond(200, ['feedback' => $feedback, "message" => "Feedback retrieved successfully."]);
-        }*/
+            respond(200, $calculations);
+        }
 
     } catch (Exception $e) {
         respond(500, ['message' => $e->getMessage()]);
