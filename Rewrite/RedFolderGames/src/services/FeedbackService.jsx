@@ -10,7 +10,7 @@ const makeHeader = () => {
 }
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const request = axios.get(baseUrl, makeHeader())
   return request.then(response => response.data)
 }
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Calculator({ addCalculation }) {
+function Calculator() {
     const [expression, setExpression] = useState("");
     const [ans, setAns] = useState("");
     const [savedCalcs, setSavedCalcs] = useState([]);

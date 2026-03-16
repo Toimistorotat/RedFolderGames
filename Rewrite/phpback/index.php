@@ -1,19 +1,10 @@
 <?php
-//require __DIR__ . '/vendor/autoload.php';
-
-//$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-//$dotenv->load();
-require_once "./helpers/helpers.php";
-require_once './controllers/feedbackManagement.php';
-require_once './controllers/calculationManagement.php';
 
 session_start();
 
-set_exception_handler(function ($e) {
-    respond(500, [
-        "error" => $e->getMessage()
-    ]);
-});
+require_once "./helpers/helpers.php";
+require_once './controllers/feedbackManagement.php';
+require_once './controllers/commentsTTSManagement.php';
 
 // GET, POST, DELETE, OPTIONS, PUT
 $method = $_SERVER['REQUEST_METHOD'];
@@ -40,29 +31,21 @@ switch ($route) {
                 addFeedbackController();
                 break;
 
-            /*case 'DELETE':
-                if ($id) {
-                    deleteFeedbackController($id);
-                } else {
-                    respond(400, ["error" => "ID required for DELETE"]);
-                }
-                break;*/
-
             default:
                 respond(405, ["error" => "Method not allowed"]);
                 break;
         }
         break;
-
-    case "/api/calculation":
+    
+    case "/api/commentstts":
         switch ($method) {
 
             case 'GET':
-                getCalculationController();
+                getCommentsTTSController();
                 break;
 
             case 'POST':
-                addCalculationController();
+                addCommentTTSController();
                 break;
 
             default:

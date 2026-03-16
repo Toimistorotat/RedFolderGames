@@ -8,23 +8,17 @@ import Home from './pages/Home'
 import TTS from './pages/TacTicalShooterPage.jsx'
 import { Space } from './components/Space.jsx';
 import feedbackService from './services/FeedbackService.jsx'
-import calculationService from './services/CalculationService.jsx'
+import commentsService from './services/CommentsTTSService'
 
 function App() {
-  const [calculations, setCalculations] = useState([])
   const [feedbacks, setFeedbacks] = useState([])
+  const [comments, setComments] = useState([])
   const [message, setMessage] = useState("")
 
   const startHook = () => {
     feedbackService.getAll().then(response => {
       console.log(response)
       setFeedbacks(response)
-    })
-  }
-
-  const startHookC = () => {
-    calculationService.getAllC().then(response => {
-      setCalculations(response)
     })
   }
 
@@ -43,45 +37,47 @@ function App() {
       });
   };
 
-  const addCalculation = (e, name, expression) => {
-    e.preventDefault();
-
-    if (expression.length < 2) {
-      alert("Expression cannot be empty.");
-      return; // stop submission
-    }
-
-    calculationService.addC({ name, expression })
-    .then(() => {
-      startHookC();
-      alert("Calculation saved!");
-    });
-  }
-
-{/*}  useEffect(() => {
-    feedbackService.getAll().then(response => {
-      console.log('GET response:', response)
-      setFeedbacks(Array.isArray(response) ? response : [])
-    })
+  useEffect(() => {
+    startHook()
   }, [])
 
-  useEffect(() => {
-    calculationService.getAllC().then(response => {
-      console.log('GET response:', response)
-      setCalculations(Array.isArray(response) ? response : [])
+
+
+  const startCommentsHook = () => {
+    commentsService.getAll().then(response => {
+      console.log(response)
+      setComments(response.comments)
     })
-  }, []) */}
+  }
+
+  const addComment = (e, section_id, name, comment, parent_id = null) => {
+    e.preventDefault()
+
+    if (comment.trim().length < 2) {
+      alert("Comment must be at least 2 characters long.")
+      return
+    }
+
+    commentsService.add({
+      section_id,
+      parent_id,
+      name,
+      comment
+    }).then(() => {
+      startCommentsHook()
+      alert("Comment sent!")
+    })
+  }
 
   useEffect(() => {
-    startHook(),
-    startHookC()
+    startCommentsHook()
   }, [])
 
   return (
     <Router>
       <Routes>
-        <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} calculations={calculations} addCalculation={addCalculation} message={message}  />} />
-        <Route path="/RedFolderGames/TTS" element={<TTS />} />
+        <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
+        <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
       </Routes>
     </Router>
   )

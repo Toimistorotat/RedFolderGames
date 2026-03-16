@@ -23,6 +23,7 @@ function respond($statusCode, $data = null)
 {
     $allowedOrigins = [
         "http://localhost:5173",
+        "http://localhost:8888",
         "https://phpbackend.samlam24.treok.io/",
         "https://basementgames-fi.github.io",
         "https://basementgames-fi.github.io/RedFolderGames"
