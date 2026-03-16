@@ -7,7 +7,7 @@ export function Feedback({ addFeedback }) {
     const [message, setMessage] = useState('')
     const [accepted, setAccepted] = useState(false)
 
-    const text = "> Welcome to the feedback terminal\n> Please leave thoughtful feedback.\n> No slurs, spam, or disrespectful content.\n> Violations may be removed."
+    const text = "> Welcome to the feedback terminal\n> We do not remcommend using your real names.\n> Please leave thoughtful feedback.\n> No slurs, spam, or disrespectful content.\n> Violations may be removed."
 
     const [display, setDisplay] = useState("")
     const [i, setI] = useState(0)
