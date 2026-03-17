@@ -40,11 +40,11 @@ function DraggableWindow() {
             window.removeEventListener("mousemove", handleMouseMove)
             window.removeEventListener("mouseup", handleMouseUp)
         }
-    })
+    }, [dragging])
 
     return (
         <div className="absolute w-80 rounded-xl bg-zinc-900 text-white shadow-xl"
-             style={{ left: position.x, top: position.y }}
+            style={{ left: position.x, top: position.y }}
         >
             <div
                 onMouseDown={handleMouseDown}

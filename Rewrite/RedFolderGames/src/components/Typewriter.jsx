@@ -43,7 +43,7 @@ function Typer({ texts, speeds, onDone }) {
 
   return (
     <p className={`${done ? "done" : ""}`}>
-      <span className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">
+      <span className="font-mono! text-[20px] whitespace-pre-line! text-green-500!">
         {out}
       </span>
     </p>
@@ -88,7 +88,7 @@ const idletext = [
 
 const speeds = [200, 10, 90];
 
-function TypewriterIntro() {
+function TypewriterIntro({ setTtoggle }) {
   const [replayKey, setReplayKey] = useState(0);
   const [finished, setFinished] = useState(false);
 
@@ -98,13 +98,13 @@ function TypewriterIntro() {
   };
 
   return (
-    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border-1 border-white/10 min-h-[400px] mt-5 h-[690px]'>
-      <div className='flex gap-2 justify-end p-2 border-b-1 border-white/25 mb-2'>
+    <div className='pt-1 rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.25)] bg-white/5 w-full border border-white/10 min-h-100 mt-5 h-172.5'>
+      <div className='flex gap-2 justify-end p-2 border-b border-white/25 mb-2'>
         <div className='h-5 w-5 bg-green-500 rounded-full flex justify-center'>
-          <span className='relative left-[0.6px] bottom-[3px] text-green-900/75 font-bold'>O</span>
+          <span className='relative left-[0.6px] bottom-0.75 text-green-900/75 font-bold'>O</span>
         </div>
         <div className='h-5 w-5 bg-yellow-500 rounded-full flex justify-center'>
-          <span className='relative left-[0.6px] bottom-[9px] text-yellow-900/75 font-bold text-2xl'>-</span>
+          <span className='relative left-[0.6px] bottom-2.25 text-yellow-900/75 font-bold text-2xl' onClick={() => setTtoggle(false)}>-</span>
         </div>
         {!finished && (
           <div className='h-5 w-5 bg-red-500 rounded-full flex justify-center'>
@@ -134,7 +134,7 @@ function TypewriterIntro() {
         )}
 
         {finished && (
-          <p className="!font-mono text-[20px] !whitespace-pre-line !text-green-500">
+          <p className="font-mono! text-[20px] whitespace-pre-line! text-green-500!">
             {idletext[0]}
           </p>
         )}

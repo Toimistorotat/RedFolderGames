@@ -16,7 +16,7 @@ function Calculator() {
 
     const calculate = () => {
         try {
-            const result = String(eval(expression));
+            //const result = String(eval(expression));
             setAns(result);
         } catch {
             setAns("Error");
@@ -42,7 +42,7 @@ function Calculator() {
     };
 
     return (
-        <div className="text-gold bg-white w-[400px] rounded-lg p-4">
+        <div className="text-gold bg-white w-100 rounded-lg p-4">
             <div className="mb-4">
                 <p className="text-black font-semibold">Expression</p>
                 <input

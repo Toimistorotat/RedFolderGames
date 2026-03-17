@@ -11,6 +11,8 @@ function CommentsSection({ comments, addComment }) {
     const [feedMinimized, setFeedMinimized] = useState(false)
     const [makerMinimized, setMakerMinimized] = useState(false)
     const [replyMinimized, setReplyMinimized] = useState(false)
+    const [feedPinned, setFeedPinned] = useState(false)
+    const [makerPinned, setMakerPinned] = useState(false)
 
     const [feedPosition, setFeedPosition] = useState({ x: 32, y: 120 })
     const [makerPosition, setMakerPosition] = useState({ x: 430, y: 120 })
@@ -28,6 +30,7 @@ function CommentsSection({ comments, addComment }) {
 
     const [dockPosition, setDockPosition] = useState({ x: 12, y: 280 })
     const [dockCollapsed, setDockCollapsed] = useState(false)
+    const [dockAnimating, setDockAnimating] = useState(false)
 
     useEffect(() => {
         const sections = document.querySelectorAll("section")
@@ -80,6 +83,9 @@ function CommentsSection({ comments, addComment }) {
         }
     }
 
+    const clamp = (value, min, max) => {
+        return Math.min(Math.max(value, min), max)
+    }
     const handleDockDrag = (e) => {
         const startX = e.clientX
         const startY = e.clientY
@@ -87,14 +93,35 @@ function CommentsSection({ comments, addComment }) {
         const initialX = dockPosition.x
         const initialY = dockPosition.y
 
+        setDockAnimating(false)
+
         const onMove = (moveEvent) => {
+            const rawX = initialX + (moveEvent.clientX - startX)
+            const rawY = initialY + (moveEvent.clientY - startY)
+
             setDockPosition({
-                x: initialX + (moveEvent.clientX - startX),
-                y: initialY + (moveEvent.clientY - startY)
+                x: rawX,
+                y: rawY
             })
         }
 
         const onUp = () => {
+            const dockWidth = dockCollapsed ? 40 : 120
+            const dockHeight = dockCollapsed ? 80 : 260
+            const padding = 8
+
+            const minX = padding
+            const minY = padding
+            const maxX = window.innerWidth - dockWidth - padding
+            const maxY = window.innerHeight - dockHeight - padding
+
+            setDockAnimating(true)
+
+            setDockPosition((prev) => ({
+                x: clamp(prev.x, minX, maxX),
+                y: clamp(prev.y, minY, maxY)
+            }))
+
             window.removeEventListener("mousemove", onMove)
             window.removeEventListener("mouseup", onUp)
         }
@@ -212,6 +239,24 @@ function CommentsSection({ comments, addComment }) {
         setMakerMinimized(false)
     }
 
+    const toggleFeedPin = () => {
+        setFeedPosition((prev) => ({
+            x: feedPinned ? prev.x + window.scrollX : prev.x - window.scrollX,
+            y: feedPinned ? prev.y + window.scrollY : prev.y - window.scrollY
+        }))
+
+        setFeedPinned((prev) => !prev)
+    }
+
+    const toggleMakerPin = () => {
+        setMakerPosition((prev) => ({
+            x: makerPinned ? prev.x + window.scrollX : prev.x - window.scrollX,
+            y: makerPinned ? prev.y + window.scrollY : prev.y - window.scrollY
+        }))
+
+        setMakerPinned((prev) => !prev)
+    }
+
     const DockButton = ({ onClick, children }) => (
         <button
             type="button"
@@ -222,14 +267,26 @@ function CommentsSection({ comments, addComment }) {
         </button>
     )
 
-    const WindowDots = ({ onMinimize, onClose }) => (
+    const WindowDots = ({ pinned, onPin, onMinimize, onClose }) => (
         <div
             className="flex gap-2"
             onMouseDown={(e) => e.stopPropagation()}
         >
-            <div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
-                <span className="relative bottom-[1px] text-[10px] font-bold text-green-950/70">o</span>
-            </div>
+            <button
+                type="button"
+                onMouseDown={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    onPin?.()
+                }}
+                className={`flex h-4 w-4 items-center justify-center rounded-full ${pinned ? "bg-green-400" : "bg-green-500"
+                    }`}
+                title={pinned ? "Unpin window" : "Pin window"}
+            >
+                <span className="relative bottom-[1px] text-[10px] font-bold text-green-950/70">
+                    {pinned ? "•" : "o"}
+                </span>
+            </button>
 
             <button
                 type="button"
@@ -263,7 +320,7 @@ function CommentsSection({ comments, addComment }) {
         <>
             {/* DOCK / CONTROL PANEL */}
             <div
-                className="fixed z-40"
+                className={`fixed z-50 ${dockAnimating ? "transition-all duration-600 ease-out" : ""}`}
                 style={{
                     left: dockPosition.x,
                     top: dockPosition.y
@@ -324,15 +381,17 @@ function CommentsSection({ comments, addComment }) {
             {/* COMMENTS FEED WINDOW */}
             {feedVisible && (
                 <div
-                    className="absolute z-50"
+                    className={`${feedPinned ? "fixed" : "absolute"} z-50`}
                     style={{ left: feedPosition.x, top: feedPosition.y }}
                 >
                     <div className="w-[460px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
 
                         {/* TOP BAR */}
                         <div
-                            onMouseDown={(e) => handleMouseDown(e, "feed")}
-                            className="cursor-move select-none border-b border-white/10"
+                            onMouseDown={(e) => {
+                                if (!feedPinned) handleMouseDown(e, "feed")
+                            }}
+                            className={`select-none border-b border-white/10 ${feedPinned ? "cursor-default" : "cursor-move"}`}
                         >
                             <div className="flex items-center justify-between px-4 pt-2">
                                 <div className="text-xs text-zinc-400">
@@ -340,6 +399,8 @@ function CommentsSection({ comments, addComment }) {
                                 </div>
 
                                 <WindowDots
+                                    pinned={feedPinned}
+                                    onPin={toggleFeedPin}
                                     onMinimize={() => setFeedMinimized((prev) => !prev)}
                                     onClose={() => {
                                         setFeedVisible(false)
@@ -497,15 +558,17 @@ function CommentsSection({ comments, addComment }) {
             {/* COMMENT MAKER WINDOW */}
             {makerVisible && (
                 <div
-                    className="absolute z-50"
+                    className={`${makerPinned ? "fixed" : "absolute"} z-50`}
                     style={{ left: makerPosition.x, top: makerPosition.y }}
                 >
                     <div className="w-[380px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
 
                         {/* TOP BAR */}
                         <div
-                            onMouseDown={(e) => handleMouseDown(e, "maker")}
-                            className="cursor-move select-none border-b border-white/10"
+                            onMouseDown={(e) => {
+                                if (!makerPinned) handleMouseDown(e, "maker")
+                            }}
+                            className={`select-none border-b border-white/10 ${makerPinned ? "cursor-default" : "cursor-move"}`}
                         >
                             <div className="flex items-center justify-between px-4 pt-2">
                                 <div className="text-xs text-zinc-400">
@@ -513,6 +576,8 @@ function CommentsSection({ comments, addComment }) {
                                 </div>
 
                                 <WindowDots
+                                    pinned={makerPinned}
+                                    onPin={toggleMakerPin}
                                     onMinimize={() => setMakerMinimized((prev) => !prev)}
                                     onClose={() => {
                                         setMakerVisible(false)

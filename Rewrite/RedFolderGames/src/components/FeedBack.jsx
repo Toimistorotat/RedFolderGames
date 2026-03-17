@@ -7,8 +7,7 @@ export function Feedback({ addFeedback }) {
     const [message, setMessage] = useState('')
     const [accepted, setAccepted] = useState(false)
 
-    const text = "> Welcome to the feedback terminal\n> We do not remcommend using your real names.\n> Please leave thoughtful feedback.\n> No slurs, spam, or disrespectful content.\n> Violations may be removed."
-
+    const text = "> Welcome to the feedback terminal\n> We do not recommend using your real names.\n> Please leave thoughtful feedback.\n> No slurs, spam, or disrespectful content.\n> Violations may be removed."
     const [display, setDisplay] = useState("")
     const [i, setI] = useState(0)
     const containerRef = useRef(null)
@@ -129,20 +128,26 @@ export function Feedback({ addFeedback }) {
 }
 
 export function FeedbackList({ feedbacks }) {
-    const list = Array.isArray(feedbacks) ? feedbacks : []
+    const list = Array.isArray(feedbacks)
+        ? [...feedbacks].sort((a, b) => {
+            const dateDiff = new Date(a.date) - new Date(b.date)
+            if (dateDiff !== 0) return dateDiff
+            return (a.id ?? 0) - (b.id ?? 0)
+        })
+        : []
 
     return (
         <div>
             <h2 className="text-3xl">Feedback</h2>
-            <p className="text-ms !text-white">Terminal Look will be added later on</p>
+            <p className="text-sm !text-white">Terminal look will be added later on</p>
 
             <ul className="flex flex-col gap-3">
                 {list.map((f, i) => (
                     <li
-                        key={f.id}
+                        key={f.id ?? i}
                         className={`flex ${i % 2 === 0 ? "justify-start" : "justify-end"}`}
                     >
-                        <div className="max-w-[60%] bg-white/10 text-green-400 font-mono px-4 py-2 rounded-lg">
+                        <div className="max-w-[60%] rounded-lg bg-white/10 px-4 py-2 font-mono text-green-400">
                             <strong>{f.name}</strong>: {f.message}
                         </div>
                     </li>

@@ -9,6 +9,7 @@ import TTS from './pages/TacTicalShooterPage.jsx'
 import { Space } from './components/Space.jsx';
 import feedbackService from './services/FeedbackService.jsx'
 import commentsService from './services/CommentsTTSService'
+import { Empty, EmptySpecial } from './components/Empty.jsx'
 
 function App() {
   const [feedbacks, setFeedbacks] = useState([])
@@ -78,6 +79,8 @@ function App() {
       <Routes>
         <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
         <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
+        <Route path="/RedFolderGames/Empty" element={<Empty />} />
+        <Route path="*" element={Math.random() < 0.1 ? <EmptySpecial /> : <Empty />} />
       </Routes>
     </Router>
   )

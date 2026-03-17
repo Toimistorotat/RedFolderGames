@@ -1,0 +1,484 @@
+import React, { useEffect, useRef, useState, memo } from "react";
+import "../css/tailwind.css";
+
+const DEFAULT_PROMPT = ">";
+const CURSOR = "█";
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function getCharDelay(char, baseSpeed = 35) {
+    if (".!?".includes(char)) return baseSpeed * 8;
+    if (",;:".includes(char)) return baseSpeed * 4;
+    if (char === " ") return baseSpeed * 0.8;
+    return baseSpeed;
+}
+
+function getLineClass(view) {
+    switch (view) {
+        case "command":
+            return "text-green-400";
+        case "loading":
+            return "text-yellow-300";
+        case "system":
+            return "text-cyan-300";
+        case "story":
+            return "text-zinc-200";
+        case "muted":
+            return "text-zinc-500";
+        case "error":
+            return "text-red-400";
+        default:
+            return "text-green-500";
+    }
+}
+
+function Terminal({
+    title = "terminal",
+    prompt = DEFAULT_PROMPT,
+    minHeight = "min-h-[400px]",
+    height = "h-[690px]",
+    extras,
+    setTtoggle
+}) {
+    const [lines, setLines] = useState([]);
+    const [currentLine, setCurrentLine] = useState("");
+    const [currentView, setCurrentView] = useState("command");
+
+    const [phase, setPhase] = useState("intro");
+    const [isRunning, setIsRunning] = useState(false);
+    const [isWaiting, setIsWaiting] = useState(false);
+
+    const scrollRef = useRef(null);
+    const latestLineRef = useRef("");
+    const runIdRef = useRef(0);
+
+    useEffect(() => {
+        latestLineRef.current = currentLine;
+    }, [currentLine]);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [lines, currentLine, isWaiting, isRunning]);
+
+    const appendLine = (text, view = "default") => {
+        setLines((prev) => [...prev, { text, view }]);
+    };
+
+    const isCancelled = (runId) => runIdRef.current !== runId;
+
+    const runSteps = async (steps, options = {}) => {
+        const runId = ++runIdRef.current;
+
+        if (options.clearBefore) {
+            setLines([]);
+            setCurrentLine("");
+        }
+
+        setIsRunning(true);
+        setIsWaiting(false);
+
+        for (const step of steps) {
+            if (isCancelled(runId)) return false;
+
+            switch (step.type) {
+                case "command": {
+                    const text = step.text ?? "";
+                    const speed = step.speed ?? 35;
+                    const stepPrompt = step.prompt ?? prompt;
+
+                    setCurrentView("command");
+                    setCurrentLine(`${stepPrompt} `);
+
+                    for (let i = 0; i < text.length; i++) {
+                        if (isCancelled(runId)) return false;
+                        const ch = text[i];
+                        setCurrentLine((prev) => prev + ch);
+                        await sleep(getCharDelay(ch, speed));
+                    }
+
+                    appendLine(`${stepPrompt} ${text}`, "command");
+                    setCurrentLine("");
+                    await sleep(step.enterDelay ?? 80);
+                    break;
+                }
+
+                case "type": {
+                    const text = step.text ?? "";
+                    const speed = step.speed ?? 35;
+                    const withPrompt = step.withPrompt ?? false;
+                    const stepPrompt = step.prompt ?? prompt;
+                    const view = step.view ?? "default";
+
+                    setCurrentView(view);
+                    setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
+
+                    for (let i = 0; i < text.length; i++) {
+                        if (isCancelled(runId)) return false;
+                        const ch = text[i];
+                        setCurrentLine((prev) => prev + ch);
+                        await sleep(getCharDelay(ch, speed));
+                    }
+
+                    if (step.enter !== false) {
+                        appendLine(latestLineRef.current, view);
+                        setCurrentLine("");
+                        await sleep(step.enterDelay ?? 80);
+                    }
+                    break;
+                }
+
+                case "typeChunks": {
+                    const chunks = step.chunks ?? [];
+                    const withPrompt = step.withPrompt ?? false;
+                    const stepPrompt = step.prompt ?? prompt;
+                    const view = step.view ?? "default";
+
+                    setCurrentView(view);
+                    setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
+
+                    for (const chunk of chunks) {
+                        const text = chunk.text ?? "";
+                        const speed = chunk.speed ?? 35;
+
+                        for (let i = 0; i < text.length; i++) {
+                            if (isCancelled(runId)) return false;
+                            const ch = text[i];
+                            setCurrentLine((prev) => prev + ch);
+                            await sleep(getCharDelay(ch, speed));
+                        }
+                    }
+
+                    if (step.enter !== false) {
+                        appendLine(latestLineRef.current, view);
+                        setCurrentLine("");
+                        await sleep(step.enterDelay ?? 80);
+                    }
+                    break;
+                }
+
+                case "append": {
+                    const text = step.text ?? "";
+                    const speed = step.speed ?? 35;
+
+                    for (let i = 0; i < text.length; i++) {
+                        if (isCancelled(runId)) return false;
+                        const ch = text[i];
+                        setCurrentLine((prev) => prev + ch);
+                        await sleep(getCharDelay(ch, speed));
+                    }
+                    break;
+                }
+
+                case "delete": {
+                    const count = step.count ?? 1;
+                    const speed = step.speed ?? 20;
+
+                    for (let i = 0; i < count; i++) {
+                        if (isCancelled(runId)) return false;
+                        setCurrentLine((prev) => prev.slice(0, -1));
+                        await sleep(speed);
+                    }
+                    break;
+                }
+
+                case "output": {
+                    appendLine(step.text ?? "", step.view ?? "default");
+                    await sleep(step.delay ?? 50);
+                    break;
+                }
+
+                case "multiOutput": {
+                    const outputLines = step.lines ?? [];
+                    const delay = step.delay ?? 50;
+                    const fallbackView = step.view ?? "default";
+
+                    for (const line of outputLines) {
+                        if (isCancelled(runId)) return false;
+
+                        if (typeof line === "string") {
+                            appendLine(line, fallbackView);
+                        } else {
+                            appendLine(line.text ?? "", line.view ?? fallbackView);
+                        }
+
+                        await sleep(delay);
+                    }
+                    break;
+                }
+
+                case "cut": {
+                    const marker = step.marker ?? " ^C";
+                    appendLine(`${latestLineRef.current}${marker}`, step.view ?? currentView);
+                    setCurrentLine("");
+                    await sleep(step.delay ?? 120);
+                    break;
+                }
+
+                case "clear": {
+                    setLines([]);
+                    setCurrentLine("");
+                    await sleep(step.delay ?? 100);
+                    break;
+                }
+
+                case "pause": {
+                    await sleep(step.duration ?? 300);
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        }
+
+        if (isCancelled(runId)) return false;
+
+        setIsRunning(false);
+
+        if (options.waitAtEnd) {
+            setIsWaiting(true);
+        }
+
+        return true;
+    };
+
+    const randomUser =
+        sessionStorage.getItem("rf-user") ||
+        (() => {
+            const id = `user${Math.floor(1000 + Math.random() * 9000)}@redfolder`;
+            sessionStorage.setItem("rf-user", id);
+            return id;
+        })();
+
+    const introSteps = [
+        { type: "command", text: "cd /RedFolderGames", speed: 55 },
+        { type: "command", text: "run terminal-intro", speed: 40 },
+
+        {
+            type: "multiOutput",
+            delay: 160,
+            lines: [
+                { text: "[status] loading 10%...", view: "loading" },
+                { text: "[status] loading 20%...", view: "loading" },
+                { text: "[status] loading 35%...", view: "loading" },
+                { text: "[status] loading 48%...", view: "loading" },
+                { text: "[status] loading 62%...", view: "loading" },
+                { text: "[status] loading 80%...", view: "loading" },
+                { text: "[status] loading 100%...", view: "loading" },
+                { text: "", view: "loading" },
+            ],
+        },
+
+        { type: "command", text: "whoami", speed: 60 },
+        { type: "output", text: randomUser, view: "system", delay: 200 },
+
+        { type: "pause", duration: 5000 },
+
+        { type: "command", text: "clear", speed: 40 },
+        { type: "clear" },
+
+        { type: "command", text: "cat self-introduction.txt", speed: 38 },
+
+
+        { type: "type", text: "Hello, I am RedKing.", view: "story", speed: 80 },
+        { type: "type", text: "I'm a game fanatic and I love playing video games.", view: "story", speed: 80 },
+        { type: "pause", duration: 300 },
+
+        { type: "type", text: "I love how games can bring another world,", view: "story", speed: 85 },
+        { type: "type", text: "another challenge,", view: "story", speed: 85 },
+        { type: "type", text: "another perspective on the world — and yourself.", view: "story", speed: 85 },
+        { type: "pause", duration: 300 },
+
+        { type: "type", text: "You can play alone.", view: "story", speed: 80 },
+        { type: "type", text: "You can play with friends.", view: "story", speed: 80 },
+        { type: "type", text: "You can meet new people.", view: "story", speed: 80 },
+        { type: "pause", duration: 300 },
+
+        { type: "type", text: "Of course, games are not everything.", view: "story", speed: 85 },
+        { type: "type", text: "But who decides games are bad for you?", view: "story", speed: 85 },
+        { type: "type", text: "Probably someone who never played them.", view: "story", speed: 85 },
+        { type: "pause", duration: 300 },
+
+        { type: "type", text: "If you enjoy a game, keep playing.", view: "story", speed: 80 },
+        { type: "type", text: "If you don't, find another one.", view: "story", speed: 80 },
+        { type: "pause", duration: 250 },
+
+        { type: "type", text: "But video games… they are special.", view: "story", speed: 90 },
+
+        { type: "pause", duration: 300 },
+    ];
+
+    const websiteSteps = [
+        { type: "command", text: "open website-description.txt", speed: 38 },
+
+        {
+            type: "multiOutput",
+            delay: 150,
+            lines: [
+                { text: "This website is a place for game ideas, concepts and weird experiments.", view: "story" },
+                { text: "Some pages are unfinished on purpose.", view: "story" },
+                { text: "Some hidden bits are there just for fun.", view: "story" },
+                { text: "", view: "story" },
+                { text: "Use the site to explore ideas, not just read static info.", view: "story" },
+                { text: "A few pages may cut off, change, or lead somewhere unexpected.", view: "story" },
+                { text: "", view: "story" },
+                { text: "Welcome to the terminal side of the website.", view: "system" },
+            ],
+        },
+    ];
+
+    const replayAll = async () => {
+        runIdRef.current += 1;
+        setPhase("intro");
+        setIsWaiting(false);
+        setIsRunning(false);
+        setLines([]);
+        setCurrentLine("");
+        await sleep(20);
+        runSteps(introSteps, { clearBefore: true, waitAtEnd: true });
+    };
+
+    const continueFromIntro = async () => {
+        if (isRunning || !isWaiting || phase !== "intro") return;
+
+        setPhase("website");
+        await runSteps(websiteSteps, { waitAtEnd: false });
+    };
+
+    const skipIntro = async () => {
+        if (phase !== "intro") return;
+
+        runIdRef.current += 1;
+        setIsRunning(false);
+        setIsWaiting(false);
+        setCurrentLine("");
+
+        await sleep(20);
+
+        setPhase("website");
+
+        await runSteps(
+            [
+                {
+                    type: "typeChunks",
+                    view: "command",
+                    withPrompt: true,
+                    prompt,
+                    enter: true,
+                    chunks: [
+                        { text: "clear", speed: 48 },
+                        { text: " ", speed: 15 },
+                        { text: "all", speed: 30 },
+                    ],
+                },
+                { type: "pause", duration: 80 },
+                { type: "clear", delay: 120 },
+            ],
+            { waitAtEnd: false }
+        );
+
+        await runSteps(websiteSteps, { waitAtEnd: false });
+    };
+
+    useEffect(() => {
+        runSteps(introSteps, { clearBefore: true, waitAtEnd: true });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <div
+            className={`rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.18)] bg-white/5 w-full border border-white/10 mt-5 ${minHeight} ${height} flex flex-col overflow-hidden`}
+        >
+            <div className="flex items-center px-3 py-2 border-b border-white/10 bg-white/5">
+                <div className="flex items-center gap-2">
+
+                    {extras && (
+                        <div className="h-3.5 w-3.5 rounded-full bg-red-500" />
+                    )}
+                    {!extras && (
+                        <div className='h-3.5 w-3.5 bg-red-500 rounded-full flex justify-center'>
+                            <span className="text-[10px]" onClick={() => setTtoggle(true)}>X</span>
+                        </div>
+                    )}
+                    <div className="h-3.5 w-3.5 rounded-full bg-yellow-500" />
+                    <div className="h-3.5 w-3.5 rounded-full bg-green-500" />
+                    <span className="ml-3 text-sm font-mono text-zinc-400">{title}</span>
+                </div>
+            </div>
+
+            <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto p-4 font-mono text-[18px] leading-7"
+            >
+                {lines.map((line, index) => (
+                    <div
+                        key={`${index}-${line.text}`}
+                        className={`whitespace-pre-wrap wrap-break-words ${getLineClass(line.view)}`}
+                    >
+                        {line.text}
+                    </div>
+                ))}
+
+                {(isRunning || currentLine.length > 0) && (
+                    <div
+                        className={`whitespace-pre-wrap wrap-break-words ${getLineClass(currentView)}`}
+                    >
+                        {currentLine}
+                        <span className="animate-pulse">{CURSOR}</span>
+                    </div>
+                )}
+            </div>
+
+            <div className="border-t border-white/10 bg-black/20 px-4 py-3 font-mono">
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                    <span className="text-green-400">{prompt}</span>
+                    <span className="text-zinc-500">available commands:</span>
+
+                    {phase === "intro" && (
+                        <>
+                            <button
+                                onClick={continueFromIntro}
+                                disabled={!isWaiting || isRunning}
+                                className="rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                continue
+                            </button>
+
+                            <button
+                                onClick={skipIntro}
+                                disabled={phase !== "intro"}
+                                className="rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                clear all
+                            </button>
+                        </>
+                    )}
+
+                    <button
+                        onClick={replayAll}
+                        disabled={isRunning}
+                        className="rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                        replay
+                    </button>
+
+                    {isRunning && (
+                        <span className="ml-2 text-zinc-500">
+                            running...
+                        </span>
+                    )}
+
+                    {!isRunning && isWaiting && phase === "intro" && (
+                        <span className="ml-2 text-zinc-500">
+                            waiting for command
+                        </span>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default memo(Terminal);
