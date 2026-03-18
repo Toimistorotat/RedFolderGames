@@ -178,12 +178,10 @@ function Terminal({
     const guideStartedRef = useRef(false);
 
     useEffect(() => {
-        setIsRunning(true);
-
         const timeout = setTimeout(() => {
             // let runSteps control it after a moment
-            setIsRunning(false);
-        }, 300); // tweak (200–500ms feels good)
+            setIsRunning(true);
+        }, 60); // tweak (200–500ms feels good)
 
         return () => clearTimeout(timeout);
     }, []);
@@ -577,7 +575,7 @@ function Terminal({
                                 ref={creditsButtonRef}
                                 onClick={openCredits}
                                 className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-yellow-300 hover:bg-cyan-500/10
-                                  ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}
+                                  ${isRunning ? "" : "cursor-pointer"}
                                 `}
                             >
                                 credits
@@ -653,8 +651,8 @@ function Terminal({
 
                             <button
                                 onClick={clearAll}
-                                disabled={isRunning}
-                                className={`rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}`}
+                                //disabled={isRunning}
+                                className={`rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "" : "cursor-pointer"}`}
                             >
                                 clear all
                             </button>
