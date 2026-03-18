@@ -135,8 +135,7 @@ function TTSContent() {
           <p>
             Fatigue builds over time and affects focus, movement, and accuracy.
             A tired soldier will aim slower, react later, and make mistakes that fresh operatives wouldn’t.
-            Mental state is a oposite system after extraction if the mental state is too low you cannot bring that solider back to the field.
-          </p>
+            Mental state is an opposite system: after extraction, if the mental state is too low, you cannot bring that soldier back to the field.          </p>
           <p>
             A rested squad fights better. Keeping morale up through rest, successful missions,
             and recovered dog tags helps maintain Mental state.

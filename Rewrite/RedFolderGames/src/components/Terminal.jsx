@@ -175,75 +175,9 @@ function Terminal({
     const moreButtonRef = useRef(null);
     const creditsButtonRef = useRef(null);
 
-    const runCreditsGuide = async () => {
-        const moreEl = moreButtonRef.current;
-        if (!moreEl) return;
-
-        setShowGuideCursor(true);
-        setGuidePulse(false);
-        setIsSidePanelOpen(false);
-
-        setGuideCursorPos({
-            x: window.innerWidth - 1000,
-            y: window.innerHeight - 160,
-        });
-
-        await sleep(900);
-
-        const moreRect = moreEl.getBoundingClientRect();
-        setGuideCursorPos({
-            x: moreRect.left + moreRect.width / 2,
-            y: moreRect.top + moreRect.height / 2,
-        });
-
-        await sleep(900);
-
-        setGuidePulse(false);
-        setIsSidePanelOpen(true);
-
-        await sleep(100);
-        setGuidePulse(false);
-
-        const creditsEl = creditsButtonRef.current;
-        if (creditsEl) {
-            const creditsRect = creditsEl.getBoundingClientRect();
-            setGuideCursorPos({
-                x: creditsRect.left + creditsRect.width / 5,
-                y: creditsRect.top + creditsRect.height / 2,
-            });
-
-            await sleep(1000);
-            setGuidePulse(true);
-
-            await sleep(500);
-            setGuidePulse(false);
-
-            setShowGuideCursor(false);
-            onGuideDone?.();
-
-            while (isRunning) {
-                await sleep(200);
-            }
-            await openCredits();
-        }
-
-        await sleep(500);
-        setShowGuideCursor(false);
-        onGuideDone?.();
-    };
-
     const guideStartedRef = useRef(false);
 
-    useEffect(() => {
-        if (guideMode === "credits" && !isRunning && !guideStartedRef.current) {
-            guideStartedRef.current = true;
-            runCreditsGuide();
-        }
 
-        if (guideMode !== "credits") {
-            guideStartedRef.current = false;
-        }
-    }, [guideMode, isRunning]);
 
     useEffect(() => {
         latestLineRef.current = currentLine;
@@ -458,6 +392,80 @@ function Terminal({
             setIsWaiting(true);
         }
     };
+
+    useEffect(() => {
+        if (guideMode === "credits" && !isRunning && !guideStartedRef.current) {
+            guideStartedRef.current = true;
+            (async () => {
+                const moreEl = moreButtonRef.current;
+                if (!moreEl) return;
+
+                let guideDoneCalled = false;
+
+                setShowGuideCursor(true);
+                setGuidePulse(false);
+                setIsSidePanelOpen(false);
+
+                setGuideCursorPos({
+                    x: Math.max(50, window.innerWidth - 1000),
+                    y: Math.max(50, window.innerHeight - 160),
+                });
+
+                await sleep(900);
+
+                const moreRect = moreEl.getBoundingClientRect();
+                setGuideCursorPos({
+                    x: moreRect.left + moreRect.width / 2,
+                    y: moreRect.top + moreRect.height / 2,
+                });
+
+                await sleep(900);
+
+                setGuidePulse(false);
+                setIsSidePanelOpen(true);
+
+                await sleep(100);
+                setGuidePulse(false);
+
+                const creditsEl = creditsButtonRef.current;
+                if (creditsEl) {
+                    const creditsRect = creditsEl.getBoundingClientRect();
+                    setGuideCursorPos({
+                        x: creditsRect.left + creditsRect.width / 5,
+                        y: creditsRect.top + creditsRect.height / 2,
+                    });
+
+                    await sleep(1000);
+                    setGuidePulse(true);
+
+                    await sleep(500);
+                    setGuidePulse(false);
+
+                    setShowGuideCursor(false);
+                    if (!guideDoneCalled) {
+                        guideDoneCalled = true;
+                        onGuideDone?.();
+                    }
+
+                    while (isRunning) {
+                        await sleep(200);
+                    }
+                    await openCredits();
+                }
+
+                await sleep(500);
+                setShowGuideCursor(false);
+                if (!guideDoneCalled) {
+                    guideDoneCalled = true;
+                    onGuideDone?.();
+                }
+            })();
+        }
+
+        if (guideMode !== "credits") {
+            guideStartedRef.current = false;
+        }
+    }, [guideMode, isRunning, openCredits, onGuideDone]);
 
     const replayAll = async () => {
         runIdRef.current += 1;
