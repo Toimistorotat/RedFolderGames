@@ -19,27 +19,18 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
     const [extras, setExtras] = useState(false)
     const [Ttoggle, setTtoggle] = useState(false)
 
-    useEffect(() => {
-        const startGuide = () => {
-            const wantsGuide = sessionStorage.getItem("rf-guide");
-            if (wantsGuide !== "credits") return;
+    const startCreditsGuide = () => {
+        const terminalEl = document.getElementById("terminal");
 
-            const terminalEl = document.getElementById("terminal");
-            terminalEl?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
+        terminalEl?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        });
 
-            setTimeout(() => {
-                setGuideMode("credits");
-                sessionStorage.removeItem("rf-guide");
-            }, 700);
-        };
-
-        window.addEventListener("rf-start-guide", startGuide);
-
-        return () => window.removeEventListener("rf-start-guide", startGuide);
-    }, []);
+        setTimeout(() => {
+            setGuideMode("credits");
+        }, 700);
+    };
 
     return (
         <>
@@ -92,7 +83,7 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
                         <Space />
                     </div>
 
-                    <Footer />
+                    <Footer onStartCreditsGuide={startCreditsGuide} />
                 </div>
 
                 {/* Right column */}

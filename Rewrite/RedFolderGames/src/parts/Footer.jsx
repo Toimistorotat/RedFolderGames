@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function Footer() {
+export default function Footer({ onStartCreditsGuide }) {
   const { pathname } = useLocation();
 
   const isMain =
@@ -25,10 +25,7 @@ export default function Footer() {
           <nav className="flex flex-wrap justify-center gap-3 text-xs text-white/60">
             <button
               type="button"
-              onClick={() => {
-                sessionStorage.setItem("rf-guide", "credits");
-                window.dispatchEvent(new Event("rf-start-guide"));
-              }}
+              onClick={onStartCreditsGuide}
               className="transition hover:text-red-700"
             >
               Credits
