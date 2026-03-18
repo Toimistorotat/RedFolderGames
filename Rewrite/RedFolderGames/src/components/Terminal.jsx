@@ -401,7 +401,7 @@ function Terminal({
     };
 
     useEffect(() => {
-        if (guideMode === "credits" && !isRunning && !guideStartedRef.current) {
+        if (guideMode === "credits" && !guideStartedRef.current) {
             guideStartedRef.current = true;
             (async () => {
                 const moreEl = moreButtonRef.current;
