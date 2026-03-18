@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 export default function Footer() {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const isMain = pathname.startsWith("/RedFolderGames/");
   return (
