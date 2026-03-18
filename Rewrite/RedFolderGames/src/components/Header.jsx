@@ -1,5 +1,4 @@
 import '../css/multiuse.css'
-import '../css/tailwind.css'
 import Button from '@mui/material/Button';
 import { useNavigate, useLocation } from "react-router-dom";
 import NavMenu from './navmenu.jsx';

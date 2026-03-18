@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 
 const Games = [
     {
@@ -375,7 +375,7 @@ function Fold() {
                 className={`flex h-4 w-4 items-center justify-center rounded-full ${pinned ? "bg-green-400" : "bg-green-500"}`}
                 title={pinned ? "Unpin window" : "Pin window"}
             >
-                <span className="relative bottom-[1px] text-[10px] font-bold text-green-950/70">
+                <span className="relative bottom-px text-[10px] font-bold text-green-950/70">
                     {pinned ? "•" : "o"}
                 </span>
             </button>
@@ -390,7 +390,7 @@ function Fold() {
                 className="flex h-4 w-4 items-center justify-center rounded-full bg-yellow-500"
                 title="Minimize"
             >
-                <span className="relative bottom-[5px] text-[16px] font-bold text-yellow-950/70">-</span>
+                <span className="relative bottom-1.25 text-[16px] font-bold text-yellow-950/70">-</span>
             </button>
 
             <button
@@ -403,7 +403,7 @@ function Fold() {
                 className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
                 title="Close"
             >
-                <span className="relative bottom-[1px] text-[10px] font-bold text-red-950/70">x</span>
+                <span className="relative bottom-px text-[10px] font-bold text-red-950/70">x</span>
             </button>
         </div>
     );
@@ -474,7 +474,7 @@ function Fold() {
                         ref={(el) => {
                             windowRefs.current[game.name] = el;
                         }}
-                        className="w-[900px] max-w-[95vw] overflow-hidden rounded-xl border border-white/10 bg-black/85 text-red-400 shadow-[5px_5px_25px_rgba(255,255,255,0.14)] backdrop-blur-md"
+                        className="w-225 max-w-[95vw] overflow-hidden rounded-xl border border-white/10 bg-black/85 text-red-400 shadow-[5px_5px_25px_rgba(255,255,255,0.14)] backdrop-blur-md"
                     >
                         <div
                             onMouseDown={(e) => handleMouseDown(e, game.name)}
@@ -523,7 +523,7 @@ function Fold() {
             ))}
 
             {minimizedWindows.length > 0 && (
-                <div className="fixed bottom-4 left-1/2 z-[200] flex max-w-[95vw] -translate-x-1/2 flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-zinc-900/90 p-2 shadow-lg backdrop-blur-md">
+                <div className="fixed bottom-4 left-1/2 z-200 flex max-w-[95vw] -translate-x-1/2 flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-zinc-900/90 p-2 shadow-lg backdrop-blur-md">
                     {minimizedWindows.map((game) => (
                         <button
                             key={game.name}

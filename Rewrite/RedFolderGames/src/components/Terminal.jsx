@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, memo } from "react";
-import "../css/tailwind.css";
 
 const DEFAULT_PROMPT = ">";
 const CURSOR = "█";

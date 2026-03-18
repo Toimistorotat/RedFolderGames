@@ -1,6 +1,6 @@
+import '../css/tailwind.css'
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../css/tailwind.css'
 
 export function Empty() {
 
@@ -19,8 +19,8 @@ export function EmptySpecial() {
     return (
         <>
             <div className="flex flex-col items-center justify-center h-screen">
-                <div className="p-5 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 rounded-xl shadow-lg text-center text-3xl">
-                    <p className="!text-white">empty special</p>
+                <div className="p-5 bg-linear-to-r from-pink-400 via-purple-400 to-blue-400 rounded-xl shadow-lg text-center text-3xl">
+                    <p className="text-white!">empty special</p>
                     <Countdown />
                 </div>
             </div>
@@ -72,7 +72,7 @@ function Countdown() {
 
     return (
         <div>
-            <p className="!text-white">{devStopped ? "DEV MODE ACTIVE" : seconds}</p>
+            <p className="text-white!">{devStopped ? "DEV MODE ACTIVE" : seconds}</p>
             <p>{seconds}</p>
             {devStopped && (
                 <p className="text-xs text-yellow-400">dev override</p>

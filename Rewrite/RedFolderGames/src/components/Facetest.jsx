@@ -12,7 +12,7 @@ export default function FaceToggle() {
         relative h-40 w-72 rounded-full p-3
         transition-all duration-500 ease-in-out
         ${on
-                    ? "bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400"
+                    ? "bg-linear-to-br from-pink-400 via-purple-400 to-blue-400"
                     : "bg-zinc-600"}
       `}
         >
@@ -52,11 +52,11 @@ function HappyFace() {
             <div className="absolute left-5 top-[2.7rem] h-5 w-5 rounded-full bg-pink-200" />
 
             <div className="absolute left-8 top-5 h-4 w-6 overflow-hidden">
-                <div className="h-6 w-6 rounded-full border-[4px] border-zinc-600" />
+                <div className="h-6 w-6 rounded-full border-4 border-zinc-600" />
             </div>
 
             <div className="absolute right-5 top-5 h-4 w-6 overflow-hidden">
-                <div className="h-6 w-6 rounded-full border-[4px] border-zinc-600" />
+                <div className="h-6 w-6 rounded-full border-4 border-zinc-600" />
             </div>
 
             <div className="absolute left-[3.8rem] top-[2.7rem] h-5 w-8 -translate-x-1/2 overflow-hidden">

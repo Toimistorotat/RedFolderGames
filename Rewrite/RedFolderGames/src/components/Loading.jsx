@@ -1,5 +1,4 @@
 import "../css/Loading.scss";
-import "../css/tailwind.css"
 export function Loading() {
     return (
         <>

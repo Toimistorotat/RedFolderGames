@@ -1,8 +1,7 @@
-import '../css/tailwind.css'
 export function Space() {
     return (
         <>
-            <div className="h-[500px] w-full"></div>
+            <div className="h-125 w-full"></div>
         </>
     );
 }

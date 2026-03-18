@@ -1,4 +1,3 @@
-import '../css/tailwind.css'
 import { useState, useEffect } from 'react'
 import Button from "@mui/material/Button"
 
@@ -283,7 +282,7 @@ function CommentsSection({ comments, addComment }) {
                     }`}
                 title={pinned ? "Unpin window" : "Pin window"}
             >
-                <span className="relative bottom-[1px] text-[10px] font-bold text-green-950/70">
+                <span className="relative bottom-px text-[10px] font-bold text-green-950/70">
                     {pinned ? "•" : "o"}
                 </span>
             </button>
@@ -298,7 +297,7 @@ function CommentsSection({ comments, addComment }) {
                 className="flex h-4 w-4 items-center justify-center rounded-full bg-yellow-500"
                 title="Minimize"
             >
-                <span className="relative bottom-[5px] text-[16px] font-bold text-yellow-950/70">-</span>
+                <span className="relative bottom-1.25 text-[16px] font-bold text-yellow-950/70">-</span>
             </button>
 
             <button
@@ -311,7 +310,7 @@ function CommentsSection({ comments, addComment }) {
                 className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
                 title="Close"
             >
-                <span className="relative bottom-[1px] text-[10px] font-bold text-red-950/70">x</span>
+                <span className="relative bottom-px text-[10px] font-bold text-red-950/70">x</span>
             </button>
         </div>
     )
@@ -384,7 +383,7 @@ function CommentsSection({ comments, addComment }) {
                     className={`${feedPinned ? "fixed" : "absolute"} z-50`}
                     style={{ left: feedPosition.x, top: feedPosition.y }}
                 >
-                    <div className="w-[460px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
+                    <div className="w-115 overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
 
                         {/* TOP BAR */}
                         <div
@@ -419,7 +418,7 @@ function CommentsSection({ comments, addComment }) {
                         </div>
 
                         {!feedMinimized && (
-                            <div className="max-h-[560px] overflow-y-auto px-4 py-4 space-y-4">
+                            <div className="max-h-140 overflow-y-auto px-4 py-4 space-y-4">
                                 {topLevelComments.map((comment) => (
                                     <div
                                         key={comment.id}
@@ -470,7 +469,7 @@ function CommentsSection({ comments, addComment }) {
 
                     {/* REPLY WINDOW */}
                     {replyTarget && (
-                        <div className="absolute left-[470px] top-0 w-[320px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
+                        <div className="absolute left-117.5 top-0 w-[320px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
                             <div className="border-b border-white/10">
                                 <div className="flex items-center justify-between px-4 pt-2">
                                     <div className="text-xs text-zinc-400">
@@ -524,7 +523,7 @@ function CommentsSection({ comments, addComment }) {
                                         placeholder="Write reply..."
                                         value={replyText}
                                         onChange={(e) => setReplyText(e.target.value)}
-                                        className="min-h-[120px] w-full rounded-lg border border-white/10 bg-zinc-950/70 px-3 py-2 text-white placeholder-zinc-400 outline-none"
+                                        className="min-h-30 w-full rounded-lg border border-white/10 bg-zinc-950/70 px-3 py-2 text-white placeholder-zinc-400 outline-none"
                                     />
 
                                     <div className="flex gap-2">
@@ -561,7 +560,7 @@ function CommentsSection({ comments, addComment }) {
                     className={`${makerPinned ? "fixed" : "absolute"} z-50`}
                     style={{ left: makerPosition.x, top: makerPosition.y }}
                 >
-                    <div className="w-[380px] overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
+                    <div className="w-95 overflow-hidden rounded-xl border border-white/10 bg-white/5 text-white shadow-[5px_5px_25px_rgba(255,255,255,0.25)] backdrop-blur-md">
 
                         {/* TOP BAR */}
                         <div
@@ -641,7 +640,7 @@ function CommentsSection({ comments, addComment }) {
                                     placeholder="Add a comment..."
                                     value={commentText}
                                     onChange={(e) => setCommentText(e.target.value)}
-                                    className="min-h-[120px] w-full rounded-lg border border-white/10 bg-zinc-950/70 px-3 py-2 text-white placeholder-zinc-400 outline-none"
+                                    className="min-h-30 w-full rounded-lg border border-white/10 bg-zinc-950/70 px-3 py-2 text-white placeholder-zinc-400 outline-none"
                                 />
 
                                 <button

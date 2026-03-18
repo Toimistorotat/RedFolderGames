@@ -53,7 +53,7 @@ const NavMenu = () => {
                   className={[
                     "flex flex-col items-center no-underline",
                     activeSection === id ? "bg-[#d30707] text-white" : "bg-gray-100 text-[#333]",
-                    "p-5 w-[67px] h-[67px] mt-[5px] text-[0.8em]",
+                    "p-5 w-16.75 h-16.75 mt-1.25 text-[0.8em]",
                     "transition-colors duration-300",
                     "hover:bg-[#d30707] hover:text-white"
                   ].join(" ")}

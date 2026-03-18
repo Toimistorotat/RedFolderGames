@@ -1,5 +1,4 @@
 import React, { useState, useEffect, memo } from "react";
-import '../css/tailwind.css'
 
 function Typer({ texts, speeds, onDone }) {
   const [out, setOut] = useState("");
