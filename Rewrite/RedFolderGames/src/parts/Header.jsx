@@ -1,8 +1,9 @@
 import '../css/multiuse.css'
 import Button from '@mui/material/Button';
-import { useNavigate, useLocation } from "react-router-dom";
-import NavMenu from './navmenu.jsx';
+import NavMenu from '../components/navmenu.jsx';
+
 import { useState } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Header() {
     const { pathname } = useLocation();

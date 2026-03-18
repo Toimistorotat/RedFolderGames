@@ -46,6 +46,7 @@ function Terminal({
     const [phase, setPhase] = useState("intro");
     const [isRunning, setIsRunning] = useState(false);
     const [isWaiting, setIsWaiting] = useState(false);
+    const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
     const scrollRef = useRef(null);
     const latestLineRef = useRef("");
@@ -243,6 +244,21 @@ function Terminal({
         return true;
     };
 
+    const openCredits = async () => {
+        if (isRunning) return;
+
+        setIsSidePanelOpen(false);
+
+        await runSteps(
+            [
+                { type: "command", text: "clear", speed: 40 },
+                { type: "clear" },
+            ],
+            { waitAtEnd: false }
+        );
+
+        await runSteps(Credits, { waitAtEnd: false });
+    };
     const randomUser =
         sessionStorage.getItem("rf-user") ||
         (() => {
@@ -310,7 +326,7 @@ function Terminal({
     ];
 
     const websiteSteps = [
-        { type: "command", text: "open website-description.txt", speed: 38 },
+        { type: "command", text: "cat website-description.txt", speed: 38 },
 
         {
             type: "multiOutput",
@@ -324,6 +340,32 @@ function Terminal({
                 { text: "A few pages may cut off, change, or lead somewhere unexpected.", view: "story" },
                 { text: "", view: "story" },
                 { text: "Welcome to the terminal side of the website.", view: "system" },
+            ],
+        },
+    ];
+
+    const Credits = [
+        { type: "command", text: "cat webstie-credits.txt", speed: 38 },
+
+        {
+            type: "multiOutput",
+            delay: 500,
+            lines: [
+                { text: "Big thanks to Toostiainen for the great feedback and ideas.", view: "story" },
+                { text: "Suggestions like adding credits and improving folder structure helped a lot.", view: "story" },
+                { text: "Genuinely a great guy to work with.", view: "story" },
+                { text: "", view: "story" },
+
+                { text: "Thanks to my friends for testing, ideas, and general support during this project.", view: "story" },
+                { text: "", view: "story" },
+
+                { text: "Built with:", view: "system" },
+                { text: "• React (Frontend) – https://react.dev/", view: "system" },
+                { text: "• Tailwind CSS (Styling) – https://tailwindcss.com/", view: "system" },
+                { text: "• PHP (Backend)", view: "system" },
+                { text: "", view: "system" },
+
+                { text: "Appreciation to the creators and open-source community behind these tools.", view: "system" },
             ],
         },
     ];
@@ -388,8 +430,48 @@ function Terminal({
 
     return (
         <div
-            className={`rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.18)] bg-white/5 w-full border border-white/10 mt-5 ${minHeight} ${height} flex flex-col overflow-hidden`}
+            className={`relative rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.18)] bg-white/5 w-full border border-white/10 mt-5 ${minHeight} ${height} flex flex-col overflow-hidden`}
         >
+            <div
+                className="absolute right-0 top-35 z-20 -translate-y-1/2"
+                onMouseEnter={() => setIsSidePanelOpen(true)}
+                onMouseLeave={() => setIsSidePanelOpen(false)}
+            >
+                <div className="flex items-center">
+                    <button
+                        type="button"
+                        onClick={() => setIsSidePanelOpen((prev) => !prev)}
+                        className="rounded-l-md border border-r-0 border-cyan-500/20 bg-black/70 px-2 py-3 text-xs uppercase tracking-widest text-cyan-300"
+                    >
+                        More
+                    </button>
+
+                    <div
+                        className={`overflow-hidden border border-white/10 bg-black/85 backdrop-blur-sm transition-all duration-200 ${isSidePanelOpen
+                            ? "w-40 opacity-100"
+                            : "w-0 opacity-0"
+                            }`}
+                    >
+                        <div className="flex flex-col p-2 font-mono text-sm">
+                            <button
+                                onClick={openCredits}
+                                disabled={isRunning}
+                                className="rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                credits
+                            </button>
+
+                            <button
+                                onClick={replayAll}
+                                disabled={isRunning}
+                                className="rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                replay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="flex items-center px-3 py-2 border-b border-white/10 bg-white/5">
                 <div className="flex items-center gap-2">
 
@@ -454,14 +536,6 @@ function Terminal({
                             </button>
                         </>
                     )}
-
-                    <button
-                        onClick={replayAll}
-                        disabled={isRunning}
-                        className="rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                        replay
-                    </button>
 
                     {isRunning && (
                         <span className="ml-2 text-zinc-500">

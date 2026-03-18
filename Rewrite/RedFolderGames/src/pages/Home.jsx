@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Header from '../components/Header'
-import Footer from '../components/Footer';
+import Header from '../parts/Header.jsx'
+import Footer from '../parts/Footer.jsx';
 import Terminal from '../components/Terminal'
 import Fold from '../components/Folders.jsx'
 import { Space } from '../components/Space.jsx'
@@ -91,4 +91,5 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
             6. oh and fix the issues with tailwindcss as the extension keeps crying about some could be done this ways
             four Mostly done
             One Done
+            six done
 */}

@@ -1,7 +1,7 @@
 import '../css/TTShooter.css';
 import '../css/multiuse.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../parts/Header.jsx';
+import Footer from '../parts/Footer.jsx';
 import TTSContent from '../components/TTSContent.jsx';
 import CommentsSection from '../components/CommentsSection.jsx';
 import { Loading } from '../components/Loading.jsx';
