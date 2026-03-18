@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 import Header from '../parts/Header.jsx'
 import Footer from '../parts/Footer.jsx';
 import Terminal from '../components/Terminal'
@@ -13,10 +14,33 @@ import FaceToggle from '../components/Facetest.jsx'
 import Typewriter from '../components/Typewriter.jsx'
 
 export default function FrontPage({ feedbacks, addFeedback, message }) {
-
+    const [guideMode, setGuideMode] = useState("");
     const [display, setDisplay] = useState(false)
     const [extras, setExtras] = useState(false)
     const [Ttoggle, setTtoggle] = useState(false)
+
+    useEffect(() => {
+        const startGuide = () => {
+            const wantsGuide = sessionStorage.getItem("rf-guide");
+            if (wantsGuide !== "credits") return;
+
+            const terminalEl = document.getElementById("terminal");
+            terminalEl?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+
+            setTimeout(() => {
+                setGuideMode("credits");
+                sessionStorage.removeItem("rf-guide");
+            }, 700);
+        };
+
+        window.addEventListener("rf-start-guide", startGuide);
+
+        return () => window.removeEventListener("rf-start-guide", startGuide);
+    }, []);
+
     return (
         <>
             <div className="flex w-full">
@@ -33,9 +57,14 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
                     <div className="flex flex-col gap-10 w-full">
                         <Header />
 
-                        <div className="w-full" aria-label="Introduction message from the creator Redking in terminal style">
+                        <div id="terminal" className="w-full" aria-label="Introduction message from the creator Redking in terminal style">
                             {!Ttoggle && (
-                                <Terminal setTtoggle={setTtoggle} extras={!extras} />
+                                <Terminal
+                                    setTtoggle={setTtoggle}
+                                    extras={!extras}
+                                    guideMode={guideMode}
+                                    onGuideDone={() => setGuideMode("")}
+                                />
                             )}
                             {extras && Ttoggle && (
                                 <Typewriter setTtoggle={setTtoggle} />
@@ -90,7 +119,9 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
             5. add hidden konamicode to unlock the terminals input system
             6. oh and fix the issues with tailwindcss as the extension keeps crying about some could be done this ways
             7. fix the calc for once and for all
-            four Mostly done
+            8. Change the pin look and fuction a bit
+            four done
             One Done
             six done
+            three done
 */}

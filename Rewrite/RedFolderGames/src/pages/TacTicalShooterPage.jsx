@@ -2,27 +2,48 @@ import '../css/TTShooter.css';
 import '../css/multiuse.css';
 import Header from '../parts/Header.jsx';
 import Footer from '../parts/Footer.jsx';
-import TTSContent from '../components/TTSContent.jsx';
+import TTSContent from '../parts/TTSContent.jsx';
 import CommentsSection from '../components/CommentsSection.jsx';
 import { Loading } from '../components/Loading.jsx';
 import { useState, useEffect } from 'react';
 
 export default function TacTicalshooter({ comments, addComment }) {
   const [loading, setLoading] = useState(true);
+  const [devMode, setDevMode] = useState(false);
 
-  // Simulate data fetching
+  // Toggle dev mode with "B"
   useEffect(() => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-    }, 8000);
+    const onKeyDown = (e) => {
+      if (e.key.toLowerCase() === "b" && loading) {
+        setDevMode(true);
+        setLoading(false); // instantly skip loading
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [loading]);
+
+  // Handle loading logic
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  // Show loading screen
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       {loading ? (
         <Loading className="loadingScreen" />
       ) : (
         <div className="flex flex-col">
+          {devMode && <div className="absolute top-2 right-2 text-green-400">DEV MODE</div>}
           <div>
             <Header />
             <div>

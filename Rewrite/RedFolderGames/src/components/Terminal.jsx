@@ -152,7 +152,9 @@ function Terminal({
     minHeight = "min-h-[400px]",
     height = "h-[690px]",
     extras,
-    setTtoggle
+    setTtoggle,
+    guideMode,
+    onGuideDone
 }) {
     const [lines, setLines] = useState([]);
     const [currentLine, setCurrentLine] = useState("");
@@ -163,9 +165,85 @@ function Terminal({
     const [isWaiting, setIsWaiting] = useState(false);
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
+    const [showGuideCursor, setShowGuideCursor] = useState(false);
+    const [guideCursorPos, setGuideCursorPos] = useState({ x: -100, y: -100 });
+    const [guidePulse, setGuidePulse] = useState(false);
+
     const scrollRef = useRef(null);
     const latestLineRef = useRef("");
     const runIdRef = useRef(0);
+    const moreButtonRef = useRef(null);
+    const creditsButtonRef = useRef(null);
+
+    const runCreditsGuide = async () => {
+        const moreEl = moreButtonRef.current;
+        if (!moreEl) return;
+
+        setShowGuideCursor(true);
+        setGuidePulse(false);
+        setIsSidePanelOpen(false);
+
+        setGuideCursorPos({
+            x: window.innerWidth - 1000,
+            y: window.innerHeight - 160,
+        });
+
+        await sleep(900);
+
+        const moreRect = moreEl.getBoundingClientRect();
+        setGuideCursorPos({
+            x: moreRect.left + moreRect.width / 2,
+            y: moreRect.top + moreRect.height / 2,
+        });
+
+        await sleep(900);
+
+        setGuidePulse(false);
+        setIsSidePanelOpen(true);
+
+        await sleep(100);
+        setGuidePulse(false);
+
+        const creditsEl = creditsButtonRef.current;
+        if (creditsEl) {
+            const creditsRect = creditsEl.getBoundingClientRect();
+            setGuideCursorPos({
+                x: creditsRect.left + creditsRect.width / 5,
+                y: creditsRect.top + creditsRect.height / 2,
+            });
+
+            await sleep(1000);
+            setGuidePulse(true);
+
+            await sleep(500);
+            setGuidePulse(false);
+
+            setShowGuideCursor(false);
+            onGuideDone?.();
+
+            while (isRunning) {
+                await sleep(200);
+            }
+            await openCredits();
+        }
+
+        await sleep(500);
+        setShowGuideCursor(false);
+        onGuideDone?.();
+    };
+
+    const guideStartedRef = useRef(false);
+
+    useEffect(() => {
+        if (guideMode === "credits" && !isRunning && !guideStartedRef.current) {
+            guideStartedRef.current = true;
+            runCreditsGuide();
+        }
+
+        if (guideMode !== "credits") {
+            guideStartedRef.current = false;
+        }
+    }, [guideMode, isRunning]);
 
     useEffect(() => {
         latestLineRef.current = currentLine;
@@ -194,68 +272,18 @@ function Terminal({
         setIsRunning(true);
         setIsWaiting(false);
 
-        for (const step of steps) {
-            if (isCancelled(runId)) return false;
+        try {
+            for (const step of steps) {
+                if (isCancelled(runId)) return false;
 
-            switch (step.type) {
-                case "command": {
-                    const text = step.text ?? "";
-                    const speed = step.speed ?? 35;
-                    const stepPrompt = step.prompt ?? prompt;
+                switch (step.type) {
+                    case "command": {
+                        const text = step.text ?? "";
+                        const speed = step.speed ?? 35;
+                        const stepPrompt = step.prompt ?? prompt;
 
-                    setCurrentView("command");
-                    setCurrentLine(`${stepPrompt} `);
-
-                    for (let i = 0; i < text.length; i++) {
-                        if (isCancelled(runId)) return false;
-                        const ch = text[i];
-                        setCurrentLine((prev) => prev + ch);
-                        await sleep(getCharDelay(ch, speed));
-                    }
-
-                    appendLine(`${stepPrompt} ${text}`, "command");
-                    setCurrentLine("");
-                    await sleep(step.enterDelay ?? 80);
-                    break;
-                }
-
-                case "type": {
-                    const text = step.text ?? "";
-                    const speed = step.speed ?? 35;
-                    const withPrompt = step.withPrompt ?? false;
-                    const stepPrompt = step.prompt ?? prompt;
-                    const view = step.view ?? "default";
-
-                    setCurrentView(view);
-                    setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
-
-                    for (let i = 0; i < text.length; i++) {
-                        if (isCancelled(runId)) return false;
-                        const ch = text[i];
-                        setCurrentLine((prev) => prev + ch);
-                        await sleep(getCharDelay(ch, speed));
-                    }
-
-                    if (step.enter !== false) {
-                        appendLine(latestLineRef.current, view);
-                        setCurrentLine("");
-                        await sleep(step.enterDelay ?? 80);
-                    }
-                    break;
-                }
-
-                case "typeChunks": {
-                    const chunks = step.chunks ?? [];
-                    const withPrompt = step.withPrompt ?? false;
-                    const stepPrompt = step.prompt ?? prompt;
-                    const view = step.view ?? "default";
-
-                    setCurrentView(view);
-                    setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
-
-                    for (const chunk of chunks) {
-                        const text = chunk.text ?? "";
-                        const speed = chunk.speed ?? 35;
+                        setCurrentView("command");
+                        setCurrentLine(`${stepPrompt} `);
 
                         for (let i = 0; i < text.length; i++) {
                             if (isCancelled(runId)) return false;
@@ -263,106 +291,158 @@ function Terminal({
                             setCurrentLine((prev) => prev + ch);
                             await sleep(getCharDelay(ch, speed));
                         }
-                    }
 
-                    if (step.enter !== false) {
-                        appendLine(latestLineRef.current, view);
+                        appendLine(`${stepPrompt} ${text}`, "command");
                         setCurrentLine("");
                         await sleep(step.enterDelay ?? 80);
+                        break;
                     }
-                    break;
-                }
 
-                case "append": {
-                    const text = step.text ?? "";
-                    const speed = step.speed ?? 35;
+                    case "type": {
+                        const text = step.text ?? "";
+                        const speed = step.speed ?? 35;
+                        const withPrompt = step.withPrompt ?? false;
+                        const stepPrompt = step.prompt ?? prompt;
+                        const view = step.view ?? "default";
 
-                    for (let i = 0; i < text.length; i++) {
-                        if (isCancelled(runId)) return false;
-                        const ch = text[i];
-                        setCurrentLine((prev) => prev + ch);
-                        await sleep(getCharDelay(ch, speed));
-                    }
-                    break;
-                }
+                        setCurrentView(view);
+                        setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
 
-                case "delete": {
-                    const count = step.count ?? 1;
-                    const speed = step.speed ?? 20;
-
-                    for (let i = 0; i < count; i++) {
-                        if (isCancelled(runId)) return false;
-                        setCurrentLine((prev) => prev.slice(0, -1));
-                        await sleep(speed);
-                    }
-                    break;
-                }
-
-                case "output": {
-                    appendLine(step.text ?? "", step.view ?? "default");
-                    await sleep(step.delay ?? 50);
-                    break;
-                }
-
-                case "multiOutput": {
-                    const outputLines = step.lines ?? [];
-                    const delay = step.delay ?? 50;
-                    const fallbackView = step.view ?? "default";
-
-                    for (const line of outputLines) {
-                        if (isCancelled(runId)) return false;
-
-                        if (typeof line === "string") {
-                            appendLine(line, fallbackView);
-                        } else {
-                            appendLine(line.text ?? "", line.view ?? fallbackView);
+                        for (let i = 0; i < text.length; i++) {
+                            if (isCancelled(runId)) return false;
+                            const ch = text[i];
+                            setCurrentLine((prev) => prev + ch);
+                            await sleep(getCharDelay(ch, speed));
                         }
 
-                        await sleep(delay);
+                        if (step.enter !== false) {
+                            appendLine(latestLineRef.current, view);
+                            setCurrentLine("");
+                            await sleep(step.enterDelay ?? 80);
+                        }
+                        break;
                     }
-                    break;
-                }
 
-                case "cut": {
-                    const marker = step.marker ?? " ^C";
-                    appendLine(`${latestLineRef.current}${marker}`, step.view ?? currentView);
-                    setCurrentLine("");
-                    await sleep(step.delay ?? 120);
-                    break;
-                }
+                    case "typeChunks": {
+                        const chunks = step.chunks ?? [];
+                        const withPrompt = step.withPrompt ?? false;
+                        const stepPrompt = step.prompt ?? prompt;
+                        const view = step.view ?? "default";
 
-                case "clear": {
-                    setLines([]);
-                    setCurrentLine("");
-                    await sleep(step.delay ?? 100);
-                    break;
-                }
+                        setCurrentView(view);
+                        setCurrentLine(withPrompt ? `${stepPrompt} ` : "");
 
-                case "pause": {
-                    await sleep(step.duration ?? 300);
-                    break;
-                }
+                        for (const chunk of chunks) {
+                            const text = chunk.text ?? "";
+                            const speed = chunk.speed ?? 35;
 
-                default:
-                    break;
+                            for (let i = 0; i < text.length; i++) {
+                                if (isCancelled(runId)) return false;
+                                const ch = text[i];
+                                setCurrentLine((prev) => prev + ch);
+                                await sleep(getCharDelay(ch, speed));
+                            }
+                        }
+
+                        if (step.enter !== false) {
+                            appendLine(latestLineRef.current, view);
+                            setCurrentLine("");
+                            await sleep(step.enterDelay ?? 80);
+                        }
+                        break;
+                    }
+
+                    case "append": {
+                        const text = step.text ?? "";
+                        const speed = step.speed ?? 35;
+
+                        for (let i = 0; i < text.length; i++) {
+                            if (isCancelled(runId)) return false;
+                            const ch = text[i];
+                            setCurrentLine((prev) => prev + ch);
+                            await sleep(getCharDelay(ch, speed));
+                        }
+                        break;
+                    }
+
+                    case "delete": {
+                        const count = step.count ?? 1;
+                        const speed = step.speed ?? 20;
+
+                        for (let i = 0; i < count; i++) {
+                            if (isCancelled(runId)) return false;
+                            setCurrentLine((prev) => prev.slice(0, -1));
+                            await sleep(speed);
+                        }
+                        break;
+                    }
+
+                    case "output": {
+                        appendLine(step.text ?? "", step.view ?? "default");
+                        await sleep(step.delay ?? 50);
+                        break;
+                    }
+
+                    case "multiOutput": {
+                        const outputLines = step.lines ?? [];
+                        const delay = step.delay ?? 50;
+                        const fallbackView = step.view ?? "default";
+
+                        for (const line of outputLines) {
+                            if (isCancelled(runId)) return false;
+
+                            if (typeof line === "string") {
+                                appendLine(line, fallbackView);
+                            } else {
+                                appendLine(line.text ?? "", line.view ?? fallbackView);
+                            }
+
+                            await sleep(delay);
+                        }
+                        break;
+                    }
+
+                    case "cut": {
+                        appendLine(`${latestLineRef.current}${step.marker ?? " ^C"}`, step.view ?? currentView);
+                        setCurrentLine("");
+                        await sleep(step.delay ?? 120);
+                        break;
+                    }
+
+                    case "clear": {
+                        setLines([]);
+                        setCurrentLine("");
+                        await sleep(step.delay ?? 100);
+                        break;
+                    }
+
+                    case "pause": {
+                        await sleep(step.duration ?? 300);
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
             }
+
+            if (options.waitAtEnd) {
+                setIsWaiting(true);
+            }
+
+            return true;
+        } finally {
+            setIsRunning(false);
         }
-
-        if (isCancelled(runId)) return false;
-
-        setIsRunning(false);
-
-        if (options.waitAtEnd) {
-            setIsWaiting(true);
-        }
-
-        return true;
     };
 
     const openCredits = async () => {
-        if (isRunning) return;
-
+        runIdRef.current += 1;
+        setIsWaiting(false);
+        setCurrentLine("");
         setIsSidePanelOpen(false);
+
+        await sleep(20);
 
         await runSteps(
             [
@@ -372,9 +452,12 @@ function Terminal({
             { waitAtEnd: false }
         );
 
-        await runSteps(Credits, { waitAtEnd: false });
-    };
+        const completed = await runSteps(Credits, { waitAtEnd: false });
 
+        if (completed && phase === "intro") {
+            setIsWaiting(true);
+        }
+    };
 
     const replayAll = async () => {
         runIdRef.current += 1;
@@ -388,23 +471,21 @@ function Terminal({
     };
 
     const continueFromIntro = async () => {
-        if (isRunning || !isWaiting || phase !== "intro") return;
+        if (isRunning || phase !== "intro") return;
 
+        setIsWaiting(false);
         setPhase("website");
         await runSteps(websiteSteps, { waitAtEnd: false });
     };
 
-    const skipIntro = async () => {
-        if (phase !== "intro") return;
-
+    const clearAll = async () => {
         runIdRef.current += 1;
         setIsRunning(false);
         setIsWaiting(false);
         setCurrentLine("");
+        setIsSidePanelOpen(false);
 
         await sleep(20);
-
-        setPhase("website");
 
         await runSteps(
             [
@@ -425,8 +506,6 @@ function Terminal({
             ],
             { waitAtEnd: false }
         );
-
-        await runSteps(websiteSteps, { waitAtEnd: false });
     };
 
     useEffect(() => {
@@ -438,31 +517,56 @@ function Terminal({
         <div
             className={`relative rounded-xl shadow-[5px_5px_25px_rgba(255,255,255,0.18)] bg-white/5 w-full border border-white/10 mt-5 ${minHeight} ${height} flex flex-col overflow-hidden`}
         >
+            {showGuideCursor && (
+                <>
+                    <div
+                        className="pointer-events-none fixed z-9999 h-4 w-4 rounded-full border-2 border-white bg-white/20 transition-all duration-700 ease-in-out"
+                        style={{
+                            left: guideCursorPos.x,
+                            top: guideCursorPos.y,
+                            transform: "translate(-50%, -50%)",
+                        }}
+                    />
+                    {guidePulse && (
+                        <div
+                            className="pointer-events-none fixed z-9998 h-10 w-10 rounded-full border border-cyan-300 animate-ping"
+                            style={{
+                                left: guideCursorPos.x,
+                                top: guideCursorPos.y,
+                                transform: "translate(-50%, -50%)",
+                            }}
+                        />
+                    )}
+                </>
+            )}
             <div
-                className="absolute right-0 top-35 z-20 -translate-y-1/2"
+                className="absolute right-0 top-35 z-20"
                 onMouseEnter={() => setIsSidePanelOpen(true)}
                 onMouseLeave={() => setIsSidePanelOpen(false)}
             >
                 <div className="flex items-center">
                     <button
+                        ref={moreButtonRef}
                         type="button"
                         onClick={() => setIsSidePanelOpen((prev) => !prev)}
-                        className="rounded-l-md border border-r-0 border-cyan-500/20 bg-black/70 px-2 py-3 text-xs uppercase tracking-widest text-cyan-300"
+                        className="rounded-l-md border border-r-0 border-cyan-500/20 bg-cyan-500/5 px-2 py-1 font-mono text-sm text-cyan-300 leading-none hover:bg-cyan-500/10"
                     >
-                        More
+                        more
                     </button>
 
                     <div
-                        className={`overflow-hidden border border-white/10 bg-black/85 backdrop-blur-sm transition-all duration-200 ${isSidePanelOpen
-                            ? "w-40 opacity-100"
-                            : "w-0 opacity-0"
-                            }`}
+                        className={`overflow-hidden border border-white/10 bg-black/85 transition-[width,opacity] duration-200
+                          rounded-s-3xl
+                          ${isSidePanelOpen ? "w-40 opacity-100" : "w-0 opacity-0"}
+                        `}
                     >
                         <div className="flex flex-col gap-2 p-2 font-mono text-sm">
                             <button
+                                ref={creditsButtonRef}
                                 onClick={openCredits}
-                                disabled={isRunning}
-                                className="rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                                className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-yellow-300 hover:bg-cyan-500/10
+                                  ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}
+                                `}
                             >
                                 credits
                             </button>
@@ -470,7 +574,9 @@ function Terminal({
                             <button
                                 onClick={replayAll}
                                 disabled={isRunning}
-                                className="rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                                className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10
+                                  ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}
+                                `}
                             >
                                 replay
                             </button>
@@ -527,16 +633,16 @@ function Terminal({
                         <>
                             <button
                                 onClick={continueFromIntro}
-                                disabled={!isWaiting || isRunning}
-                                className="rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled={isRunning}
+                                className={`rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}`}
                             >
                                 continue
                             </button>
 
                             <button
-                                onClick={skipIntro}
-                                disabled={phase !== "intro"}
-                                className="rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                                onClick={clearAll}
+                                disabled={isRunning}
+                                className={`rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}`}
                             >
                                 clear all
                             </button>
