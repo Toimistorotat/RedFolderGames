@@ -575,7 +575,7 @@ function Terminal({
                                 ref={creditsButtonRef}
                                 onClick={openCredits}
                                 className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-yellow-300 hover:bg-cyan-500/10
-                                  ${isRunning ? "" : "cursor-pointer"}
+                                  ${isRunning ? "cursor-pointer" : "cursor-pointer"}
                                 `}
                             >
                                 credits
