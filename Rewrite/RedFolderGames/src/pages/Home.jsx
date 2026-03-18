@@ -89,6 +89,7 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
             4. Rewrite the whole Typewriter component to be more dynamic and have option for it to cut off and start another while looking like a actual terminal.
             5. add hidden konamicode to unlock the terminals input system
             6. oh and fix the issues with tailwindcss as the extension keeps crying about some could be done this ways
+            7. fix the calc for once and for all
             four Mostly done
             One Done
             six done

@@ -19,12 +19,12 @@ export default function Header() {
             className={`glowborder p-3 flex justify-between items-center
             ${isTTS ? "fixed top-0 left-0 right-0 z-50 mx-5 mt-5" : "m-5"}`}
         >
-            <a
+            <button
                 className="text-2xl text-red-500 cursor-pointer"
                 onClick={() => navigate("/RedFolderGames/")}
             >
                 RedFolderGames
-            </a>
+            </button>
 
             {isTTS && (
                 <div className="absolute left-1/2 -translate-x-1/2 flex gap-3">
@@ -42,7 +42,3 @@ export default function Header() {
         </nav>
     );
 }
-
-/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span className="navbar-toggler-icon"></span>
-                </button> */

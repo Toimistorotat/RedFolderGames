@@ -31,6 +31,121 @@ function getLineClass(view) {
     }
 }
 
+const randomUser = (() => {
+    if (typeof window === "undefined" || typeof sessionStorage === "undefined") {
+        return "user0000@redfolder";
+    }
+
+    const stored = sessionStorage.getItem("rf-user");
+    if (stored) return stored;
+
+    const id = `user${Math.floor(1000 + Math.random() * 9000)}@redfolder`;
+    sessionStorage.setItem("rf-user", id);
+    return id;
+})();
+
+const introSteps = [
+    { type: "command", text: "cd /RedFolderGames", speed: 55 },
+    { type: "command", text: "run terminal-intro", speed: 40 },
+
+    {
+        type: "multiOutput",
+        delay: 160,
+        lines: [
+            { text: "[status] loading 10%...", view: "loading" },
+            { text: "[status] loading 20%...", view: "loading" },
+            { text: "[status] loading 35%...", view: "loading" },
+            { text: "[status] loading 48%...", view: "loading" },
+            { text: "[status] loading 62%...", view: "loading" },
+            { text: "[status] loading 80%...", view: "loading" },
+            { text: "[status] loading 100%...", view: "loading" },
+            { text: "", view: "loading" },
+        ],
+    },
+
+    { type: "command", text: "whoami", speed: 60 },
+    { type: "output", text: randomUser, view: "system", delay: 200 },
+
+    { type: "pause", duration: 5000 },
+
+    { type: "command", text: "clear", speed: 40 },
+    { type: "clear" },
+
+    { type: "command", text: "cat self-introduction.txt", speed: 38 },
+
+
+    { type: "type", text: "Hello, I am RedKing.", view: "story", speed: 80 },
+    { type: "type", text: "I'm a game fanatic and I love playing video games.", view: "story", speed: 80 },
+    { type: "pause", duration: 300 },
+
+    { type: "type", text: "I love how games can bring another world,", view: "story", speed: 85 },
+    { type: "type", text: "another challenge,", view: "story", speed: 85 },
+    { type: "type", text: "another perspective on the world — and yourself.", view: "story", speed: 85 },
+    { type: "pause", duration: 300 },
+
+    { type: "type", text: "You can play alone.", view: "story", speed: 80 },
+    { type: "type", text: "You can play with friends.", view: "story", speed: 80 },
+    { type: "type", text: "You can meet new people.", view: "story", speed: 80 },
+    { type: "pause", duration: 300 },
+
+    { type: "type", text: "Of course, games are not everything.", view: "story", speed: 85 },
+    { type: "type", text: "But who decides games are bad for you?", view: "story", speed: 85 },
+    { type: "type", text: "Probably someone who never played them.", view: "story", speed: 85 },
+    { type: "pause", duration: 300 },
+
+    { type: "type", text: "If you enjoy a game, keep playing.", view: "story", speed: 80 },
+    { type: "type", text: "If you don't, find another one.", view: "story", speed: 80 },
+    { type: "pause", duration: 250 },
+
+    { type: "type", text: "But video games… they are special.", view: "story", speed: 90 },
+
+    { type: "pause", duration: 300 },
+];
+
+const websiteSteps = [
+    { type: "command", text: "cat website-description.txt", speed: 38 },
+
+    {
+        type: "multiOutput",
+        delay: 150,
+        lines: [
+            { text: "This website is a place for game ideas, concepts and weird experiments.", view: "story" },
+            { text: "Some pages are unfinished on purpose.", view: "story" },
+            { text: "Some hidden bits are there just for fun.", view: "story" },
+            { text: "", view: "story" },
+            { text: "Use the site to explore ideas, not just read static info.", view: "story" },
+            { text: "A few pages may cut off, change, or lead somewhere unexpected.", view: "story" },
+            { text: "", view: "story" },
+            { text: "Welcome to the terminal side of the website.", view: "system" },
+        ],
+    },
+];
+
+const Credits = [
+    { type: "command", text: "cat website-credits.txt", speed: 38 },
+    {
+        type: "multiOutput",
+        delay: 500,
+        lines: [
+            { text: "Big thanks to Toostiainen for the great feedback and ideas.", view: "story" },
+            { text: "Suggestions like adding credits and improving folder structure helped a lot.", view: "story" },
+            { text: "Genuinely a great guy to work with.", view: "story" },
+            { text: "", view: "story" },
+
+            { text: "Thanks to my friends for testing, ideas, and general support during this project.", view: "story" },
+            { text: "", view: "story" },
+
+            { text: "Built with:", view: "system" },
+            { text: "• React (Frontend) – https://react.dev/", view: "system" },
+            { text: "• Tailwind CSS (Styling) – https://tailwindcss.com/", view: "system" },
+            { text: "• PHP (Backend)", view: "system" },
+            { text: "", view: "system" },
+
+            { text: "Appreciation to the creators and open-source community behind these tools.", view: "system" },
+        ],
+    },
+];
+
 function Terminal({
     title = "terminal",
     prompt = DEFAULT_PROMPT,
@@ -259,116 +374,7 @@ function Terminal({
 
         await runSteps(Credits, { waitAtEnd: false });
     };
-    const randomUser =
-        sessionStorage.getItem("rf-user") ||
-        (() => {
-            const id = `user${Math.floor(1000 + Math.random() * 9000)}@redfolder`;
-            sessionStorage.setItem("rf-user", id);
-            return id;
-        })();
 
-    const introSteps = [
-        { type: "command", text: "cd /RedFolderGames", speed: 55 },
-        { type: "command", text: "run terminal-intro", speed: 40 },
-
-        {
-            type: "multiOutput",
-            delay: 160,
-            lines: [
-                { text: "[status] loading 10%...", view: "loading" },
-                { text: "[status] loading 20%...", view: "loading" },
-                { text: "[status] loading 35%...", view: "loading" },
-                { text: "[status] loading 48%...", view: "loading" },
-                { text: "[status] loading 62%...", view: "loading" },
-                { text: "[status] loading 80%...", view: "loading" },
-                { text: "[status] loading 100%...", view: "loading" },
-                { text: "", view: "loading" },
-            ],
-        },
-
-        { type: "command", text: "whoami", speed: 60 },
-        { type: "output", text: randomUser, view: "system", delay: 200 },
-
-        { type: "pause", duration: 5000 },
-
-        { type: "command", text: "clear", speed: 40 },
-        { type: "clear" },
-
-        { type: "command", text: "cat self-introduction.txt", speed: 38 },
-
-
-        { type: "type", text: "Hello, I am RedKing.", view: "story", speed: 80 },
-        { type: "type", text: "I'm a game fanatic and I love playing video games.", view: "story", speed: 80 },
-        { type: "pause", duration: 300 },
-
-        { type: "type", text: "I love how games can bring another world,", view: "story", speed: 85 },
-        { type: "type", text: "another challenge,", view: "story", speed: 85 },
-        { type: "type", text: "another perspective on the world — and yourself.", view: "story", speed: 85 },
-        { type: "pause", duration: 300 },
-
-        { type: "type", text: "You can play alone.", view: "story", speed: 80 },
-        { type: "type", text: "You can play with friends.", view: "story", speed: 80 },
-        { type: "type", text: "You can meet new people.", view: "story", speed: 80 },
-        { type: "pause", duration: 300 },
-
-        { type: "type", text: "Of course, games are not everything.", view: "story", speed: 85 },
-        { type: "type", text: "But who decides games are bad for you?", view: "story", speed: 85 },
-        { type: "type", text: "Probably someone who never played them.", view: "story", speed: 85 },
-        { type: "pause", duration: 300 },
-
-        { type: "type", text: "If you enjoy a game, keep playing.", view: "story", speed: 80 },
-        { type: "type", text: "If you don't, find another one.", view: "story", speed: 80 },
-        { type: "pause", duration: 250 },
-
-        { type: "type", text: "But video games… they are special.", view: "story", speed: 90 },
-
-        { type: "pause", duration: 300 },
-    ];
-
-    const websiteSteps = [
-        { type: "command", text: "cat website-description.txt", speed: 38 },
-
-        {
-            type: "multiOutput",
-            delay: 150,
-            lines: [
-                { text: "This website is a place for game ideas, concepts and weird experiments.", view: "story" },
-                { text: "Some pages are unfinished on purpose.", view: "story" },
-                { text: "Some hidden bits are there just for fun.", view: "story" },
-                { text: "", view: "story" },
-                { text: "Use the site to explore ideas, not just read static info.", view: "story" },
-                { text: "A few pages may cut off, change, or lead somewhere unexpected.", view: "story" },
-                { text: "", view: "story" },
-                { text: "Welcome to the terminal side of the website.", view: "system" },
-            ],
-        },
-    ];
-
-    const Credits = [
-        { type: "command", text: "cat webstie-credits.txt", speed: 38 },
-
-        {
-            type: "multiOutput",
-            delay: 500,
-            lines: [
-                { text: "Big thanks to Toostiainen for the great feedback and ideas.", view: "story" },
-                { text: "Suggestions like adding credits and improving folder structure helped a lot.", view: "story" },
-                { text: "Genuinely a great guy to work with.", view: "story" },
-                { text: "", view: "story" },
-
-                { text: "Thanks to my friends for testing, ideas, and general support during this project.", view: "story" },
-                { text: "", view: "story" },
-
-                { text: "Built with:", view: "system" },
-                { text: "• React (Frontend) – https://react.dev/", view: "system" },
-                { text: "• Tailwind CSS (Styling) – https://tailwindcss.com/", view: "system" },
-                { text: "• PHP (Backend)", view: "system" },
-                { text: "", view: "system" },
-
-                { text: "Appreciation to the creators and open-source community behind these tools.", view: "system" },
-            ],
-        },
-    ];
 
     const replayAll = async () => {
         runIdRef.current += 1;
@@ -452,7 +458,7 @@ function Terminal({
                             : "w-0 opacity-0"
                             }`}
                     >
-                        <div className="flex flex-col p-2 font-mono text-sm">
+                        <div className="flex flex-col gap-2 p-2 font-mono text-sm">
                             <button
                                 onClick={openCredits}
                                 disabled={isRunning}
