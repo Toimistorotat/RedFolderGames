@@ -161,7 +161,7 @@ function Terminal({
     const [currentView, setCurrentView] = useState("command");
 
     const [phase, setPhase] = useState("intro");
-    const [isRunning, setIsRunning] = useState(false);
+    const [isRunning, setIsRunning] = useState(true);
     const [isWaiting, setIsWaiting] = useState(false);
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
@@ -177,7 +177,16 @@ function Terminal({
 
     const guideStartedRef = useRef(false);
 
+    useEffect(() => {
+        setIsRunning(true);
 
+        const timeout = setTimeout(() => {
+            // let runSteps control it after a moment
+            setIsRunning(false);
+        }, 300); // tweak (200–500ms feels good)
+
+        return () => clearTimeout(timeout);
+    }, []);
 
     useEffect(() => {
         latestLineRef.current = currentLine;
@@ -447,9 +456,6 @@ function Terminal({
                         onGuideDone?.();
                     }
 
-                    while (isRunning) {
-                        await sleep(200);
-                    }
                     await openCredits();
                 }
 
@@ -471,7 +477,6 @@ function Terminal({
         runIdRef.current += 1;
         setPhase("intro");
         setIsWaiting(false);
-        setIsRunning(false);
         setLines([]);
         setCurrentLine("");
         await sleep(20);
@@ -488,7 +493,6 @@ function Terminal({
 
     const clearAll = async () => {
         runIdRef.current += 1;
-        setIsRunning(false);
         setIsWaiting(false);
         setCurrentLine("");
         setIsSidePanelOpen(false);
