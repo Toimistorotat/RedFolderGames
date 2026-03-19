@@ -846,7 +846,6 @@ function Terminal({
 
     async function loadLatestChangelogLines() {
         try {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
             const data = await res.json();
 
