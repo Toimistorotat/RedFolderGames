@@ -1,6 +1,11 @@
 {
-  "latest": "log2.md",
+  "latest": "log3.md",
   "logs": [
+    {
+        "file": "log3.md",
+        "title": "Update Log (Terminal Changes)",
+        "date": "2026-03-19"
+    },
     {
       "file": "log2.md",
       "title": "Update Log (18-3)",

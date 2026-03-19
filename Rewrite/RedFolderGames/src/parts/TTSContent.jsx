@@ -18,7 +18,8 @@ function TTSContent() {
             You command a four-person team — yourself and three AI operatives — and carry out missions in a city that never resets.
             Fail a mission? It stays failed. Blow up a radio tower? It stays destroyed.
             Every bullet, every body, every victory — it all Stays.
-            all reinforce morale.        </section>
+          </p>
+        </section>
       </div>
       <div className="cube right">
         <section id="features">

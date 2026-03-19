@@ -111,6 +111,8 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
 
             7. fix the calc for once and for all (Not Important)
             8. Change the pin look and fuction a bit
+            9. Improve the Nav Menu in TTS
+            10. Improve Changelogs readability and Looks
             four done
             One Done
             six done
