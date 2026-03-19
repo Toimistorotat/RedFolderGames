@@ -5,7 +5,7 @@
 ## Changes
 - Reworked **changelog system**
   - Moved from hardcoded markdown → file-based logs
-  - Logs now loaded dynamically instead of being inside JSX :contentReference[oaicite:0]{index=0}
+  - Logs now loaded dynamically instead of being inside JSX
 
 - **Terminal flow redesigned**
   - Now behaves like a real boot/session instead of a scripted sequence
@@ -14,7 +14,7 @@
     - navigation to `/RedFolderGames`
     - file listing (`ls`)
     - execution of `terminal-intro.exe`
-  - Outputs are now correctly rendered as **output**, not commands :contentReference[oaicite:1]{index=1}
+  - Outputs are now correctly rendered as **output**, not commands
 
 ---
 
@@ -22,7 +22,7 @@
 - **File-based changelog system**
   - Each log is now its own `.md` file
   - Added `logs.json` as index / metadata system
-  - Supports multiple logs and latest selection :contentReference[oaicite:2]{index=2}
+  - Supports multiple logs and latest selection
 
 - **Dynamic log loading**
   - Fetches logs using `import.meta.env.BASE_URL`
@@ -34,19 +34,21 @@
 - **Mermaid diagram support**
   - Diagrams render directly inside markdown
 
----
-
 - **Terminal unlock system**
   - Input locked during intro
   - Unlocks after reaching:
     - `type 'help' to explore available commands`
   - Requires hidden help sequence
-  - Makes interaction feel intentional :contentReference[oaicite:3]{index=3}
+  - Makes interaction feel intentional
 
 - **Interactive terminal mode**
   - Typing, Backspace, Enter support
   - Command system:
-    - `help`, `credits`, `changelog`, `replay`, `clear`
+    - `help`
+    - `credits`
+    - `changelog`
+    - `replay`
+    - `clear`
   - Unknown commands → `command not found`
 
 - **Command-driven content**
@@ -55,12 +57,10 @@
   - `replay` → restart intro
   - `clear` → wipe terminal
 
----
-
 - **Hidden diagnostic system**
   - Secret command-triggered system scan
   - Starts normal → escalates → becomes corrupted
-  - Ends in forced termination / connection lost :contentReference[oaicite:4]{index=4}
+  - Ends in forced termination / connection lost
 
 - **Secret trigger integration**
   - Konami-style sequence unlocks hidden behavior
@@ -76,12 +76,10 @@
 - **Mermaid rendering**
   - Switched `LR` → `TB`
   - Fixed scaling and readability issues
-  - Cleaner spacing and layout :contentReference[oaicite:5]{index=5}
+  - Cleaner spacing and layout
 
 - **Diagram clarity**
   - Layout fixed through structure, not CSS hacks
-
----
 
 - **Terminal state system**
   - Added:
@@ -89,12 +87,14 @@
     - `awaitingHelpUnlock`
     - `terminalInput`
     - `inputActive`
-  - Clear separation between intro / unlock / interactive :contentReference[oaicite:6]{index=6}
+  - Clear separation between intro / unlock / interactive
 
 - **Keyboard handling**
   - No longer hijacks global input
   - Ignores:
-    - `<input>`, `<textarea>`, `contenteditable`
+    - `<input>`
+    - `<textarea>`
+    - `contenteditable`
   - Added `Ctrl + C` to cancel input
 
 - **UI / UX**
@@ -106,12 +106,10 @@
   - Replay & clear fully reset state
   - Prevents hidden state leaks
 
----
-
 - **Progressive output simulation**
   - Staged checks and processing
   - Uneven delays + progressive dots
-  - Recovery attempts before failure :contentReference[oaicite:7]{index=7}
+  - Recovery attempts before failure
 
 - **Diagnostic pacing**
   - Built using `runSteps`
@@ -125,19 +123,19 @@
   - corrupted text
   - system logs (`[log_00X]`)
   - direct user acknowledgment
-- Creates subtle fourth-wall break :contentReference[oaicite:8]{index=8}
+- Creates subtle fourth-wall break
 
 ---
 
 ## Fixes
 - Fixed **GitHub Pages fetch paths**
-- Fixed **Mermaid sizing issues** :contentReference[oaicite:9]{index=9}
+- Fixed **Mermaid sizing issues**
 
 - Fixed terminal issues:
   - variable initialization bugs
   - incorrect refs
   - misplaced event checks
-  - duplicate listeners :contentReference[oaicite:10]{index=10}
+  - duplicate listeners
 
 - Fixed global input capture issues
 
@@ -146,7 +144,7 @@
 ## Known / Pending
 - `about` command not implemented yet
   - currently returns `command not found`
-  - planned to reuse intro content :contentReference[oaicite:11]{index=11}
+  - planned to reuse intro content
 
 ---
 

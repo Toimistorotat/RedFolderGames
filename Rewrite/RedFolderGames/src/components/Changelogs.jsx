@@ -108,6 +108,7 @@ export default function ChangelogPage() {
             setCurrentFile(file);
 
             const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const text = await res.text();
 
             setContent(text);
