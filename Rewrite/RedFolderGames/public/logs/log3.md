@@ -1,4 +1,4 @@
-# RedFolderGames — Update Log (19-3)
+# RedFolderGames — Update Log (Terminal Changes)
 
 ---
 
