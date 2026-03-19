@@ -45,31 +45,36 @@ const randomUser = (() => {
 })();
 
 const introSteps = [
-    { type: "command", text: "cd /RedFolderGames", speed: 55 },
-    { type: "command", text: "run terminal-intro", speed: 40 },
+    { type: "command", text: "booting RedFolderGames terminal...", speed: 80 },
+    { type: "command", text: "initializing modules...", speed: 80 },
+    { type: "command", text: "loading filesystem...", speed: 80 },
+    { type: "command", text: "mounting /home...", speed: 80 },
+    { type: "command", text: "starting services...", speed: 80 },
 
-    {
-        type: "multiOutput",
-        delay: 160,
-        lines: [
-            { text: "[status] loading 10%...", view: "loading" },
-            { text: "[status] loading 20%...", view: "loading" },
-            { text: "[status] loading 35%...", view: "loading" },
-            { text: "[status] loading 48%...", view: "loading" },
-            { text: "[status] loading 62%...", view: "loading" },
-            { text: "[status] loading 80%...", view: "loading" },
-            { text: "[status] loading 100%...", view: "loading" },
-            { text: "", view: "loading" },
-        ],
-    },
+    { type: "command", text: "login: guest", speed: 100 },
+    { type: "command", text: "authenticating...", speed: 100 },
+    { type: "output", text: "access granted", speed: 50, delay: 300 },
 
-    { type: "command", text: "whoami", speed: 60 },
+    { type: "command", text: "whoami", speed: 120 },
     { type: "output", text: randomUser, view: "system", delay: 200 },
+    { type: "pause", duration: 500 },
 
-    { type: "pause", duration: 5000 },
+    { type: "command", text: "pwd", speed: 120 },
+    { type: "output", text: "/home/guest", speed: 40 },
 
-    { type: "command", text: "clear", speed: 40 },
-    { type: "clear" },
+    { type: "command", text: "cd /RedFolderGames", speed: 100 },
+    { type: "command", text: "ls", speed: 100 },
+    { type: "output", text: "terminal-intro.exe", speed: 120 },
+    { type: "output", text: "about.txt", speed: 120 },
+    { type: "output", text: "credits.txt", speed: 120 },
+    { type: "output", text: "changelog.txt", speed: 120 },
+
+    { type: "command", text: "run terminal-intro.exe", speed: 80 },
+
+    { type: "output", text: "initializing experience...", speed: 140 },
+    { type: "output", text: "loading assets...", speed: 140 },
+    { type: "output", text: "preparing interface...", speed: 140 },
+    { type: "output", text: "system ready.", speed: 120 },
 
     { type: "command", text: "cat self-introduction.txt", speed: 38 },
 
@@ -100,7 +105,34 @@ const introSteps = [
     { type: "type", text: "But video games… they are special.", view: "story", speed: 90 },
 
     { type: "pause", duration: 300 },
+
+    { type: "command", text: "type 'help' to explore available commands.", speed: 180 },
 ];
+
+const aboutme = [
+    { type: "command", text: "cat self-introduction.txt", speed: 38 },
+
+    {
+        type: "multiOutput",
+        delay: 150,
+        lines: [
+            { text: "Hello, I am RedKing.", view: "story" },
+            { text: "I'm a game fanatic and I love playing video games.", view: "story" },
+            { text: "I love how games can bring another world,", view: "story" },
+            { text: "another challenge,", view: "story" },
+            { text: "another perspective on the world — and yourself.", view: "story" },
+            { text: "You can play alone.", view: "story" },
+            { text: "You can play with friends.", view: "story" },
+            { text: "You can meet new people.", view: "story" },
+            { text: "Of course, games are not everything.", view: "story" },
+            { text: "But who decides games are bad for you?", view: "story" },
+            { text: "Probably someone who never played them.", view: "story" },
+            { text: "If you enjoy a game, keep playing.", view: "story" },
+            { text: "If you don't, find another one.", view: "story" },
+            { text: "But video games… they are special.", view: "story" },
+        ],
+    },
+]
 
 const websiteSteps = [
     { type: "command", text: "cat website-description.txt", speed: 38 },
@@ -146,6 +178,124 @@ const Credits = [
     },
 ];
 
+const secret = [
+    { type: "command", text: "run diagnostics", speed: 35 },
+
+    { type: "output", text: "initializing diagnostic module", view: "system" },
+    { type: "pause", duration: 400 },
+    { type: "output", text: "loading baseline checks", view: "muted" },
+    { type: "pause", duration: 500 },
+    { type: "output", text: "establishing local scan context", view: "muted" },
+    { type: "pause", duration: 700 },
+    { type: "output", text: "ready", view: "system" },
+
+    { type: "pause", duration: 500 },
+
+    { type: "output", text: "checking terminal state", view: "system" },
+    { type: "pause", duration: 250 },
+    { type: "output", text: ".", view: "system" },
+    { type: "pause", duration: 250 },
+    { type: "output", text: "..", view: "system" },
+    { type: "pause", duration: 300 },
+    { type: "output", text: "...", view: "system" },
+    { type: "pause", duration: 500 },
+    { type: "output", text: "ok", view: "muted" },
+
+    { type: "pause", duration: 450 },
+
+    { type: "output", text: "checking mounted paths", view: "system" },
+    { type: "pause", duration: 300 },
+    { type: "output", text: "resolving /home", view: "muted" },
+    { type: "pause", duration: 400 },
+    { type: "output", text: "resolving /RedFolderGames", view: "muted" },
+    { type: "pause", duration: 450 },
+    { type: "output", text: "verifying mapped entries", view: "muted" },
+    { type: "pause", duration: 650 },
+    { type: "output", text: "ok", view: "muted" },
+
+    { type: "pause", duration: 500 },
+
+    { type: "output", text: "checking session cache", view: "system" },
+    { type: "pause", duration: 350 },
+    { type: "output", text: "reading temporary state", view: "muted" },
+    { type: "pause", duration: 500 },
+    { type: "output", text: "comparing previous session hash", view: "muted" },
+    { type: "pause", duration: 650 },
+    { type: "output", text: "rechecking cache integrity", view: "muted" },
+    { type: "pause", duration: 900 },
+
+    { type: "output", text: "warning", view: "error" },
+    { type: "pause", duration: 350 },
+    { type: "output", text: "cache signature mismatch", view: "error" },
+    { type: "pause", duration: 450 },
+    { type: "output", text: "unexpected entry found", view: "error" },
+
+    { type: "pause", duration: 700 },
+
+    { type: "output", text: "attempting recovery", view: "system" },
+    { type: "pause", duration: 400 },
+    { type: "output", text: "isolating damaged entry", view: "muted" },
+    { type: "pause", duration: 500 },
+    { type: "output", text: "restoring fallback state", view: "muted" },
+    { type: "pause", duration: 650 },
+    { type: "output", text: "retrying read operation", view: "muted" },
+    { type: "pause", duration: 850 },
+
+    { type: "output", text: "accessing hidden logs", view: "system" },
+    { type: "pause", duration: 600 },
+    { type: "output", text: "cross-checking permission layer", view: "muted" },
+    { type: "pause", duration: 500 },
+    { type: "output", text: "permission override detected", view: "error" },
+    { type: "pause", duration: 600 },
+
+    { type: "output", text: "reading file", view: "muted" },
+    { type: "pause", duration: 250 },
+    { type: "output", text: ".", view: "muted" },
+    { type: "pause", duration: 250 },
+    { type: "output", text: "..", view: "muted" },
+    { type: "pause", duration: 300 },
+    { type: "output", text: "...", view: "muted" },
+    { type: "pause", duration: 800 },
+
+    { type: "output", text: "file integrity unstable", view: "error" },
+    { type: "pause", duration: 500 },
+
+    {
+        type: "multiOutput",
+        delay: 140,
+        lines: [
+            { text: "[log_001] user accessed terminal", view: "muted" },
+            { text: "[log_002] interaction recorded", view: "muted" },
+
+            { text: "[log_003] p̴a̴t̴t̴e̴r̴n̴ ̴r̴e̴c̴o̴g̴n̴i̴t̴i̴o̴n̴...", view: "system" },
+
+            { text: "", view: "default" },
+
+            { text: "[log_004] anomaly detected", view: "error" },
+            { text: "[log_005] a̷n̷o̷m̷a̷l̷y̷ ̷c̷o̷n̷f̷i̷r̷m̷e̷d̷", view: "error" },
+
+            { text: "", view: "default" },
+
+            { text: "[log_006] user is still here", view: "system" },
+            { text: "[log_007] o̴b̴s̴e̴r̴v̴i̴n̴g̴...", view: "system" },
+
+            { text: "", view: "default" },
+
+            { text: "you weren't supposed to see this", view: "story" },
+
+            { text: "y̶o̶u̶ ̶a̶r̶e̶ ̶s̶t̶i̶l̶l̶ ̶h̶e̶r̶e̶", view: "error" },
+
+            { text: "", view: "default" },
+
+            { text: "[log_008] hiding trace...", view: "muted" },
+        ],
+    },
+
+    { type: "pause", duration: 600 },
+
+    { type: "output", text: "c̴o̴n̴n̴e̴c̴t̴i̴o̴n̴ ̴l̴o̴s̴t̴.", view: "error" },
+];
+
 function Terminal({
     title = "terminal",
     prompt = DEFAULT_PROMPT,
@@ -177,6 +327,8 @@ function Terminal({
 
     const guideStartedRef = useRef(false);
 
+    const [terminalInput, setTerminalInput] = useState("");
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             // let runSteps control it after a moment
@@ -195,6 +347,199 @@ function Terminal({
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [lines, currentLine, isWaiting, isRunning]);
+
+    const helpSequence = useRef(["h", "e", "l", "p"]);
+    const helpIndex = useRef(0);
+    const [inputUnlocked, setInputUnlocked] = useState(false);
+    const [inputActive, setInputActive] = useState(true);
+
+    const [awaitingHelpUnlock, setAwaitingHelpUnlock] = useState(false);
+    const helpPromptText = `${prompt} type 'help' to explore available commands.`;
+
+    const arrowMap = {
+        ArrowLeft: "←",
+        ArrowUp: "↑",
+        ArrowRight: "→",
+        ArrowDown: "↓",
+    };
+
+    const canListenForHelp =
+        phase === "intro" &&
+        !isRunning &&
+        isWaiting &&
+        awaitingHelpUnlock;
+
+    const isTypingIntoRealInput = (target) => {
+        if (!target) return false;
+
+        const tag = target.tagName;
+        return (
+            tag === "INPUT" ||
+            tag === "TEXTAREA" ||
+            target.isContentEditable
+        );
+    };
+
+    useEffect(() => {
+        if (!canListenForHelp || inputUnlocked) {
+            helpIndex.current = 0;
+            return;
+        }
+
+        const handleKey = (e) => {
+            const key = e.key.toLowerCase();
+            const expected = helpSequence.current[helpIndex.current];
+
+            if (key === expected) {
+                helpIndex.current += 1;
+
+                if (helpIndex.current === helpSequence.current.length) {
+                    helpIndex.current = 0;
+
+                    appendLine("> help", "command");
+                    appendLine("available commands:", "muted");
+                    appendLine("about", "system");
+                    appendLine("credits", "system");
+                    appendLine("changelog", "system");
+                    appendLine("replay", "system");
+                    appendLine("clear", "system");
+                    appendLine("", "default");
+                    appendLine("stand by.", "system");
+
+                    setInputUnlocked(true);
+                    setAwaitingHelpUnlock(false);
+                }
+
+                return;
+            }
+
+            helpIndex.current = key === "h" ? 1 : 0;
+        };
+
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [canListenForHelp, inputUnlocked]);
+
+    useEffect(() => {
+        if (!inputUnlocked || isRunning) return;
+
+        const handleTerminalInput = async (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            if (isTypingIntoRealInput(e.target)) return;
+
+            if (arrowMap[e.key]) {
+                e.preventDefault();
+                setTerminalInput((prev) => prev + arrowMap[e.key]);
+                return;
+            }
+
+            if (e.key === "Backspace") {
+                e.preventDefault();
+                setTerminalInput((prev) => prev.slice(0, -1));
+                return;
+            }
+
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const cmd = terminalInput.trim();
+                if (!cmd) return;
+
+                setTerminalInput("");
+                await runCommand(cmd);
+                return;
+            }
+
+            if (e.key.length === 1) {
+                e.preventDefault();
+                setTerminalInput((prev) => prev + e.key);
+            }
+        };
+
+        window.addEventListener("keydown", handleTerminalInput);
+        return () => window.removeEventListener("keydown", handleTerminalInput);
+    }, [inputUnlocked, isRunning, terminalInput]);
+
+    useEffect(() => {
+        if (!inputUnlocked || isRunning || !inputActive) return;
+
+        const isTypingIntoRealInput = (target) => {
+            if (!target) return false;
+
+            const tag = target.tagName;
+            return (
+                tag === "INPUT" ||
+                tag === "TEXTAREA" ||
+                target.isContentEditable
+            );
+        };
+
+        const handleTerminalInput = async (e) => {
+            if (isTypingIntoRealInput(e.target)) return;
+
+            if (e.ctrlKey && e.key.toLowerCase() === "c") {
+                e.preventDefault();
+                appendLine(`${prompt} ${terminalInput}`, "command");
+                appendLine("^C", "error");
+                setTerminalInput("");
+                setInputActive(false);
+                return;
+            }
+
+            if (e.metaKey || e.altKey) return;
+
+            if (e.key === "Backspace") {
+                e.preventDefault();
+                setTerminalInput((prev) => prev.slice(0, -1));
+                return;
+            }
+
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const cmd = terminalInput.trim();
+                if (!cmd) return;
+
+                setTerminalInput("");
+                await runCommand(cmd);
+                return;
+            }
+
+            if (e.key.length === 1) {
+                e.preventDefault();
+                setTerminalInput((prev) => prev + e.key);
+            }
+        };
+
+        window.addEventListener("keydown", handleTerminalInput);
+        return () => window.removeEventListener("keydown", handleTerminalInput);
+    }, [inputUnlocked, isRunning, inputActive, terminalInput]);
+
+    const runCommand = async (cmd) => {
+        const value = cmd.trim().toLowerCase();
+
+        appendLine(`${prompt} ${cmd}`, "command");
+
+        if (value === "help") {
+            appendLine("available commands:", "muted");
+            appendLine("about", "system");
+            appendLine("credits", "system");
+            appendLine("changelog", "system");
+            appendLine("replay", "system");
+            appendLine("clear", "system");
+            return;
+        }
+
+        if (value === "about") return openAbout();
+        if (value === "credits") return openCredits();
+        if (value === "changelog") return openLatestChangelog();
+        if (value === "replay") return replayAll();
+        if (value === "↑↑↓↓←→←→ab") return Konami();
+        if (value === "clear") {
+            setLines([]);
+            return;
+        }
+
+        appendLine(`command not found: ${cmd}`, "error");
+    };
 
     const appendLine = (text, view = "default") => {
         setLines((prev) => [...prev, { text, view }]);
@@ -235,6 +580,11 @@ function Terminal({
 
                         appendLine(`${stepPrompt} ${text}`, "command");
                         setCurrentLine("");
+
+                        if (text === "type 'help' to explore available commands.") {
+                            setAwaitingHelpUnlock(true);
+                        }
+
                         await sleep(step.enterDelay ?? 80);
                         break;
                     }
@@ -377,6 +727,29 @@ function Terminal({
         }
     };
 
+    const openAbout = async () => {
+        runIdRef.current += 1;
+        setIsWaiting(false);
+        setCurrentLine("");
+        setIsSidePanelOpen(false);
+
+        await sleep(20);
+
+        await runSteps(
+            [
+                { type: "command", text: "clear", speed: 40 },
+                { type: "clear" },
+            ],
+            { waitAtEnd: false }
+        );
+
+        const completed = await runSteps(aboutme, { waitAtEnd: false });
+
+        if (completed && phase === "intro") {
+            setIsWaiting(true);
+        }
+    };
+
     const openCredits = async () => {
         runIdRef.current += 1;
         setIsWaiting(false);
@@ -471,12 +844,108 @@ function Terminal({
         }
     }, [guideMode, isRunning, openCredits, onGuideDone]);
 
+    async function loadLatestChangelogLines() {
+        try {
+            const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
+            const data = await res.json();
+
+            const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+            const markdown = await mdRes.text();
+
+            const parsedLines = markdownToTerminalLines(markdown);
+
+            return {
+                meta: data.logs.find((log) => log.file === data.latest),
+                lines: parsedLines,
+            };
+        } catch (err) {
+            console.error("Failed to load latest changelog:", err);
+            return {
+                meta: null,
+                lines: ["Failed to load latest changelog."],
+            };
+        }
+    }
+
+    const openLatestChangelog = async () => {
+        runIdRef.current += 1;
+        setIsWaiting(false);
+        setCurrentLine("");
+        setIsSidePanelOpen(false);
+
+        await sleep(20);
+
+        // clear terminal first
+        await runSteps(
+            [
+                { type: "command", text: "clear", speed: 40 },
+                { type: "clear" },
+            ],
+            { waitAtEnd: false }
+        );
+
+        // load changelog
+        const result = await loadLatestChangelogLines();
+
+        // build terminal steps
+        const steps = [
+            { type: "command", text: "cat latest-changelog.txt", speed: 35 },
+
+            {
+                type: "multiOutput",
+                delay: 120,
+                lines: [
+                    {
+                        text: result.meta
+                            ? `[${result.meta.title}] (${result.meta.date})`
+                            : "[Latest Changelog]",
+                        view: "system",
+                    },
+                    { text: "", view: "story" },
+
+                    ...result.lines.slice(0, 20).map((text) => ({
+                        text,
+                        view: "story",
+                    })),
+                ],
+            },
+        ];
+
+        await runSteps(steps, { waitAtEnd: false });
+    };
+
+    const Konami = async () => {
+        runIdRef.current += 1;
+        setIsWaiting(false);
+        setCurrentLine("");
+        setIsSidePanelOpen(false);
+
+        await sleep(20);
+
+        await runSteps(
+            [
+                { type: "command", text: "clear", speed: 40 },
+                { type: "clear" },
+            ],
+            { waitAtEnd: false }
+        );
+
+        const completed = await runSteps(secret, { waitAtEnd: false });
+
+        if (completed && phase === "intro") {
+            setIsWaiting(true);
+        }
+    };
+
     const replayAll = async () => {
         runIdRef.current += 1;
         setPhase("intro");
         setIsWaiting(false);
         setLines([]);
         setCurrentLine("");
+        setInputUnlocked(false);
+        setAwaitingHelpUnlock(false);
+        helpIndex.current = 0;
         await sleep(20);
         runSteps(introSteps, { clearBefore: true, waitAtEnd: true });
     };
@@ -494,6 +963,9 @@ function Terminal({
         setIsWaiting(false);
         setCurrentLine("");
         setIsSidePanelOpen(false);
+        setInputUnlocked(false);
+        setAwaitingHelpUnlock(false);
+        helpIndex.current = 0;
 
         await sleep(20);
 
@@ -582,6 +1054,13 @@ function Terminal({
                             </button>
 
                             <button
+                                onClick={openLatestChangelog}
+                                className="rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10"
+                            >
+                                changelog
+                            </button>
+
+                            <button
                                 onClick={replayAll}
                                 disabled={isRunning}
                                 className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10
@@ -594,23 +1073,23 @@ function Terminal({
                     </div>
                 </div>
             </div>
-            <div className="flex items-center px-3 py-2 border-b border-white/10 bg-white/5">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 bg-white/5">
+                <span className="text-sm font-mono text-zinc-400">{title}</span>
                 <div className="flex items-center gap-2">
-
-                    {extras && (
-                        <div className="h-3.5 w-3.5 rounded-full bg-red-500" />
-                    )}
-                    {!extras && (
-                        <div className='h-3.5 w-3.5 bg-red-500 rounded-full flex justify-center'>
-                            <span className="text-[10px]" onClick={() => setTtoggle(true)}>X</span>
-                        </div>
-                    )}
-                    <div className="h-3.5 w-3.5 rounded-full bg-yellow-500" />
                     <div className="h-3.5 w-3.5 rounded-full bg-green-500" />
-                    <span className="ml-3 text-sm font-mono text-zinc-400">{title}</span>
+                    <div className="h-3.5 w-3.5 rounded-full bg-yellow-500" />
+                    {extras ? (
+                        <div className="h-3.5 w-3.5 rounded-full bg-red-500" />
+                    ) : (
+                        <button
+                            className="h-3.5 w-3.5 rounded-full bg-red-500 flex items-center justify-center text-[10px]"
+                            onClick={() => setToggle(true)}
+                        >
+                            X
+                        </button>
+                    )}
                 </div>
             </div>
-
             <div
                 ref={scrollRef}
                 className="flex-1 overflow-y-auto p-4 font-mono text-[18px] leading-7"
@@ -637,43 +1116,96 @@ function Terminal({
             <div className="border-t border-white/10 bg-black/20 px-4 py-3 font-mono">
                 <div className="flex flex-wrap items-center gap-2 text-sm">
                     <span className="text-green-400">{prompt}</span>
-                    <span className="text-zinc-500">available commands:</span>
-
-                    {phase === "intro" && (
-                        <>
-                            <button
-                                onClick={continueFromIntro}
-                                disabled={isRunning}
-                                className={`rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}`}
-                            >
-                                continue
-                            </button>
-
-                            <button
-                                onClick={clearAll}
-                                //disabled={isRunning}
-                                className={`rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10 disabled:cursor-not-allowed disabled:opacity-40 ${isRunning ? "" : "cursor-pointer"}`}
-                            >
-                                clear all
-                            </button>
-                        </>
+                    {!inputUnlocked && (
+                        <span className="text-zinc-500">available commands:</span>
                     )}
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                        {isRunning ? (
+                            <span className="text-zinc-500">running...</span>
+                        ) : isRunning ? (
+                            <span className="ml-1 inline-block h-5 w-2 animate-pulse bg-green-400" />
+                        ) : inputUnlocked ? (
+                            <div className="flex items-center whitespace-pre-wrap text-green-400 align-center" onClick={() => { if (inputUnlocked) setInputActive(true); }}>
+                                <span>{terminalInput}</span>
+                                <span className="ml-1 inline-block h-5 w-2 animate-pulse bg-green-400" />
+                                {inputUnlocked && !isRunning && !inputActive && (
+                                    <span className="text-zinc-500">terminal paused — click here to resume</span>
+                                )}
+                            </div>
+                        ) : phase === "intro" ? (
+                            <>
+                                <button
+                                    onClick={continueFromIntro}
+                                    className="cursor-pointer rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10"
+                                >
+                                    continue
+                                </button>
 
-                    {isRunning && (
-                        <span className="ml-2 text-zinc-500">
-                            running...
-                        </span>
-                    )}
+                                <button
+                                    onClick={clearAll}
+                                    className="cursor-pointer rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10"
+                                >
+                                    clear all
+                                </button>
 
-                    {!isRunning && isWaiting && phase === "intro" && (
-                        <span className="ml-2 text-zinc-500">
-                            waiting for command
-                        </span>
-                    )}
+                                {isWaiting && (
+                                    <span className="ml-2 text-zinc-500">
+                                        waiting for command
+                                    </span>
+                                )}
+                            </>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>
     );
+}
+
+function markdownToTerminalLines(markdown) {
+    const lines = markdown.split("\n");
+    const output = [];
+    let inCodeBlock = false;
+    let skippingMermaid = false;
+
+    for (const rawLine of lines) {
+        const line = rawLine.trim();
+
+        if (line.startsWith("```mermaid")) {
+            inCodeBlock = true;
+            skippingMermaid = true;
+            continue;
+        }
+
+        if (line.startsWith("```")) {
+            inCodeBlock = !inCodeBlock;
+            if (!inCodeBlock) skippingMermaid = false;
+            continue;
+        }
+
+        if (inCodeBlock || skippingMermaid) continue;
+        if (!line || line === "---") continue;
+
+        if (line.startsWith("# ")) {
+            output.push(`[${line.replace(/^# /, "").trim()}]`);
+            continue;
+        }
+
+        if (line.startsWith("## ")) {
+            output.push(`> ${line.replace(/^## /, "").trim()}`);
+            continue;
+        }
+
+        const cleaned = line
+            .replace(/^[-*]\s*/, "- ")
+            .replace(/\*\*(.*?)\*\*/g, "$1")
+            .replace(/\*(.*?)\*/g, "$1")
+            .replace(/`([^`]+)`/g, "$1");
+
+        if (cleaned.trim()) output.push(cleaned.trim());
+    }
+
+    return output;
 }
 
 export default memo(Terminal);

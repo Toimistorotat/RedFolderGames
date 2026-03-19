@@ -97,6 +97,12 @@ function TTSContent() {
             Whether you go in at dawn or under the cover of night could mean the difference
             between a clean extraction and a mission gone dark.
           </p>
+          <h3>Weather/Seasons</h3>
+          <p>
+            suggestion on the seasons
+            Seasons would change every 6 days would affect Vehicles your warmth and Enemy movement
+            for Example During winter the enemies would more often stay insdie to stay warm instead of patrol outside
+          </p>
         </section>
       </div>
       <div className="cube right">
@@ -146,7 +152,7 @@ function TTSContent() {
       </div>
       <div className="cube right">
         <section id="squad-leadership">
-          <h3>Squad Morale &amp; Leadership WIP below</h3>
+          <h3>Squad Morale &amp; Leadership</h3>
           <p className=""></p>
           <p>
             In <strong>{Name}</strong>, you’re not just another operator — you’re the squad leader.
@@ -155,14 +161,14 @@ function TTSContent() {
           </p>
           <p>
             Your actions shape their confidence.
-            Leading them safely through missions, securing objectives, and extracting alive raises morale and discipline.
+            Leading them safely through missions, securing objectives, and extracting alive raises morale.
             Reckless decisions, unnecessary risks, or leaving a man behind erodes trust.
-            A demoralized squad may leave the field and your squad fully.
+            A demoralized squad may leave your squad fully.
           </p>
           <p>
             Maintaining high morale is key to long-term survival.
             Recovering fallen teammates’ dog tags, allowing time for rest, and achieving mission success
-            all reinforce loyalty and unity.
+            all reinforce morality.
             In the field, leadership is more than rank — it’s the difference between a coordinated squad and a body count.
           </p>
         </section>
@@ -172,7 +178,7 @@ function TTSContent() {
           <h3>Squad Progression &amp; Roster</h3>
           <p>
             Every operator under your command in <strong>{Name}</strong> has a history — and you’re part of how it unfolds.
-            Your squad isn’t a set of replaceable AI units, but a roster of individuals who grow, adapt, and carry the marks of every mission.
+            Your squad isn’t a set of replaceable AI units, but a roster of individuals who grow and adapt by every mission.
           </p>
           <p>
             Soldiers gain experience through completed operations, improving traits such as weapon handling, awareness, and composure.
@@ -182,7 +188,7 @@ function TTSContent() {
           <p>
             Wounded or exhausted operators can be rested or treated aboard the carrier, forcing you to rotate active members of your roster.
             Lose a soldier in combat, and their slot remains empty until a new recruit joins your team — but no replacement can erase their legacy.
-            Their name, stats, and dog tag remain part of your campaign history forever.
+            Their name, stats, and dog tag remain part of your campaign history.
           </p>
           <p>
             Over time, your roster becomes a reflection of your leadership — a living record of every success, failure, and sacrifice.
@@ -316,7 +322,7 @@ function TTSContent() {
       </div>
       <div className="cube right">
         <section id="weapons-equipment">
-          <h3>Weapons &amp; Equipment</h3>
+          <h3>Weapons &amp; Equipment  WIP</h3>
           <p>
             Every weapon in <strong>{Name}</strong> is a tool — not a toy.
             Guns are modeled with real-world physics, recoil, and handling, built for authenticity and precision.

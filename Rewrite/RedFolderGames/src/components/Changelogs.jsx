@@ -6,7 +6,18 @@ mermaid.initialize({
     startOnLoad: false,
     theme: "dark",
     securityLevel: "strict",
+    themeVariables: {
+        fontSize: "25px",
+        edgeLabelBackground: "rgb(11, 11, 11)",
+    },
+    flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        nodeSpacing: 40,
+        rankSpacing: 50,
+    },
 });
+
 function MermaidBlock({ chart }) {
     const [svg, setSvg] = useState("");
 
@@ -18,7 +29,7 @@ function MermaidBlock({ chart }) {
                 const id = `mermaid-${Math.random().toString(36).slice(2)}`;
                 const { svg } = await mermaid.render(id, chart);
                 if (mounted) setSvg(svg);
-            } catch (error) {
+            } catch {
                 if (mounted) {
                     setSvg(`<pre>Failed to render Mermaid diagram</pre>`);
                 }
@@ -33,10 +44,12 @@ function MermaidBlock({ chart }) {
     }, [chart]);
 
     return (
-        <div
-            className="my-6 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950 [&>svg]:w-420 [&>svg]:h-100"
-            dangerouslySetInnerHTML={{ __html: svg }}
-        />
+        <div className="my-3 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950 p-4">
+            <div
+                className="[&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+                dangerouslySetInnerHTML={{ __html: svg }}
+            />
+        </div>
     );
 }
 
@@ -64,90 +77,75 @@ function MarkdownContent({ content }) {
 }
 
 export default function ChangelogPage() {
-    const markdownText = `
-# RedFolderGames — Update Log
+    const [content, setContent] = useState("");
+    const [logs, setLogs] = useState([]);
+    const [currentFile, setCurrentFile] = useState("");
 
-## Added
-- **Random Empty page system** for unfinished or non-existing routes  
-  - Visiting something like \`/example\` redirects to an Empty page  
-  - The Empty page returns you to the main site  
-  - Small chance of a **special Empty variant** appearing just for fun  
+    useEffect(() => {
+        async function loadLogs() {
+            try {
+                const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
+                const data = await res.json();
 
-- **Comment pinning mechanic**
-  - Comments can switch from \`absolute\` → \`fixed\`
-  - Allows the panel to follow your screen instead of being left behind
+                setLogs(data.logs);
+                setCurrentFile(data.latest);
 
-- **Hidden button**
-  - Added just for fun
+                const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+                const mdText = await mdRes.text();
+                setContent(mdText);
+            } catch (err) {
+                console.error("Load failed:", err);
+                setContent("# Failed to load changelog");
+            }
+        }
 
----
+        loadLogs();
+    }, []);
 
-## Changes
-- **Folders system updated**
-  - Now looks and behaves more like the comment system
+    async function openLog(file) {
+        try {
+            setCurrentFile(file);
 
-- **Terminal fully rewritten**
-  - Rewrite completed successfully
+            const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
+            const text = await res.text();
 
----
-
-## Development
-- **Tailwind Typography plugin added**
-  - Preparing styling support for markdown content
-
-- **React Markdown installed**
-  - Not implemented yet
-  - Planned for **in-site changelog pages**
-
----
-
-## Fixes
-- Fixed existing **secrets**
-- Added **additional secrets**
-
----
-
-## Known / Pending
-- **Footer has not been updated yet**
-  - Credits and other requested additions are still missing
-
----
-
-# Visual Overview
-
-\`\`\`mermaid
-flowchart LR
-
-User[User visits page] --> Check{Route exists?}
-
-Check -->|Yes| Normal[Open page normally]
-Check -->|No| Empty[Redirect to Empty page]
-
-Empty --> Chance{Empty?}
-
-Chance -->|Yes| Special[Show special Empty variant]
-Chance -->|Yes| Standard[Show normal Empty page]
-
-Standard --> Return[Return to main site]
-Special --> Return
-
-Return --> Home[Main Site]
-
-Home --> Comment[Comment Section]
-Comment --> Pin{Pin enabled?}
-
-Pin -->|Yes| Fixed[Panel becomes fixed]
-Pin -->|No| Absolute[Panel stays absolute]
-
-Home --> Secrets[Hidden secrets]
-Secrets --> Hidden[Hidden button]
-\`\`\`
-`;
+            setContent(text);
+        } catch (err) {
+            console.error("Open failed:", err);
+            setContent("# Failed to load changelog");
+        }
+    }
 
     return (
-        <section className="mx-auto w-full max-w-4xl px-6 py-10">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg">
-                <MarkdownContent content={markdownText} />
+        <section className="mx-auto w-full max-w-5xl px-6 py-10">
+            <div className="grid gap-6 md:grid-cols-[220px_1fr]">
+                <aside className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 shadow-lg">
+                    <h2 className="mb-4 text-lg font-bold text-white">Changelogs</h2>
+
+                    <div className="flex flex-col gap-2">
+                        {logs.map((log) => (
+                            <button
+                                key={log.file}
+                                onClick={() => openLog(log.file)}
+                                className={`rounded-lg px-3 py-2 text-left transition ${currentFile === log.file
+                                    ? "bg-zinc-700 text-white"
+                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                    }`}
+                            >
+                                <div className="font-medium">{log.title}</div>
+                                <div className="text-xs text-zinc-400">{log.date}</div>
+                            </button>
+                        ))}
+                    </div>
+                </aside>
+
+                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg">
+                    {!content ? (
+                        <p className="text-zinc-400">Loading...</p>
+                    ) : (
+                        <MarkdownContent content={content} />
+                    )}
+                </div>
             </div>
         </section>
     );

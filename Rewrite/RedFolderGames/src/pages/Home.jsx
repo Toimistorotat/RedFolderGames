@@ -103,16 +103,17 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
 }
 {/*
             what todo
-            1. Add more description to the site, maybe a "about" section or something
+
             2. Add Accessibility options to the game Idea pages
-            3. Add credits and the usual additions to Footer.jsx
-            4. Rewrite the whole Typewriter component to be more dynamic and have option for it to cut off and start another while looking like a actual terminal.
-            5. add hidden konamicode to unlock the terminals input system
-            6. oh and fix the issues with tailwindcss as the extension keeps crying about some could be done this ways
-            7. fix the calc for once and for all
+
+
+
+
+            7. fix the calc for once and for all (Not Important)
             8. Change the pin look and fuction a bit
             four done
             One Done
             six done
             three done
+            five done but a bit changed
 */}

@@ -74,13 +74,17 @@ function App() {
     startCommentsHook()
   }, [])
 
+  const RandomEmpty = () => {
+    return Math.random() < 0.1 ? <EmptySpecial /> : <Empty />;
+  };
+
   return (
     <Router>
       <Routes>
         <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
         <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
         <Route path="/RedFolderGames/Empty" element={<Empty />} />
-        <Route path="*" element={Math.random() < 0.1 ? <EmptySpecial /> : <Empty />} />
+        <Route path="*" element={<RandomEmpty />} />
       </Routes>
     </Router>
   )
