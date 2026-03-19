@@ -1,22 +1,5 @@
 import ReactMarkdown from "react-markdown";
 import { useEffect, useState } from "react";
-import mermaid from "mermaid";
-
-mermaid.initialize({
-    startOnLoad: false,
-    theme: "dark",
-    securityLevel: "strict",
-    themeVariables: {
-        fontSize: "25px",
-        edgeLabelBackground: "rgb(11, 11, 11)",
-    },
-    flowchart: {
-        useMaxWidth: true,
-        htmlLabels: true,
-        nodeSpacing: 40,
-        rankSpacing: 50,
-    },
-});
 
 function MermaidBlock({ chart }) {
     const [svg, setSvg] = useState("");
@@ -26,10 +9,31 @@ function MermaidBlock({ chart }) {
 
         async function renderChart() {
             try {
+                const mermaidModule = await import("mermaid");
+                const mermaid = mermaidModule.default;
+
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: "dark",
+                    securityLevel: "strict",
+                    themeVariables: {
+                        fontSize: "25px",
+                        edgeLabelBackground: "rgb(11, 11, 11)",
+                    },
+                    flowchart: {
+                        useMaxWidth: true,
+                        htmlLabels: true,
+                        nodeSpacing: 40,
+                        rankSpacing: 50,
+                    },
+                });
+
                 const id = `mermaid-${Math.random().toString(36).slice(2)}`;
-                const { svg } = await mermaid.render(id, chart);
-                if (mounted) setSvg(svg);
-            } catch {
+                const result = await mermaid.render(id, chart);
+
+                if (mounted) setSvg(result.svg);
+            } catch (err) {
+                console.error("Mermaid render failed:", err);
                 if (mounted) {
                     setSvg(`<pre>Failed to render Mermaid diagram</pre>`);
                 }
@@ -58,15 +62,19 @@ function MarkdownContent({ content }) {
         <article className="prose prose-invert max-w-none">
             <ReactMarkdown
                 components={{
-                    code({ inline, className, children }) {
+                    code({ className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
                         const codeString = String(children).replace(/\n$/, "");
 
-                        if (!inline && match?.[1] === "mermaid") {
+                        if (match?.[1] === "mermaid") {
                             return <MermaidBlock chart={codeString} />;
                         }
 
-                        return <code className={className}>{children}</code>;
+                        return (
+                            <code className={className} {...props}>
+                                {children}
+                            </code>
+                        );
                     },
                 }}
             >
