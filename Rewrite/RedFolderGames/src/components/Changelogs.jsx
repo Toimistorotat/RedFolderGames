@@ -85,19 +85,20 @@ export default function ChangelogPage() {
         async function loadLogs() {
             try {
                 const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
 
                 setLogs(data.logs);
                 setCurrentFile(data.latest);
 
                 const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+                if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
                 const mdText = await mdRes.text();
                 setContent(mdText);
             } catch (err) {
                 console.error("Load failed:", err);
                 setContent("# Failed to load changelog");
-            }
-        }
+            }        }
 
         loadLogs();
     }, []);
@@ -107,6 +108,7 @@ export default function ChangelogPage() {
             setCurrentFile(file);
 
             const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const text = await res.text();
 
             setContent(text);

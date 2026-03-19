@@ -18,8 +18,7 @@ function TTSContent() {
             You command a four-person team — yourself and three AI operatives — and carry out missions in a city that never resets.
             Fail a mission? It stays failed. Blow up a radio tower? It stays destroyed.
             Every bullet, every body, every victory — it all Stays.
-          </p>
-        </section>
+            all reinforce morale.        </section>
       </div>
       <div className="cube right">
         <section id="features">
@@ -99,9 +98,8 @@ function TTSContent() {
           </p>
           <h3>Weather/Seasons</h3>
           <p>
-            suggestion on the seasons
-            Seasons would change every 6 days would affect Vehicles your warmth and Enemy movement
-            for Example During winter the enemies would more often stay insdie to stay warm instead of patrol outside
+            Seasons change every 6 days and affect vehicle handling, player warmth, and enemy behavior.
+            For example, during winter, enemies would more often stay inside to stay warm instead of patrolling outside.
           </p>
         </section>
       </div>
@@ -163,8 +161,7 @@ function TTSContent() {
             Your actions shape their confidence.
             Leading them safely through missions, securing objectives, and extracting alive raises morale.
             Reckless decisions, unnecessary risks, or leaving a man behind erodes trust.
-            A demoralized squad may leave your squad fully.
-          </p>
+            A demoralized squad may abandon you entirely.          </p>
           <p>
             Maintaining high morale is key to long-term survival.
             Recovering fallen teammates’ dog tags, allowing time for rest, and achieving mission success
@@ -178,7 +175,7 @@ function TTSContent() {
           <h3>Squad Progression &amp; Roster</h3>
           <p>
             Every operator under your command in <strong>{Name}</strong> has a history — and you’re part of how it unfolds.
-            Your squad isn’t a set of replaceable AI units, but a roster of individuals who grow and adapt by every mission.
+            Your squad isn't a set of replaceable AI units, but a roster of individuals who grow and adapt with every mission.
           </p>
           <p>
             Soldiers gain experience through completed operations, improving traits such as weapon handling, awareness, and composure.
@@ -322,7 +319,7 @@ function TTSContent() {
       </div>
       <div className="cube right">
         <section id="weapons-equipment">
-          <h3>Weapons &amp; Equipment  WIP</h3>
+          <h3>Weapons &amp; Equipment (WIP)</h3>
           <p>
             Every weapon in <strong>{Name}</strong> is a tool — not a toy.
             Guns are modeled with real-world physics, recoil, and handling, built for authenticity and precision.
