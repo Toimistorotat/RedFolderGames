@@ -93,7 +93,7 @@ export default function ChangelogPage() {
         async function loadLogs() {
             try {
                 //const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
-                const res = await fetch(`${import.meta.env.BASE_URL}Rewrite\RedFolderGames\public\logs`);
+                const res = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
 
