@@ -5,6 +5,16 @@ const CURSOR = "█";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function getLogsBasePath() {
+    const host = window.location.hostname;
+
+    if (host === "basementgames-fi.github.io") {
+        return `${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`;
+    }
+
+    return `${import.meta.env.BASE_URL}logs`;
+}
+
 function getCharDelay(char, baseSpeed = 35) {
     if (".!?".includes(char)) return baseSpeed * 8;
     if (",;:".includes(char)) return baseSpeed * 4;
@@ -132,6 +142,8 @@ const aboutme = [
             { text: "But video games… they are special.", view: "story" },
         ],
     },
+
+    { type: "command", text: "type 'help' to explore available commands.", speed: 180 },
 ]
 
 const websiteSteps = [
@@ -151,6 +163,8 @@ const websiteSteps = [
             { text: "Welcome to the terminal side of the website.", view: "system" },
         ],
     },
+
+    { type: "command", text: "type 'help' to explore available commands.", speed: 180 },
 ];
 
 const Credits = [
@@ -723,7 +737,9 @@ function Terminal({
 
             return true;
         } finally {
-            setIsRunning(false);
+            if (runIdRef.current === runId) {
+                setIsRunning(false);
+            }
         }
     };
 
@@ -846,16 +862,14 @@ function Terminal({
 
     async function loadLatestChangelogLines() {
         try {
-            //const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
-            const res = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/logs.json`);
+            const logsBase = getLogsBasePath();
 
+            const res = await fetch(`${logsBase}/logs.json`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             const data = await res.json();
 
-            //const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
-            const mdRes = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/${data.latest}`);
-
+            const mdRes = await fetch(`${logsBase}/${data.latest}`);
             if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
 
             const markdown = await mdRes.text();
@@ -954,8 +968,10 @@ function Terminal({
         setInputUnlocked(false);
         setAwaitingHelpUnlock(false);
         helpIndex.current = 0;
+
         await sleep(20);
-        runSteps(introSteps, { clearBefore: true, waitAtEnd: true });
+
+        await runSteps(introSteps, { clearBefore: true, waitAtEnd: true });
     };
 
     const continueFromIntro = async () => {
@@ -1071,9 +1087,11 @@ function Terminal({
                             <button
                                 onClick={replayAll}
                                 disabled={isRunning}
-                                className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300 hover:bg-cyan-500/10
-                                  ${isRunning ? "cursor-not-allowed opacity-40" : "cursor-pointer"}
-                                `}
+                                className={`rounded border border-cyan-500/20 bg-cyan-500/5 px-2 py-1 text-cyan-300
+                                    ${isRunning
+                                        ? "cursor-not-allowed opacity-40 pointer-events-none"
+                                        : "cursor-pointer hover:bg-cyan-500/10"}
+                                    `}
                             >
                                 replay
                             </button>
@@ -1124,23 +1142,64 @@ function Terminal({
             <div className="border-t border-white/10 bg-black/20 px-4 py-3 font-mono">
                 <div className="flex flex-wrap items-center gap-2 text-sm">
                     <span className="text-green-400">{prompt}</span>
+
                     {!inputUnlocked && (
                         <span className="text-zinc-500">available commands:</span>
                     )}
+
                     <div className="flex flex-wrap items-center gap-2 text-xs">
                         {isRunning ? (
-                            <span className="text-zinc-500">running...</span>
-                        ) : isRunning ? (
-                            <span className="ml-1 inline-block h-5 w-2 animate-pulse bg-green-400" />
-                        ) : inputUnlocked ? (
-                            <div className="flex items-center whitespace-pre-wrap text-green-400 align-center" onClick={() => { if (inputUnlocked) setInputActive(true); }}>
+                            <>
+                                <button
+                                    onClick={continueFromIntro}
+                                    className="cursor-pointer rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10"
+                                >
+                                    continue
+                                </button>
+
+                                <button
+                                    onClick={clearAll}
+                                    className="cursor-pointer rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10"
+                                >
+                                    clear all
+                                </button>
+
+                                <span className="ml-2 text-zinc-500">running...</span>
+                            </>
+                        ) : inputUnlocked && inputActive ? (
+                            <button
+                                type="button"
+                                className="flex items-center whitespace-pre-wrap text-green-400"
+                                onClick={() => setInputActive(true)}
+                            >
                                 <span>{terminalInput}</span>
                                 <span className="ml-1 inline-block h-5 w-2 animate-pulse bg-green-400" />
-                                {inputUnlocked && !isRunning && !inputActive && (
-                                    <span className="text-zinc-500">terminal paused — click here to resume</span>
-                                )}
-                            </div>
-                        ) : phase === "intro" ? (
+                            </button>
+                        ) : inputUnlocked ? (
+                            <>
+                                <button
+                                    onClick={continueFromIntro}
+                                    className="cursor-pointer rounded border border-green-500/20 bg-green-500/5 px-2 py-1 text-green-300 hover:bg-green-500/10"
+                                >
+                                    continue
+                                </button>
+
+                                <button
+                                    onClick={clearAll}
+                                    className="cursor-pointer rounded border border-yellow-500/20 bg-yellow-500/5 px-2 py-1 text-yellow-300 hover:bg-yellow-500/10"
+                                >
+                                    clear all
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="ml-2 text-zinc-500"
+                                    onClick={() => setInputActive(true)}
+                                >
+                                    terminal paused — click here to resume
+                                </button>
+                            </>
+                        ) : (
                             <>
                                 <button
                                     onClick={continueFromIntro}
@@ -1162,7 +1221,7 @@ function Terminal({
                                     </span>
                                 )}
                             </>
-                        ) : null}
+                        )}
                     </div>
                 </div>
             </div>

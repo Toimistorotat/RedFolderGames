@@ -28,7 +28,7 @@ export default function TacTicalshooter({ comments, addComment }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 4500);
 
     return () => clearTimeout(timer);
   }, []);

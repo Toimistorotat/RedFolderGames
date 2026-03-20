@@ -1,4 +1,5 @@
-# RedFolderGames — Update Log
+RedFolderGames
+#  Update Log
 
 ## Added
 - **Random Empty page system** for unfinished or non-existing routes  

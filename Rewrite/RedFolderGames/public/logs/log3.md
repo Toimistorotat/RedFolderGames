@@ -1,4 +1,5 @@
-# RedFolderGames — Update Log (Terminal Changes)
+RedFolderGames
+# Update Log (Terminal Changes)
 
 ---
 

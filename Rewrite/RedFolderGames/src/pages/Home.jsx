@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Header from '../parts/Header.jsx'
 import Footer from '../parts/Footer.jsx';
@@ -15,9 +15,9 @@ import Typewriter from '../components/Typewriter.jsx'
 
 export default function FrontPage({ feedbacks, addFeedback, message }) {
     const [guideMode, setGuideMode] = useState("");
-    const [display, setDisplay] = useState(false)
-    const [extras, setExtras] = useState(false)
-    const [Ttoggle, setTtoggle] = useState(false)
+    const [display, setDisplay] = useState(false);
+    const [extras, setExtras] = useState(false);
+    const [Ttoggle, setTtoggle] = useState(false);
 
     const startCreditsGuide = () => {
         const terminalEl = document.getElementById("terminal");
@@ -33,73 +33,86 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
     };
 
     return (
-        <>
-            <div className="flex w-full">
+        <div className="flex w-full">
+            {/* Left spacer */}
+            <div className="flex-1">
+                <button onClick={() => setExtras((prev) => !prev)}>sup</button>
+            </div>
 
-                {/* Left spacer */}
-                <div className="flex-1">
-                    <button onClick={() => setExtras(prev => !prev)}>sup</button>
-                </div>
+            {/* Center column */}
+            <div className="flex w-full max-w-7xl flex-col items-center">
+                <Logo />
 
-                {/* Center column */}
-                <div className="flex flex-col items-center w-212.5">
-                    <Logo />
-
-                    <div className="flex flex-col gap-10 w-full">
+                <div className="flex w-full flex-col gap-10">
+                    <div className="mx-auto w-full max-w-4xl">
                         <Header />
-
-                        <div id="terminal" className="w-full" aria-label="Introduction message from the creator Redking in terminal style">
-                            {!Ttoggle && (
-                                <Terminal
-                                    setTtoggle={setTtoggle}
-                                    extras={!extras}
-                                    guideMode={guideMode}
-                                    onGuideDone={() => setGuideMode("")}
-                                />
-                            )}
-                            {extras && Ttoggle && (
-                                <Typewriter setTtoggle={setTtoggle} />
-                            )}
-                        </div>
-                        {extras && (
-                            <div>
-                                <ChangelogPage />
-                            </div>
-                        )}
-                        <Fold />
-
-                        <div>
-                            {message && <p>{message}</p>}
-                            <FeedbackList feedbacks={feedbacks} />
-                            <Feedback addFeedback={addFeedback} />
-                        </div>
-
-                        {extras && (
-                            <div>
-                                <FaceToggle />
-                            </div>
-                        )}
-
-                        <Space />
                     </div>
 
-                    <Footer onStartCreditsGuide={startCreditsGuide} />
-                </div>
+                    <div
+                        id="terminal"
+                        className="mx-auto w-full max-w-4xl"
+                        aria-label="Introduction message from the creator Redking in terminal style"
+                    >
+                        {!Ttoggle && (
+                            <Terminal
+                                setTtoggle={setTtoggle}
+                                extras={!extras}
+                                guideMode={guideMode}
+                                onGuideDone={() => setGuideMode("")}
+                            />
+                        )}
 
-                {/* Right column */}
-                <div className="flex-1 flex flex-col items-start pl-10">
-                    <div className="justify-end">
-                        <button onClick={() => setDisplay(prev => !prev)}>Calc</button>
+                        {extras && Ttoggle && (
+                            <Typewriter setTtoggle={setTtoggle} />
+                        )}
                     </div>
-                    {display && (
-                        <div>
-                            <Calculator />
+
+                    {extras && (
+                        <div className="w-full">
+                            <ChangelogPage />
                         </div>
                     )}
+
+                    <div className="mx-auto w-full max-w-4xl">
+                        <Fold />
+                    </div>
+
+                    <div className="mx-auto w-full max-w-4xl">
+                        {message && <p>{message}</p>}
+                        <FeedbackList feedbacks={feedbacks} />
+                        <Feedback addFeedback={addFeedback} />
+                    </div>
+
+                    {extras && (
+                        <div className="mx-auto w-full max-w-4xl">
+                            <FaceToggle />
+                        </div>
+                    )}
+
+                    <div className="mx-auto w-full max-w-4xl">
+                        <Space />
+                    </div>
+                </div>
+
+                <div className="mx-auto w-full max-w-4xl">
+                    <Footer onStartCreditsGuide={startCreditsGuide} />
                 </div>
             </div>
-        </>
-    )
+
+            {/* Right column */}
+            <div className="flex flex-1 flex-col items-start pl-10">
+                <div className="justify-end">
+                    <button onClick={() => setDisplay((prev) => !prev)}>Calc</button>
+                </div>
+
+                {display && (
+                    <div>
+                        <Calculator />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 }
 {/*
             what todo
@@ -118,4 +131,5 @@ export default function FrontPage({ feedbacks, addFeedback, message }) {
             six done
             three done
             five done but a bit changed
+            ten done
 */}

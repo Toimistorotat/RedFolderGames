@@ -89,26 +89,39 @@ export default function ChangelogPage() {
     const [logs, setLogs] = useState([]);
     const [currentFile, setCurrentFile] = useState("");
 
+    function getLogsBasePath() {
+        const host = window.location.hostname;
+
+        // GitHub Pages
+        if (host === "basementgames-fi.github.io") {
+            return `${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`;
+        }
+
+        // Local (your dev setup)
+        return `${import.meta.env.BASE_URL}logs`;
+    }
+
     useEffect(() => {
         async function loadLogs() {
             try {
-                //const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
-                const res = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/logs.json`);
+                const logsBase = getLogsBasePath();
+
+                const res = await fetch(`${logsBase}/logs.json`);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
 
                 setLogs(data.logs);
                 setCurrentFile(data.latest);
 
-                //const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
-                const mdRes = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/${data.latest}`);
+                const mdRes = await fetch(`${logsBase}/${data.latest}`);
                 if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
                 const mdText = await mdRes.text();
                 setContent(mdText);
             } catch (err) {
                 console.error("Load failed:", err);
                 setContent("# Failed to load changelog");
-            }        }
+            }
+        }
 
         loadLogs();
     }, []);
@@ -117,11 +130,11 @@ export default function ChangelogPage() {
         try {
             setCurrentFile(file);
 
-            //const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
-            const res = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/${file}`);
+            const logsBase = getLogsBasePath();
+            const res = await fetch(`${logsBase}/${file}`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const text = await res.text();
 
+            const text = await res.text();
             setContent(text);
         } catch (err) {
             console.error("Open failed:", err);
@@ -130,36 +143,46 @@ export default function ChangelogPage() {
     }
 
     return (
-        <section className="mx-auto w-full max-w-5xl px-6 py-10">
-            <div className="grid gap-6 md:grid-cols-[220px_1fr]">
-                <aside className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 shadow-lg">
-                    <h2 className="mb-4 text-lg font-bold text-white">Changelogs</h2>
+        <section className="mx-auto w-full max-w-7xl px-6 py-10">
+            <div className="relative mx-auto w-full max-w-5xl">
 
-                    <div className="flex flex-col gap-2">
-                        {logs.map((log) => (
-                            <button
-                                key={log.file}
-                                onClick={() => openLog(log.file)}
-                                className={`rounded-lg px-3 py-2 text-left transition ${currentFile === log.file
-                                    ? "bg-zinc-700 text-white"
-                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-                                    }`}
-                            >
-                                <div className="font-medium">{log.title}</div>
-                                <div className="text-xs text-zinc-400">{log.date}</div>
-                            </button>
-                        ))}
+                <aside
+                    className="
+                absolute top-0 right-full mr-6
+                hidden xl:block w-56
+            "
+                >
+                    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 shadow-lg">
+                        <h2 className="mb-4 text-lg font-bold text-white">Changelogs</h2>
+
+                        <div className="flex flex-col gap-2">
+                            {logs.map((log) => (
+                                <button
+                                    key={log.file}
+                                    onClick={() => openLog(log.file)}
+                                    className={`rounded-lg px-3 py-2 text-left transition ${currentFile === log.file
+                                        ? "bg-zinc-700 text-white"
+                                        : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                        }`}
+                                >
+                                    <div className="font-medium">{log.title}</div>
+                                    <div className="text-xs text-zinc-400">{log.date}</div>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </aside>
 
-                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg">
-                    {!content ? (
-                        <p className="text-zinc-400">Loading...</p>
-                    ) : (
-                        <MarkdownContent content={content} />
-                    )}
-                </div>
+                <main className="w-full">
+                    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg">
+                        {!content ? (
+                            <p className="text-zinc-400">Loading...</p>
+                        ) : (
+                            <MarkdownContent content={content} />
+                        )}
+                    </div>
+                </main>
             </div>
         </section>
     );
-}
+};

@@ -9,7 +9,7 @@ import TTS from './pages/TacTicalShooterPage.jsx'
 import { Space } from './components/Space.jsx';
 import feedbackService from './services/FeedbackService.jsx'
 import commentsService from './services/CommentsTTSService'
-import { Empty, EmptySpecial } from './components/Empty.jsx'
+import { Empty, EmptySpecial } from './pages/Empty.jsx'
 
 function App() {
   const [feedbacks, setFeedbacks] = useState([])

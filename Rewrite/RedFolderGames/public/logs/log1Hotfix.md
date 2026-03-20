@@ -1,4 +1,7 @@
+RedFolderGames
 # Hotfix — Changelog Loading Fix
+
+---
 
 ## Fixes
 - Fixed an issue where **changelogs were not loading** on:
