@@ -117,7 +117,8 @@ export default function ChangelogPage() {
         try {
             setCurrentFile(file);
 
-            const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
+            //const res = await fetch(`${import.meta.env.BASE_URL}logs/${file}`);
+            const res = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/${file}`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const text = await res.text();
 
