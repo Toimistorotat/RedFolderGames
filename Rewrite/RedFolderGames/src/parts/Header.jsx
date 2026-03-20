@@ -26,8 +26,7 @@ export default function Header() {
         setClickCount(next);
 
         if (next >= 5) {
-            setMessage("You found me. You wont do it again tho");
-            setClickCount(0);
+            setMessage("You found me. You won't do it again tho");            setClickCount(0);
 
             await delay(1500);
 
