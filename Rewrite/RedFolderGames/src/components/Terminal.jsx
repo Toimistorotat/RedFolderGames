@@ -846,11 +846,16 @@ function Terminal({
 
     async function loadLatestChangelogLines() {
         try {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const res = await fetch(`${import.meta.env.BASE_URL}logs/logs.json`);
+
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
             const data = await res.json();
 
             const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+
+            if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
+
             const markdown = await mdRes.text();
 
             const parsedLines = markdownToTerminalLines(markdown);
