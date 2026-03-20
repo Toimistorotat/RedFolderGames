@@ -853,7 +853,8 @@ function Terminal({
 
             const data = await res.json();
 
-            const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+            //const mdRes = await fetch(`${import.meta.env.BASE_URL}logs/${data.latest}`);
+            const mdRes = await fetch(`${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs/${data.latest}`);
 
             if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
 
