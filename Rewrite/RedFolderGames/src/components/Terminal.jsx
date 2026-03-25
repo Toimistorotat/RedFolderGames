@@ -919,7 +919,7 @@ function Terminal({
                     },
                     { text: "", view: "story" },
 
-                    ...result.lines.slice(0, 20).map((text) => ({
+                    ...result.lines.map((text) => ({
                         text,
                         view: "story",
                     })),

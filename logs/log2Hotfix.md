@@ -3,6 +3,9 @@ RedFolderGames
 
 ---
 
+## Changes
+- Removed changelog limit from the terminal
+
 ## Fixes
 - Removed unnecessary / redundant code from the project
 
