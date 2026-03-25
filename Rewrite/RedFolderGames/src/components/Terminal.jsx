@@ -6,7 +6,7 @@ const CURSOR = "█";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function getLogsBasePath() {
-    return "/logs";
+    return "/RedFolderGames/logs/";
 }
 
 function getCharDelay(char, baseSpeed = 35) {
