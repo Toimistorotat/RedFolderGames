@@ -6,13 +6,7 @@ const CURSOR = "█";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function getLogsBasePath() {
-    const host = window.location.hostname;
-
-    if (host === "Toimistorotat.github.io") {
-        return `${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`;
-    }
-
-    return `${import.meta.env.BASE_URL}logs`;
+    return "/logs";
 }
 
 function getCharDelay(char, baseSpeed = 35) {

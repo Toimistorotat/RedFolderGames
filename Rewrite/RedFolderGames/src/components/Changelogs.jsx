@@ -90,15 +90,7 @@ export default function ChangelogPage() {
     const [currentFile, setCurrentFile] = useState("");
 
     function getLogsBasePath() {
-        const host = window.location.hostname;
-
-        // GitHub Pages
-        if (host === "Toimistorotat.github.io") {
-            return `${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`;
-        }
-
-        // Local (your dev setup)
-        return `${import.meta.env.BASE_URL}logs`;
+        return "/logs";
     }
 
     useEffect(() => {
