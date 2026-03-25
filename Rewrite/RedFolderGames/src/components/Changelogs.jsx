@@ -93,7 +93,7 @@ export default function ChangelogPage() {
         const host = window.location.hostname;
 
         // GitHub Pages
-        if (host === "basementgames-fi.github.io") {
+        if (host === "Toimistorotat.github.io") {
             return `${import.meta.env.BASE_URL}Rewrite/RedFolderGames/public/logs`;
         }
 
