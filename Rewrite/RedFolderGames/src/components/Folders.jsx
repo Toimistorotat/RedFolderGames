@@ -8,6 +8,11 @@ const Games = [
         info: "TacTical Shooter is a First Person shooter game where players navigate through various levels, battling enemies and completing missions. With its strategic gameplay and engaging mechanics, TTS offers an exciting experience for fans of the shooter genre."
     },
     {
+        name: "Airborne Exodus",
+        link: "/RedFolderGames/AirborneExodus",
+        info: "Airborne Exodus is a detailed co-op extraction survival concept about operating from an airborne carrier, recovering aircraft, planning fuel routes, and holding dead runways long enough to escape an infected world."
+    },
+    {
         name: "Example Game",
         link: "/RedFolderGames/Example",
         info: "This is an example game used to demonstrate the bookmark component. It showcases how to structure game information and display it effectively within the application."

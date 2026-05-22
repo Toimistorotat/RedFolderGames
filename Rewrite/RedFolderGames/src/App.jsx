@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import './css/tailwind.css'
 import Home from './pages/Home'
 import TTS from './pages/TacTicalShooterPage.jsx'
+import AirborneExodusPage from './pages/AirborneExodusPage.jsx'
 import { Space } from './components/Space.jsx';
 import feedbackService from './services/FeedbackService.jsx'
 import commentsService from './services/CommentsTTSService'
@@ -83,6 +84,7 @@ function App() {
       <Routes>
         <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
         <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
+        <Route path="/RedFolderGames/AirborneExodus" element={<AirborneExodusPage />} />
         <Route path="/RedFolderGames/Empty" element={<Empty />} />
         <Route path="*" element={<RandomEmpty />} />
       </Routes>
