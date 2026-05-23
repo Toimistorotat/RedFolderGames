@@ -1,6 +1,11 @@
 {
-  "latest": "log5.md",
+  "latest": "log5Hotfix.md",
   "logs": [
+    {
+      "file": "log5Hotfix.md",
+      "title": "Hotfix (Changelog Path And Release Fixes)",
+      "date": "2026-05-23"
+    },
    {
       "file": "log5.md",
       "title": "Update Log (new games added)",

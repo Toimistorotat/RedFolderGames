@@ -90,7 +90,8 @@ export default function ChangelogPage() {
     const [currentFile, setCurrentFile] = useState("");
 
     function getLogsBasePath() {
-        return "/RedFolderGames/logs";
+        const basePath = import.meta.env.BASE_URL || "/";
+        return `${basePath.replace(/\/$/, "")}/logs`;
     }
 
     useEffect(() => {

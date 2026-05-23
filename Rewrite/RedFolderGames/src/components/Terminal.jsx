@@ -6,7 +6,8 @@ const CURSOR = "█";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function getLogsBasePath() {
-    return "/RedFolderGames/logs/";
+    const basePath = import.meta.env.BASE_URL || "/";
+    return `${basePath.replace(/\/$/, "")}/logs`;
 }
 
 function getCharDelay(char, baseSpeed = 35) {
@@ -362,7 +363,6 @@ function Terminal({
     const [inputActive, setInputActive] = useState(true);
 
     const [awaitingHelpUnlock, setAwaitingHelpUnlock] = useState(false);
-    const helpPromptText = `${prompt} type 'help' to explore available commands.`;
 
     const arrowMap = {
         ArrowLeft: "←",
@@ -1103,7 +1103,7 @@ function Terminal({
                     ) : (
                         <button
                             className="h-3.5 w-3.5 rounded-full bg-red-500 flex items-center justify-center text-[10px]"
-                            onClick={() => setToggle(true)}
+                            onClick={() => setTtoggle(true)}
                         >
                             X
                         </button>
