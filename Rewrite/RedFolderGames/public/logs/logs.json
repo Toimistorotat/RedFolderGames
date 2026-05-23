@@ -1,6 +1,11 @@
 {
-  "latest": "log4.md",
+  "latest": "log5.md",
   "logs": [
+   {
+      "file": "log5.md",
+      "title": "Update Log (new games added)",
+      "date": "2026-05-23"
+    },
     {
       "file": "log2Hotfix.md",
       "title": "Hotfix Clean Up",

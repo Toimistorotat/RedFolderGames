@@ -11,6 +11,8 @@ export default function Header() {
 
     const isHome = pathname === "/RedFolderGames/" || pathname === "/RedFolderGames";
     const isTTS = pathname.startsWith("/RedFolderGames/TTS");
+    const isAE = pathname.startsWith("/RedFolderGames/AirborneExodus");
+    const isUntitled = pathname.startsWith("/RedFolderGames/UntitledExtraction");
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [clickCount, setClickCount] = useState(0);
@@ -20,6 +22,29 @@ export default function Header() {
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const pageLinks = isUntitled
+        ? [
+            { label: "Island", target: "raid-island" },
+            { label: "Dossier", target: "raid-systems-dossier" }
+        ]
+        : [
+            { label: "Top", target: "top" },
+            { label: "Systems", target: "ae-systems" },
+            { label: "Core", target: "ae-core-fantasy" }
+        ];
+
+    const scrollToPageSpot = (target) => {
+        if (target === "top") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+
+        document.getElementById(target)?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    };
 
     const Clicker = async () => {
         const next = clickCount + 1;
@@ -38,7 +63,10 @@ export default function Header() {
         <div>
             <nav
                 className={`glowborder p-3 flex justify-between items-center
-            ${isTTS ? "fixed top-0 left-0 right-0 z-50 mx-5 mt-5" : "m-5"}`}
+            ${isTTS ? "fixed top-0 left-0 right-0 z-50 mx-5 mt-5" : ""}
+            ${isAE ? "ae-siteHeader" : ""}
+            ${isUntitled ? "ues-siteHeader" : ""}
+            ${!isTTS && !isAE && !isUntitled ? "m-5" : ""}`}
             >
                 {isHome && (
                     <>
@@ -60,7 +88,7 @@ export default function Header() {
                 {isTTS && (
                     <button
                         onClick={() => navigate("/RedFolderGames/")}
-                        className="group text-2xl text-red-500 cursor-pointer relative"
+                        className="rfg-homeSwap group text-2xl text-red-500 cursor-pointer relative"
                     >
                         <span className="group-hover:hidden">RedFolderGames</span>
                         <span className="hidden group-hover:inline">HOME</span>
@@ -79,6 +107,38 @@ export default function Header() {
                             </div>
                         )}
                     </div>
+                )}
+
+                {(isAE || isUntitled) && (
+                    <>
+                        <button
+                            onClick={() => navigate("/RedFolderGames/")}
+                            className="rfg-pageHome rfg-homeSwap group"
+                            type="button"
+                        >
+                            <span className="group-hover:hidden">RedFolderGames</span>
+                            <span className="hidden group-hover:inline">HOME</span>
+                        </button>
+
+                        <div className="rfg-pageHeaderCenter">
+                            <div className="rfg-pageQuickNav" aria-label="Page navigation">
+                                {pageLinks.map((link) => (
+                                    <button
+                                        key={link.target}
+                                        type="button"
+                                        onClick={() => scrollToPageSpot(link.target)}
+                                    >
+                                        {link.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="rfg-pageHeaderStatus">
+                            <span>{isAE ? "Carrier Ops" : "Raid Island"}</span>
+                            <strong>{isAE ? "Fuel Margin Low" : "No Forced Timer"}</strong>
+                        </div>
+                    </>
                 )}
             </nav>
         </div>

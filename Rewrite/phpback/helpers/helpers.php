@@ -25,6 +25,7 @@ function respond($statusCode, $data = null)
         "http://localhost:5173",
         "http://localhost:8888",
         "https://phpbackend.samlam24.treok.io/",
+        "https://redking-11.github.io",
         "https://toimistorotat.github.io",
         "https://toimistorotat.github.io/RedFolderGames/"
     ];

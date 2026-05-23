@@ -6,4 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: "/RedFolderGames/",
   plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://phpbackend.samlam24.treok.io",
+        changeOrigin: true,
+        secure: true
+      }
+    }
+  },
 })

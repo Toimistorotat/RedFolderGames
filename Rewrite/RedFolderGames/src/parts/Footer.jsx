@@ -6,15 +6,23 @@ export default function Footer({ onStartCreditsGuide }) {
   const isMain =
     pathname === "/RedFolderGames" ||
     pathname === "/RedFolderGames/";
+  const isAE = pathname.startsWith("/RedFolderGames/AirborneExodus");
+  const isUntitled = pathname.startsWith("/RedFolderGames/UntitledExtraction");
+  const pageFooterClass = isAE ? "ae-siteFooter" : isUntitled ? "ues-siteFooter" : "";
+  const footerLine = isAE
+    ? "Engines warm. Runway held. From the basement, the only way is up."
+    : isUntitled
+      ? "Storm moving in. Loot secured. From the basement, the only way is up."
+      : "From the basement, the only way is up.";
 
   return (
     <div
-      className={`flex content background glowborder max-w-212.5 mb-5 p-4 ${isMain ? "px-10" : "px-6"
+      className={`flex content background glowborder max-w-212.5 mb-5 p-4 ${pageFooterClass} ${isMain ? "px-10" : "px-6"
         }`}
     >
       <footer className="flex w-full flex-col items-center text-center text-white">
         <p className="mb-1 italic text-sm text-white/80!">
-          From the basement, the only way is up.
+          {footerLine}
         </p>
 
         <p className={`text-sm text-white/90! ${isMain ? "mb-3" : ""}`}>

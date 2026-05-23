@@ -47,7 +47,12 @@ export default function TacTicalshooter({ comments, addComment }) {
           <div>
             <Header />
             <div>
-              <CommentsSection comments={comments} addComment={addComment} />
+              <CommentsSection
+                comments={comments}
+                addComment={addComment}
+                pageId="tts"
+                pageLabel="TacTical Shooter"
+              />
             </div>
             <div className="flex flex-col justify-start gap-8 py-8 px-4 max-w-full">
               <TTSContent />

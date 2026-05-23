@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -11,6 +12,11 @@ const Games = [
         name: "Airborne Exodus",
         link: "/RedFolderGames/AirborneExodus",
         info: "Airborne Exodus is a detailed co-op extraction survival concept about operating from an airborne carrier, recovering aircraft, planning fuel routes, and holding dead runways long enough to escape an infected world."
+    },
+    {
+        name: "Untitled Extraction Shooter",
+        link: "/RedFolderGames/UntitledExtraction",
+        info: "Untitled Extraction Shooter is a PvEvP extraction concept where weather controls exits, loot and bodies are physical risks, and squads choose between leaving, recovering teammates, extracting loot, or staying longer."
     },
     {
         name: "Example Game",
@@ -54,7 +60,7 @@ function Fold() {
     const [windows, setWindows] = useState(createInitialWindows);
     const [draggingWindow, setDraggingWindow] = useState(null);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [topZ, setTopZ] = useState(100);
+    const [, setTopZ] = useState(100);
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 

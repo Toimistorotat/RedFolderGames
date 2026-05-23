@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 //const baseUrl = 'http://localhost:8888/api/feedback'
-const baseUrl = "https://phpbackend.samlam24.treok.io/api/feedback"
+const apiBase = import.meta.env.DEV ? "/api" : "https://phpbackend.samlam24.treok.io/api"
+const baseUrl = `${apiBase}/feedback`
 
 const makeHeader = () => {
     //let header =  {headers: {Authorization: `bearer ${token}`}}
-    let header = { withCredentials: true }
+    let header = { withCredentials: false }
     return header;
 }
 

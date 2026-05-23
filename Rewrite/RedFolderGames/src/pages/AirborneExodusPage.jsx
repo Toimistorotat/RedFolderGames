@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import Footer from "../parts/Footer.jsx";
+import Header from "../parts/Header.jsx";
+import CommentsSection from "../components/CommentsSection.jsx";
 import "../css/AirborneExodus.css";
 
 const loopSteps = [
@@ -196,9 +198,30 @@ const keyFeatures = [
   "Cinematic extractions and escapes"
 ];
 
-function DetailSection({ label, title, children, className = "" }) {
+const commentSections = [
+  { id: "carrier-briefing", label: "Carrier Briefing" },
+  { id: "fuel-and-runway-status", label: "Fuel And Runway Status" },
+  { id: "about-the-game", label: "About The Game" },
+  { id: "core-gameplay-loop", label: "Core Gameplay Loop" },
+  { id: "the-carrier", label: "The Carrier" },
+  { id: "aircraft-and-progression", label: "Aircraft And Progression" },
+  { id: "refueling-system", label: "Refueling System" },
+  { id: "flight-and-route-planning", label: "Flight And Route Planning" },
+  { id: "taxiing-and-positioning", label: "Taxiing And Positioning" },
+  { id: "the-infected", label: "The Infected" },
+  { id: "world-design", label: "World Design" },
+  { id: "mission-structure", label: "Mission Structure" },
+  { id: "co-op-gameplay", label: "Co-op Gameplay" },
+  { id: "atmosphere-and-tone", label: "Atmosphere And Tone" },
+  { id: "ae-systems", label: "Additional Gameplay Systems" },
+  { id: "endgame", label: "Endgame" },
+  { id: "key-features", label: "Key Features" },
+  { id: "ae-core-fantasy", label: "Core Fantasy" }
+];
+
+function DetailSection({ id, label, title, children, className = "" }) {
   return (
-    <section className={`ae-detailSection ${className}`}>
+    <section className={`ae-detailSection ${className}`} id={id}>
       <div className="ae-sectionIntro">
         <p className="ae-kicker">{label}</p>
         <h2>{title}</h2>
@@ -208,25 +231,28 @@ function DetailSection({ label, title, children, className = "" }) {
   );
 }
 
-function AirborneExodusPage() {
-  const navigate = useNavigate();
-
+function AirborneExodusPage({ comments, addComment }) {
   return (
     <main className="ae-page">
+      <Header />
+
+      <div className="ae-commentsDock">
+        <CommentsSection
+          comments={comments}
+          addComment={addComment}
+          pageId="ae"
+          pageLabel="Airborne Exodus"
+          sectionOptions={commentSections}
+        />
+      </div>
+
       <div className="ae-alertStrip">
         <span>Transmission Active</span>
         <strong>Last carrier in range</strong>
         <span>Fuel margin: 11 minutes</span>
       </div>
 
-      <section className="ae-hero">
-        <div className="ae-heroTop">
-          <button className="ae-backButton" onClick={() => navigate("/RedFolderGames/")}>
-            HOME
-          </button>
-          <div className="ae-systemLabel">Carrier Ops / Active Briefing</div>
-        </div>
-
+      <section className="ae-hero" id="carrier-briefing">
         <div className="ae-heroGrid">
           <div className="ae-titleBlock">
             <p className="ae-kicker">Co-op Extraction Survival Across A Fallen World</p>
@@ -277,7 +303,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <section className="ae-commandBand">
+      <section className="ae-commandBand" id="fuel-and-runway-status">
         <div className="ae-fuelPanel">
           <div className="ae-panelHeader">
             <span>Fuel Pressure</span>
@@ -310,7 +336,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <DetailSection label="About The Game" title="Survival Is A Flight Plan">
+      <DetailSection id="about-the-game" label="About The Game" title="Survival Is A Flight Plan">
         <p>
           Airborne Exodus is a co-op PvE extraction survival game set in a collapsing
           post-apocalyptic world overrun by infected hordes. It takes the scale and panic of
@@ -329,7 +355,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <section className="ae-loopSection">
+      <section className="ae-loopSection" id="core-gameplay-loop">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">Core Gameplay Loop</p>
           <h2>Every Operation Begins And Ends With Fuel</h2>
@@ -346,7 +372,7 @@ function AirborneExodusPage() {
         </p>
       </section>
 
-      <DetailSection label="The Carrier" title="A Home That Still Has To Be Fed">
+      <DetailSection id="the-carrier" label="The Carrier" title="A Home That Still Has To Be Fed">
         <p>
           The player's base is a massive airborne military carrier, one of the last mobile command
           centers left in the world. It is a safe zone, but not an infinite one. Fuel reserves matter,
@@ -377,7 +403,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <section className="ae-hangar">
+      <section className="ae-hangar" id="aircraft-and-progression">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">Aircraft And Progression</p>
           <h2>Aircraft Are The Heart Of The Campaign</h2>
@@ -405,7 +431,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <DetailSection label="Refueling System" title="The Loudest Thing You Can Do">
+      <DetailSection id="refueling-system" label="Refueling System" title="The Loudest Thing You Can Do">
         <p>
           Refueling is one of the game's core mechanics. Different airports offer different ways to
           refuel, and each one changes the tactical problem. A major airport can save the campaign
@@ -432,7 +458,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <section className="ae-routeSection">
+      <section className="ae-routeSection" id="flight-and-route-planning">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">Flight And Route Planning</p>
           <h2>The Map Is A Chain Of Risks</h2>
@@ -456,7 +482,7 @@ function AirborneExodusPage() {
         </p>
       </section>
 
-      <DetailSection label="Taxiing And Positioning" title="The Aircraft Is A Tool, A Shield, And A Liability">
+      <DetailSection id="taxiing-and-positioning" label="Taxiing And Positioning" title="The Aircraft Is A Tool, A Shield, And A Liability">
         <p>
           Players manually taxi aircraft around the airfield. This is not a full flight simulator,
           but a tactical survival layer where positioning can decide whether the crew escapes.
@@ -473,7 +499,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <DetailSection label="The Infected" title="Everything Loud Has A Cost">
+      <DetailSection id="the-infected" label="The Infected" title="Everything Loud Has A Cost">
         <p>
           The infected are fast, aggressive, and heavily attracted to noise. Gunfire, engines,
           generators, alarms, aircraft, forklifts, and floodlights all pull danger toward the runway.
@@ -490,7 +516,7 @@ function AirborneExodusPage() {
         </div>
       </DetailSection>
 
-      <section className="ae-worldSection">
+      <section className="ae-worldSection" id="world-design">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">World Design</p>
           <h2>No Two Extractions Should Feel Identical</h2>
@@ -514,7 +540,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <DetailSection label="Mission Structure" title="Simple Runs Can Become Multi-Day Expeditions">
+      <DetailSection id="mission-structure" label="Mission Structure" title="Simple Runs Can Become Multi-Day Expeditions">
         <p>
           Missions are dynamic and varied. Some are simple scavenging runs. Others become multi-airport
           expeditions lasting several in-game days, where a crew must land, refuel, repair, reroute,
@@ -527,7 +553,7 @@ function AirborneExodusPage() {
         </div>
       </DetailSection>
 
-      <DetailSection label="Co-op Gameplay" title="Teamwork Comes From The Logistics">
+      <DetailSection id="co-op-gameplay" label="Co-op Gameplay" title="Teamwork Comes From The Logistics">
         <p>
           Airborne Exodus is designed primarily around co-op PvE. Players naturally fall into roles
           because the operation itself demands it. One player might defend the runway while another
@@ -545,7 +571,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <DetailSection label="Atmosphere And Tone" title="The Quiet Before The Engines Start">
+      <DetailSection id="atmosphere-and-tone" label="Atmosphere And Tone" title="The Quiet Before The Engines Start">
         <p>
           The tone is grounded, tense, and cinematic. Airborne Exodus focuses on isolation,
           exhaustion, tactical survival, long-distance travel, temporary safety, and the emotional
@@ -559,7 +585,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <section className="ae-systemsSection">
+      <section className="ae-systemsSection" id="ae-systems">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">Additional Gameplay Systems</p>
           <h2>Every System Feeds The Escape Fantasy</h2>
@@ -574,7 +600,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <DetailSection label="Endgame" title="Survive Long Enough To Reach Something Beyond The Collapse">
+      <DetailSection id="endgame" label="Endgame" title="Survive Long Enough To Reach Something Beyond The Collapse">
         <p>
           The world contains rumors of functioning safe zones, vaccine research facilities, surviving
           military command structures, and experimental aircraft capable of crossing oceans. Players
@@ -587,7 +613,7 @@ function AirborneExodusPage() {
         </p>
       </DetailSection>
 
-      <section className="ae-featuresSection">
+      <section className="ae-featuresSection" id="key-features">
         <div className="ae-sectionIntro">
           <p className="ae-kicker">Key Features</p>
           <h2>The Game At A Glance</h2>
@@ -599,7 +625,7 @@ function AirborneExodusPage() {
         </div>
       </section>
 
-      <section className="ae-logPanel">
+      <section className="ae-logPanel" id="ae-core-fantasy">
         <p className="ae-kicker">The Core Fantasy</p>
         <h2>Most zombie games are about fighting. Airborne Exodus is about escaping.</h2>
         <p>
@@ -616,6 +642,10 @@ function AirborneExodusPage() {
           world. They survived. This time.
         </p>
       </section>
+
+      <div className="ae-footerWrap">
+        <Footer />
+      </div>
     </main>
   );
 }

@@ -44,7 +44,7 @@ function getFeedbackController()
         if ($feedback === null) {
             respond(500, ['message' => 'Internal server error']);
         } else {
-            respond(200, ['feedback' => $feedback, "message" => "Feedback retrieved successfully."]);
+            respond(200, $feedback);
         }
 
     } catch (Exception $e) {

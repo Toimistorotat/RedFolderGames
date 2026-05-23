@@ -40,3 +40,40 @@
   margin-right: 2rem;
   align-self: flex-end;
 }
+
+.rfg-homeSwap {
+  display: inline-block;
+  min-width: 14.5ch;
+  text-align: left;
+}
+
+html,
+* {
+  scrollbar-color: rgba(185, 63, 71, 0.82) rgba(12, 12, 12, 0.92);
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 10, 10, 0.86);
+}
+
+*::-webkit-scrollbar-thumb {
+  min-height: 36px;
+  border: 2px solid rgba(10, 10, 10, 0.86);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #d84f5b, #6fd1c7);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff6470, #8ff0e4);
+}
+
+*::-webkit-scrollbar-corner {
+  background: rgba(10, 10, 10, 0.86);
+}

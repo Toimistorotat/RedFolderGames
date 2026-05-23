@@ -1,8 +1,68 @@
 import { useState, useEffect } from 'react'
 import Button from "@mui/material/Button"
 
-function CommentsSection({ comments, addComment }) {
+const DockButton = ({ onClick, children }) => (
+    <button
+        type="button"
+        onClick={onClick}
+        className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white shadow-[5px_5px_25px_rgba(255,255,255,0.18)] backdrop-blur-md transition hover:bg-white/10"
+    >
+        {children}
+    </button>
+)
+
+const WindowDots = ({ pinned, onPin, onMinimize, onClose }) => (
+    <div
+        className="flex gap-2"
+        onMouseDown={(e) => e.stopPropagation()}
+    >
+        <button
+            type="button"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+                e.stopPropagation()
+                onPin?.()
+            }}
+            className={`flex h-4 w-4 items-center justify-center rounded-full ${pinned ? "bg-green-400" : "bg-green-500"
+                }`}
+            title={pinned ? "Unpin window" : "Pin window"}
+        >
+            <span className="relative bottom-px text-[10px] font-bold text-green-950/70">
+                {pinned ? "•" : "o"}
+            </span>
+        </button>
+
+        <button
+            type="button"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+                e.stopPropagation()
+                onMinimize?.()
+            }}
+            className="flex h-4 w-4 items-center justify-center rounded-full bg-yellow-500"
+            title="Minimize"
+        >
+            <span className="relative bottom-1.25 text-[16px] font-bold text-yellow-950/70">-</span>
+        </button>
+
+        <button
+            type="button"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+                e.stopPropagation()
+                onClose?.()
+            }}
+            className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
+            title="Close"
+        >
+            <span className="relative bottom-px text-[10px] font-bold text-red-950/70">x</span>
+        </button>
+    </div>
+)
+
+function CommentsSection({ comments, addComment, sectionOptions, pageId, pageLabel }) {
     const [sectionIds, setSectionIds] = useState([])
+    const generalSectionId = "general"
 
     const [feedVisible, setFeedVisible] = useState(false)
     const [makerVisible, setMakerVisible] = useState(false)
@@ -21,7 +81,7 @@ function CommentsSection({ comments, addComment }) {
 
     const [commentText, setCommentText] = useState("")
     const [name, setName] = useState("")
-    const [sectionId, setSectionId] = useState("general")
+    const [sectionId, setSectionId] = useState(generalSectionId)
 
     const [replyTarget, setReplyTarget] = useState(null)
     const [replyName, setReplyName] = useState("")
@@ -32,18 +92,49 @@ function CommentsSection({ comments, addComment }) {
     const [dockAnimating, setDockAnimating] = useState(false)
 
     useEffect(() => {
+        if (Array.isArray(sectionOptions) && sectionOptions.length > 0) {
+            return
+        }
+
         const sections = document.querySelectorAll("section")
         const ids = Array.from(sections)
             .map((section) => section.getAttribute("id"))
             .filter(Boolean)
 
-        setSectionIds(ids)
-    }, [])
+        window.setTimeout(() => setSectionIds(ids), 0)
+    }, [sectionOptions])
 
-    const prettyId = (id) =>
-        id
-            ? id.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
-            : "General"
+    const hasExplicitSections = Array.isArray(sectionOptions) && sectionOptions.length > 0
+    const explicitSectionOptions = hasExplicitSections
+        ? sectionOptions.map((section) => ({
+            ...section,
+            storedId: section.id,
+            legacyId: pageId ? `${pageId}:${section.id}` : section.id
+        }))
+        : []
+
+    const resolvedSectionIds = hasExplicitSections
+        ? explicitSectionOptions.map((section) => section.storedId)
+        : sectionIds
+
+    const allowedPageSectionIds = new Set([
+        generalSectionId,
+        pageId ? `${pageId}:general` : generalSectionId,
+        ...explicitSectionOptions.map((section) => section.storedId),
+        ...explicitSectionOptions.map((section) => section.legacyId)
+    ])
+
+    const prettyId = (id) => {
+        const section = explicitSectionOptions.find(
+            (option) => option.storedId === id || option.legacyId === id
+        )
+        const label = section?.label ||
+            (id === generalSectionId || id === "general" || id === `${pageId}:general`
+                ? "General"
+                : id?.replace(`${pageId}:`, "").replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()))
+
+        return pageLabel ? `${pageLabel} / ${label}` : label
+    }
 
     const handleMouseDown = (e, windowType) => {
         e.preventDefault()
@@ -153,7 +244,8 @@ function CommentsSection({ comments, addComment }) {
             sectionId,
             name.trim() || "Guest",
             commentText,
-            null
+            null,
+            pageId
         )
 
         setCommentText("")
@@ -169,7 +261,8 @@ function CommentsSection({ comments, addComment }) {
             replyTarget.section_id,
             replyName.trim() || "Guest",
             replyText,
-            replyTarget.id
+            replyTarget.id,
+            replyTarget.game_id || pageId
         )
 
         setReplyText("")
@@ -178,9 +271,11 @@ function CommentsSection({ comments, addComment }) {
         setReplyMinimized(false)
     }
 
-    const topLevelComments = (Array.isArray(comments) ? comments : []).filter(
-        (comment) => comment.parent_id === null || comment.parent_id === undefined
-    )
+    const shouldFilterBySection = Boolean(pageId && hasExplicitSections)
+
+    const topLevelComments = (Array.isArray(comments) ? comments : [])
+        .filter((comment) => comment.parent_id === null || comment.parent_id === undefined)
+        .filter((comment) => !shouldFilterBySection || comment.game_id === pageId || allowedPageSectionIds.has(comment.section_id))
 
     const getReplies = (parentId) =>
         (Array.isArray(comments) ? comments : []).filter(
@@ -255,65 +350,6 @@ function CommentsSection({ comments, addComment }) {
 
         setMakerPinned((prev) => !prev)
     }
-
-    const DockButton = ({ onClick, children }) => (
-        <button
-            type="button"
-            onClick={onClick}
-            className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white shadow-[5px_5px_25px_rgba(255,255,255,0.18)] backdrop-blur-md transition hover:bg-white/10"
-        >
-            {children}
-        </button>
-    )
-
-    const WindowDots = ({ pinned, onPin, onMinimize, onClose }) => (
-        <div
-            className="flex gap-2"
-            onMouseDown={(e) => e.stopPropagation()}
-        >
-            <button
-                type="button"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    onPin?.()
-                }}
-                className={`flex h-4 w-4 items-center justify-center rounded-full ${pinned ? "bg-green-400" : "bg-green-500"
-                    }`}
-                title={pinned ? "Unpin window" : "Pin window"}
-            >
-                <span className="relative bottom-px text-[10px] font-bold text-green-950/70">
-                    {pinned ? "•" : "o"}
-                </span>
-            </button>
-
-            <button
-                type="button"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    onMinimize?.()
-                }}
-                className="flex h-4 w-4 items-center justify-center rounded-full bg-yellow-500"
-                title="Minimize"
-            >
-                <span className="relative bottom-1.25 text-[16px] font-bold text-yellow-950/70">-</span>
-            </button>
-
-            <button
-                type="button"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    onClose?.()
-                }}
-                className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"
-                title="Close"
-            >
-                <span className="relative bottom-px text-[10px] font-bold text-red-950/70">x</span>
-            </button>
-        </div>
-    )
 
     return (
         <>
@@ -611,16 +647,16 @@ function CommentsSection({ comments, addComment }) {
                                     <div className="max-h-40 overflow-y-auto rounded-lg border border-white/10 bg-zinc-950/70 p-2 space-y-1">
                                         <button
                                             type="button"
-                                            onClick={() => setSectionId("general")}
-                                            className={`w-full rounded-md px-2 py-1 text-left text-sm transition ${sectionId === "general"
+                                            onClick={() => setSectionId(generalSectionId)}
+                                            className={`w-full rounded-md px-2 py-1 text-left text-sm transition ${sectionId === generalSectionId
                                                 ? "bg-white/15 text-white"
                                                 : "bg-white/5 text-zinc-200 hover:bg-white/10"
                                                 }`}
                                         >
-                                            General
+                                            {prettyId(generalSectionId)}
                                         </button>
 
-                                        {sectionIds.map((id) => (
+                                        {resolvedSectionIds.map((id) => (
                                             <button
                                                 key={id}
                                                 type="button"

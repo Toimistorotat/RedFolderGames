@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 // const baseUrl = 'http://localhost:8888/api/commentstts'
-const baseUrl = 'https://phpbackend.samlam24.treok.io/api/commentstts'
+const apiBase = import.meta.env.DEV ? "/api" : "https://phpbackend.samlam24.treok.io/api"
+const baseUrl = `${apiBase}/commentstts`
 
 const makeHeader = () => {
   return {
-    withCredentials: true,
+    withCredentials: false,
     headers: {
       'Content-Type': 'application/json'
     }
@@ -22,6 +23,11 @@ const getBySection = (sectionId) => {
   return request.then(response => response.data)
 }
 
+const getByGame = (gameId) => {
+  const request = axios.get(`${baseUrl}?game_id=${gameId}`, makeHeader())
+  return request.then(response => response.data)
+}
+
 const add = (newComment) => {
   const request = axios.post(baseUrl, newComment, makeHeader())
   return request.then(response => response.data)
@@ -30,5 +36,6 @@ const add = (newComment) => {
 export default {
   getAll,
   getBySection,
+  getByGame,
   add
 }

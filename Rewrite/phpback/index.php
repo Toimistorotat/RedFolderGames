@@ -6,6 +6,12 @@ require_once "./helpers/helpers.php";
 require_once './controllers/feedbackManagement.php';
 require_once './controllers/commentsTTSManagement.php';
 
+set_exception_handler(function ($e) {
+    respond(500, [
+        "error" => $e->getMessage()
+    ]);
+});
+
 // GET, POST, DELETE, OPTIONS, PUT
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = explode("?", $_SERVER["REQUEST_URI"])[0];
