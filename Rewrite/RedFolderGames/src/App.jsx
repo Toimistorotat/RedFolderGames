@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import TTS from './pages/TacTicalShooterPage.jsx'
 import AirborneExodusPage from './pages/AirborneExodusPage.jsx'
 import UntitledExtractionPage from './pages/UntitledExtractionPage.jsx'
+import CityExtractionPage from './pages/CityExtractionPage.jsx'
 import feedbackService from './services/FeedbackService.jsx'
 import commentsService from './services/CommentsTTSService'
 import { Empty, EmptySpecial } from './pages/Empty.jsx'
@@ -26,7 +27,9 @@ function AppRoutes() {
       ? "ae"
       : pathname.startsWith("/RedFolderGames/UntitledExtraction")
         ? "untitled"
-        : null
+        : pathname.startsWith("/RedFolderGames/CityExtraction")
+          ? "city"
+          : null
 
   const startHook = () => {
     feedbackService.getAll()
@@ -111,6 +114,7 @@ function AppRoutes() {
       <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
       <Route path="/RedFolderGames/AirborneExodus" element={<AirborneExodusPage comments={comments} addComment={addComment} />} />
       <Route path="/RedFolderGames/UntitledExtraction" element={<UntitledExtractionPage comments={comments} addComment={addComment} />} />
+      <Route path="/RedFolderGames/CityExtraction" element={<CityExtractionPage comments={comments} addComment={addComment} />} />
       <Route path="/RedFolderGames/Empty" element={<Empty />} />
       <Route path="*" element={useSpecialEmpty ? <EmptySpecial /> : <Empty />} />
     </Routes>

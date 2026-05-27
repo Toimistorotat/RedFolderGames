@@ -13,6 +13,7 @@ export default function Header() {
     const isTTS = pathname.startsWith("/RedFolderGames/TTS");
     const isAE = pathname.startsWith("/RedFolderGames/AirborneExodus");
     const isUntitled = pathname.startsWith("/RedFolderGames/UntitledExtraction");
+    const isCity = pathname.startsWith("/RedFolderGames/CityExtraction");
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [clickCount, setClickCount] = useState(0);
@@ -28,7 +29,13 @@ export default function Header() {
             { label: "Island", target: "raid-island" },
             { label: "Dossier", target: "raid-systems-dossier" }
         ]
-        : [
+        : isCity
+            ? [
+                { label: "Top", target: "city-briefing" },
+                { label: "Phases", target: "phase-system" },
+                { label: "Extract", target: "extraction-system" }
+            ]
+            : [
             { label: "Top", target: "top" },
             { label: "Systems", target: "ae-systems" },
             { label: "Core", target: "ae-core-fantasy" }
@@ -66,7 +73,8 @@ export default function Header() {
             ${isTTS ? "fixed top-0 left-0 right-0 z-50 mx-5 mt-5" : ""}
             ${isAE ? "ae-siteHeader" : ""}
             ${isUntitled ? "ues-siteHeader" : ""}
-            ${!isTTS && !isAE && !isUntitled ? "m-5" : ""}`}
+            ${isCity ? "cex-siteHeader" : ""}
+            ${!isTTS && !isAE && !isUntitled && !isCity ? "m-5" : ""}`}
             >
                 {isHome && (
                     <>
@@ -109,7 +117,7 @@ export default function Header() {
                     </div>
                 )}
 
-                {(isAE || isUntitled) && (
+                {(isAE || isUntitled || isCity) && (
                     <>
                         <button
                             onClick={() => navigate("/RedFolderGames/")}
@@ -135,8 +143,8 @@ export default function Header() {
                         </div>
 
                         <div className="rfg-pageHeaderStatus">
-                            <span>{isAE ? "Carrier Ops" : "Raid Island"}</span>
-                            <strong>{isAE ? "Fuel Margin Low" : "No Forced Timer"}</strong>
+                            <span>{isAE ? "Carrier Ops" : isCity ? "City Collapse" : "Raid Island"}</span>
+                            <strong>{isAE ? "Fuel Margin Low" : isCity ? "Phase Rising" : "No Forced Timer"}</strong>
                         </div>
                     </>
                 )}

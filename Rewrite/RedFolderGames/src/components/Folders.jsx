@@ -19,6 +19,11 @@ const Games = [
         info: "Untitled Extraction Shooter is a PvEvP extraction concept where weather controls exits, loot and bodies are physical risks, and squads choose between leaving, recovering teammates, extracting loot, or staying longer."
     },
     {
+        name: "Untitled City Extraction",
+        link: "/RedFolderGames/CityExtraction",
+        info: "Untitled City Extraction is a co-op PvE extraction survival concept set in a quarantined city where streets are exposure, buildings are temporary shelter, and every phase makes the city more hostile."
+    },
+    {
         name: "Example Game",
         link: "/RedFolderGames/Example",
         info: "This is an example game used to demonstrate the bookmark component. It showcases how to structure game information and display it effectively within the application."
