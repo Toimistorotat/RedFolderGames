@@ -7,10 +7,13 @@ pages:
   stage: deploy
   script:
     - npm ci
-    - npm run build
-    # BrowserRouter needs a fallback when GitLab Pages receives a deep link.
-    - cp dist/index.html dist/404.html
-    - mv dist public
+      - npm run build
+      # BrowserRouter needs a fallback when GitLab Pages receives a deep link.
+      - cp dist/index.html dist/404.html
+      # The repository also has a source public/ directory; replace the
+      # runner's artifact directory so dist/index.html is at the Pages root.
+      - rm -rf public
+      - mv dist public
   artifacts:
     paths:
       - public
