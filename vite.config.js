@@ -1,0 +1,17 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  base: "/RedFolderGames/",
+  plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://phpbackend.samlam24.treok.io",
+        changeOrigin: true,
+        secure: true
+      }
+    }
+  },
+})
