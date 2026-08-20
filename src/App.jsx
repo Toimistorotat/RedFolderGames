@@ -21,16 +21,16 @@ function AppRoutes() {
   const [feedbacks, setFeedbacks] = useState([])
   const [comments, setComments] = useState([])
   const [message] = useState("")
-  const isHome = pathname === "/RedFolderGames" || pathname === "/RedFolderGames/"
-  const commentsGameId = pathname.startsWith("/RedFolderGames/TTS")
+  const isHome = pathname === "/" || pathname === ""
+  const commentsGameId = pathname.startsWith("/TTS")
     ? "tts"
-    : pathname.startsWith("/RedFolderGames/AirborneExodus")
+    : pathname.startsWith("/AirborneExodus")
       ? "ae"
-      : pathname.startsWith("/RedFolderGames/UntitledExtraction")
+      : pathname.startsWith("/UntitledExtraction")
         ? "untitled"
-      : pathname.startsWith("/RedFolderGames/CityExtraction")
+      : pathname.startsWith("/CityExtraction")
           ? "city"
-          : pathname.startsWith("/RedFolderGames/SpaceExtraction")
+          : pathname.startsWith("/SpaceExtraction")
             ? "space"
           : null
 
@@ -113,13 +113,13 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/RedFolderGames/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
-      <Route path="/RedFolderGames/TTS" element={<TTS comments={comments} addComment={addComment} />} />
-      <Route path="/RedFolderGames/AirborneExodus" element={<AirborneExodusPage comments={comments} addComment={addComment} />} />
-      <Route path="/RedFolderGames/UntitledExtraction" element={<UntitledExtractionPage comments={comments} addComment={addComment} />} />
-      <Route path="/RedFolderGames/CityExtraction" element={<CityExtractionPage comments={comments} addComment={addComment} />} />
-      <Route path="/RedFolderGames/SpaceExtraction" element={<SpaceExtractionPage comments={comments} addComment={addComment} />} />
-      <Route path="/RedFolderGames/Empty" element={<Empty />} />
+      <Route path="/" element={<Home feedbacks={feedbacks} addFeedback={addFeedback} message={message} />} />
+      <Route path="/TTS" element={<TTS comments={comments} addComment={addComment} />} />
+      <Route path="/AirborneExodus" element={<AirborneExodusPage comments={comments} addComment={addComment} />} />
+      <Route path="/UntitledExtraction" element={<UntitledExtractionPage comments={comments} addComment={addComment} />} />
+      <Route path="/CityExtraction" element={<CityExtractionPage comments={comments} addComment={addComment} />} />
+      <Route path="/SpaceExtraction" element={<SpaceExtractionPage comments={comments} addComment={addComment} />} />
+      <Route path="/Empty" element={<Empty />} />
       <Route path="*" element={useSpecialEmpty ? <EmptySpecial /> : <Empty />} />
     </Routes>
   )
@@ -127,7 +127,7 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <AppRoutes />
     </Router>
   )
